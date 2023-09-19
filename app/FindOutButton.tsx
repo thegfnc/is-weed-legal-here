@@ -2,25 +2,24 @@
 
 import { Loader } from "@googlemaps/js-api-loader"
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const loader = new Loader({
   apiKey: "AIzaSyAtFp26-bVYD6DfUZwl_FvhGh0XhScKEI0",
   version: "weekly",
 });
 
+const geocoding = globalThis.navigator ? loader.importLibrary("geocoding") : Promise.resolve(null);
+
 export default function FindOutButton({setCurrentState}) {
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  if (!globalThis.navigator?.geolocation) {
-    console.log('geolocation is not available')
-  }
-
-  const handleClick = () => {
+  const handleGeocode = () => {
     setIsLoading(true)
 
     globalThis.navigator.geolocation.getCurrentPosition((position) => {
-      loader.importLibrary("geocoding").then(async (geocoder) => {
+      geocoding.then(async (geocoder) => {
         new geocoder.Geocoder()
           .geocode({ location: {
             lat: position.coords.latitude,
@@ -35,19 +34,38 @@ export default function FindOutButton({setCurrentState}) {
 
             setCurrentState(stateResult.address_components[0].long_name)
           })
-          .catch((e) => window.alert("Geocoder failed due to: " + e));
+          .catch((e) => console.error(e));
       });
+    },  (error) => {
+      setIsLoading(false)
+
+      if (error.code === error.PERMISSION_DENIED) {
+        setError(new Error('You must allow location access to use this feature.'))
+      } else if (error.code === error.POSITION_UNAVAILABLE) {
+        setError(new Error('Your location is unavailable.'))
+      } else if (error.code === error.TIMEOUT) {
+        setError(new Error('Your location request timed out.'))
+      } else {
+        setError(new Error('An unknown error occurred.'))
+      }
     })
   }
+
+  useEffect(() => {
+    if (globalThis.navigator?.geolocation) {
+      handleGeocode()
+    }
+  }, [])
 
   return (
     <>
       <button
-        className="w-auto p-6 mt-10 text-brand-yellow bg-brand-purple rounded-lg text-[24px] hover:bg-brand-purple w-40 flex justify-center"
-        onClick={handleClick}
+        className="p-6 mt-10 text-brand-yellow bg-brand-purple rounded-lg text-[24px] hover:bg-brand-purple w-40 flex justify-center"
+        onClick={handleGeocode}
       >
-        {isLoading ? <Image src="/loading-spinner.svg" width="36" height="36" /> : "Find out"}
+        {isLoading ? <Image src="/loading-spinner.svg" width="36" height="36" alt="Loading spinner" /> : "Find out"}
       </button>
+      {error && <p className="text-[20px] text-red-500 mt-10">{error.message}</p>}
     </>
   )
 }
