@@ -45,18 +45,18 @@ export default function Home() {
     }
 
     if (currentStateData.DECRIMINALIZED === 'Yes') {
-      subHeading += ' and recreational uages is decriminalized.'
+      subHeading += ' and recreational usage is decriminalized.'
     } else if (currentStateData.DECRIMINALIZED === 'No') {
       subHeading += ' but recreational usage is not decriminalized.'
     }
   }
 
   return (
-    <main className={`flex items-center justify-center w-screen h-screen ${bgColor} text-brand-purple transition-colors duration-500`}>
+    <main className={`flex items-center justify-center w-screen h-screen ${bgColor} text-brand-purple transition-colors duration-500 text-center p-6`}>
       <div className="flex flex-col items-center">
-        <h1 className="text-[64px] leading-none">{heading}</h1>
+        <h1 className="text-[48px] md:text-[64px] leading-none">{heading}</h1>
         {!currentState && <FindOutButton setCurrentState={setCurrentState} />}
-        {subHeading && <h2 className="text-[24px] mt-20">{subHeading}</h2>}
+        {subHeading && <h2 className="text-[20px] md:text-[26px] mt-20 max-w-xl">{subHeading}</h2>}
         {imageUrl && <Image
           src={imageUrl}
           width={imageHeight}

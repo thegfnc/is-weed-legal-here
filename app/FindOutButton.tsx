@@ -44,7 +44,8 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
 
             setCurrentState(stateResult.address_components[0].long_name)
           })
-          .catch((e) => console.error(e));
+          .catch((e) => setError(e))
+          .finally(() => setIsLoading(false))
       });
     },  (error) => {
       setIsLoading(false)
@@ -58,6 +59,10 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
       } else {
         setError(new Error('An unknown error occurred.'))
       }
+    }, {
+      enableHighAccuracy: false,
+      timeout: 10000, // 10 seconds
+      maximumAge: 30000 // 30 seconds
     })
   }
 
@@ -75,7 +80,7 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
       >
         {isLoading ? <Image src="/loading-spinner.svg" width="36" height="36" alt="Loading spinner" /> : "Find out"}
       </button>
-      {error && <p className="text-[20px] text-red-500 mt-10">{error.message}</p>}
+      {error && <p className="text-[16px] md:text-[20px] text-red-500 mt-10">{error.message}</p>}
     </>
   )
 }
