@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 import FindOutButton from './FindOutButton'
 
-import marijuanaLegailtyByState from './marijuana-legailty-by-state.json'
+import marijuanaLegailtyByState from './marijuana-legailty-by-state'
 
 export default function Home() {
   const [currentState, setCurrentState] = useState('' as string)
@@ -40,7 +40,7 @@ export default function Home() {
 
     if (currentStateData.MEDICINAL === 'Yes') {
       subHeading = 'Medical marijuana is legal'
-    } else if (currentStateData.MEDICINAL.startsWith('CBD Oil Only')) {
+    } else if (currentStateData.MEDICINAL?.startsWith('CBD Oil Only')) {
       subHeading = 'CBD oil only is legal for medical purposes'
     }
 

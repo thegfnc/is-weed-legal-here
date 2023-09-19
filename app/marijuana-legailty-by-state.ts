@@ -1,4 +1,12 @@
-{
+type MarijuanaLegalityByState = {
+  [key: string]: {
+    LEGAL_STATUS: string;
+    MEDICINAL: string;
+    DECRIMINALIZED: string;
+  }
+}
+
+const marijuanaLegalityByState: MarijuanaLegalityByState = {
   "Alabama": {
     "LEGAL_STATUS": "Mixed",
     "MEDICINAL": "Yes",
@@ -255,3 +263,5 @@
     "DECRIMINALIZED": "No"
   }
 }
+
+export default marijuanaLegalityByState;

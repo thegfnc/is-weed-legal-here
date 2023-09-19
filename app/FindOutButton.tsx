@@ -11,26 +11,36 @@ const loader = new Loader({
 
 const geocoding = globalThis.navigator ? loader.importLibrary("geocoding") : Promise.resolve(null);
 
-export default function FindOutButton({setCurrentState}) {
+type FindOutButtonProps = {
+  setCurrentState: (state: string) => void
+}
+
+export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<Error | null>(null)
 
   const handleGeocode = () => {
     setIsLoading(true)
 
     globalThis.navigator.geolocation.getCurrentPosition((position) => {
       geocoding.then(async (geocoder) => {
+        if (!geocoder) { throw new Error('Geocoding library not loaded.') }
+
         new geocoder.Geocoder()
           .geocode({ location: {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }})
-          .then((response) => {
+          .then((response: google.maps.GeocoderResponse) => {
             const stateResult = response.results.find((result) => {
               return result.types.find((type) => {
                 return type === 'administrative_area_level_1'
               })
             })
+
+            if (!stateResult) {
+              throw new Error('Could not detect your state based on lat/long coordinates.')
+            }
 
             setCurrentState(stateResult.address_components[0].long_name)
           })
