@@ -47,7 +47,7 @@ export default function Home() {
       <div className="flex flex-col items-center">
         <h1 className="text-[64px] leading-none">{heading}</h1>
         {!currentState && <FindOutButton setCurrentState={setCurrentState} />}
-        {subHeading && <h2 className="text-[24px] mt-24">{subHeading}</h2>}
+        {subHeading && <h2 className="text-[24px] mt-20">{subHeading}</h2>}
         {imageUrl && <Image
           src="/weed.png"
           width="240"
