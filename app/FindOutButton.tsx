@@ -1,6 +1,8 @@
 'use client'
 
 import { Loader } from "@googlemaps/js-api-loader"
+import Image from "next/image";
+import { useState } from "react";
 
 const loader = new Loader({
   apiKey: "AIzaSyAtFp26-bVYD6DfUZwl_FvhGh0XhScKEI0",
@@ -8,12 +10,15 @@ const loader = new Loader({
 });
 
 export default function FindOutButton({setCurrentState}) {
+  const [isLoading, setIsLoading] = useState(false)
 
   if (!globalThis.navigator?.geolocation) {
     console.log('geolocation is not available')
   }
 
   const handleClick = () => {
+    setIsLoading(true)
+
     globalThis.navigator.geolocation.getCurrentPosition((position) => {
       loader.importLibrary("geocoding").then(async (geocoder) => {
         new geocoder.Geocoder()
@@ -38,10 +43,10 @@ export default function FindOutButton({setCurrentState}) {
   return (
     <>
       <button
-        className="w-auto p-6 mt-10 text-brand-yellow bg-brand-purple rounded-lg text-[24px] hover:bg-brand-purple"
+        className="w-auto p-6 mt-10 text-brand-yellow bg-brand-purple rounded-lg text-[24px] hover:bg-brand-purple w-40 flex justify-center"
         onClick={handleClick}
       >
-        Find out
+        {isLoading ? <Image src="/loading-spinner.svg" width="36" height="36" /> : "Find out"}
       </button>
     </>
   )
