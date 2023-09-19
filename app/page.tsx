@@ -49,6 +49,8 @@ export default function Home() {
     } else if (currentStateData.DECRIMINALIZED === 'No') {
       subHeading += ' but recreational usage is not decriminalized.'
     }
+  } else if (currentState && !currentStateData.LEGAL_STATUS) {
+    heading = `Sorry! We don't know if weed is legal in ${currentState} yet`
   }
 
   return (
