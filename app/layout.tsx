@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react';
+import Script from 'next/script';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], weight: "700" })
 
@@ -20,6 +21,16 @@ export default function RootLayout({
       <body className={spaceGrotesk.className}>
         {children}
         <Analytics />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-3MCRMXW804" />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-3MCRMXW804');
+          `}
+        </Script>
       </body>
     </html>
   )
