@@ -15,6 +15,7 @@ const geocoding = globalThis.navigator
 
 type FindOutButtonProps = {
   setCurrentState: (state: string) => void
+  setGoogleMapsLink: (state: string) => void
 }
 
 enum LoadingState {
@@ -23,7 +24,10 @@ enum LoadingState {
   SEARCHING_FOR_DATA = 'Searching for data about your location...',
 }
 
-export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
+export default function FindOutButton({
+  setCurrentState,
+  setGoogleMapsLink,
+}: FindOutButtonProps) {
   const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
@@ -51,13 +55,22 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
                 })
               })
 
-              if (!stateResult) {
+              const postalCodeResult = response.results.find((result) => {
+                return result.types.find((type) => {
+                  return type === 'postal_code'
+                })
+              })
+
+              if (!stateResult || !postalCodeResult) {
                 throw new Error(
                   'Could not detect your state based on lat/long coordinates.'
                 )
               }
 
               setCurrentState(stateResult.address_components[0].long_name)
+              setGoogleMapsLink(
+                `https://www.google.com/maps/search/?api=1&query=dispensary+near+${postalCodeResult.address_components[0].long_name}`
+              )
             })
             .catch((error) => setError(error))
             .finally(() => setLoadingState(null))

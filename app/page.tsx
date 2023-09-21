@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { MdSearch } from 'react-icons/md'
 
 import FindOutButton from './FindOutButton'
 
@@ -9,6 +10,7 @@ import marijuanaLegailtyByState from './marijuana-legailty-by-state'
 
 export default function Home() {
   const [currentState, setCurrentState] = useState('' as string)
+  const [googleMapsLink, setGoogleMapsLink] = useState<string | null>(null)
 
   const currentStateData = marijuanaLegailtyByState[currentState] || {}
 
@@ -66,13 +68,18 @@ export default function Home() {
       >
         Is weed legal here?
       </h2>
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center py-14'>
         <h1 className='text-[48px] font-bold leading-none md:text-[64px]'>
           {heading}
         </h1>
-        {!currentState && <FindOutButton setCurrentState={setCurrentState} />}
+        {!currentState && (
+          <FindOutButton
+            setCurrentState={setCurrentState}
+            setGoogleMapsLink={setGoogleMapsLink}
+          />
+        )}
         {subHeading && (
-          <h2 className='mt-12 max-w-xl text-[20px] md:mt-20 md:text-[26px]'>
+          <h2 className='mt-12 max-w-xl text-[20px] md:mt-12 md:text-[26px]'>
             {subHeading}
           </h2>
         )}
@@ -85,6 +92,17 @@ export default function Home() {
             alt={imageAlt}
           />
         )}
+        {googleMapsLink &&
+          currentStateData.LEGAL_STATUS !== 'Fully Illegal' && (
+            <a
+              className='mt-12 flex items-center rounded-full border-2 border-brand-purple py-2 pl-4 pr-5 text-[16px] transition-colors hover:bg-brand-purple hover:text-brand-yellow md:mt-20 md:text-[18px]'
+              href={googleMapsLink}
+              target='_blank'
+            >
+              <MdSearch size='24px' className='mr-3' /> Find Dispensaries Near
+              You
+            </a>
+          )}
       </div>
       <div className='flex gap-2 text-[14px]'>
         <span>Copyright &copy; {new Date().getFullYear()}</span>
