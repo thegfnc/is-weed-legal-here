@@ -13,6 +13,27 @@ export const metadata: Metadata = {
   title: 'Is weed legal here?',
   description:
     'Find out if weed is legal in your state using your current location.',
+  referrer: 'origin-when-cross-origin',
+  keywords: [
+    'weed',
+    'cannabis',
+    'marijuana',
+    'legal',
+    'state',
+    'usa',
+    'CBD',
+    'THC',
+    'medical',
+    'recreational',
+    'decriminalized',
+    'legalized',
+    'legalization',
+    'legalised',
+    'legalisation',
+    'legalize',
+    'legalise',
+  ],
+  creator: 'The Good for Nothings Club',
 }
 
 export default function RootLayout({

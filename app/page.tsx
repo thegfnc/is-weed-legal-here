@@ -107,7 +107,11 @@ export default function Home() {
       <div className='flex gap-2 text-[14px]'>
         <span>Copyright &copy; {new Date().getFullYear()}</span>
         <span>·</span>
-        <a href='https://www.thegoodfornothings.club/' target='_blank'>
+        <a
+          href='https://www.thegoodfornothings.club/'
+          target='_blank'
+          className='underline-offset-2 hover:underline'
+        >
           The Good for Nothings Club
         </a>
       </div>
