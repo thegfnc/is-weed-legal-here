@@ -17,15 +17,17 @@ type FindOutButtonProps = {
   setCurrentState: (state: string) => void
 }
 
+enum LoadingState {}
+
 export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const [loadingState, setLoadingState] = useState<string | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
   const handleGeocode = () => {
-    setIsLoading(true)
-
     globalThis.navigator.geolocation.getCurrentPosition(
       (position) => {
+        setLoadingState('Searching for data about your location...')
+
         geocoding.then(async (geocoder) => {
           if (!geocoder) {
             throw new Error('Geocoding library not loaded.')
@@ -54,11 +56,11 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
               setCurrentState(stateResult.address_components[0].long_name)
             })
             .catch((e) => setError(e))
-            .finally(() => setIsLoading(false))
+            .finally(() => setLoadingState(null))
         })
       },
       (error) => {
-        setIsLoading(false)
+        setLoadingState(null)
 
         if (error.code === error.PERMISSION_DENIED) {
           setError(
@@ -80,9 +82,46 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
     )
   }
 
+  const geolocationPermissionListener = () => {
+    setLoadingState('Asking for permission to see your location...')
+    navigator.permissions
+      .query({ name: 'geolocation' })
+      .then((permissionStatus) => {
+        if (permissionStatus.state === 'denied') {
+          setLoadingState(null)
+          setError(
+            new Error('You must allow location access to use this feature.')
+          )
+          return
+        }
+
+        if (permissionStatus.state === 'granted') {
+          handleGeocode()
+          setLoadingState('Retrieving location from browser...')
+        }
+
+        if (permissionStatus.state === 'prompt') {
+          handleGeocode()
+
+          const handleChange = () => {
+            if (permissionStatus.state === 'granted') {
+              setLoadingState('Retrieving location from browser...')
+            }
+
+            permissionStatus.removeEventListener('change', handleChange)
+          }
+
+          permissionStatus.addEventListener('change', handleChange)
+        }
+      })
+  }
+
   useEffect(() => {
-    if (globalThis.navigator?.geolocation) {
-      handleGeocode()
+    if (
+      globalThis.navigator?.permissions &&
+      globalThis.navigator?.geolocation
+    ) {
+      geolocationPermissionListener()
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -92,7 +131,7 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
         className='mt-10 flex w-40 justify-center rounded-lg bg-brand-purple p-6 text-[24px] text-brand-yellow hover:bg-brand-purple'
         onClick={handleGeocode}
       >
-        {isLoading ? (
+        {loadingState ? (
           <Image
             src='/loading-spinner.svg'
             width='36'
@@ -103,6 +142,11 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
           'Find out'
         )}
       </button>
+      {
+        <p className='mt-10 min-h-[16px] text-[16px] leading-4'>
+          {loadingState}
+        </p>
+      }
       {error && (
         <p className='mt-10 text-[16px] text-red-500 md:text-[20px]'>
           {error.message}
