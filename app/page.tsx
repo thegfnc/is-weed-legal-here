@@ -55,7 +55,7 @@ export default function Home() {
 
   return (
     <main
-      className={`flex h-screen w-screen flex-col items-center justify-between ${bgColor} px-6 py-10 text-center text-brand-purple transition-colors duration-500`}
+      className={`flex h-screen w-screen flex-col items-center justify-between ${bgColor} px-6 py-6 text-center text-brand-purple transition-colors duration-500 md:py-10`}
     >
       <h2
         className={`ease-out-expo text-[18px] font-bold leading-none transition-all duration-1000 ${
@@ -81,7 +81,7 @@ export default function Home() {
             src={imageUrl}
             width={imageHeight}
             height={imageWidth}
-            className='mt-24'
+            className='mt-12 md:mt-24'
             alt={imageAlt}
           />
         )}
