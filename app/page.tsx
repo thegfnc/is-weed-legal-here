@@ -54,18 +54,26 @@ export default function Home() {
   }
 
   return (
-    <main className={`flex items-center justify-center w-screen h-screen ${bgColor} text-brand-purple transition-colors duration-500 text-center p-6`}>
-      <div className="flex flex-col items-center">
-        <h1 className="text-[48px] md:text-[64px] leading-none">{heading}</h1>
+    <main
+      className={`flex h-screen w-screen items-center justify-center ${bgColor} p-6 text-center text-brand-purple transition-colors duration-500`}
+    >
+      <div className='flex flex-col items-center'>
+        <h1 className='text-[48px] leading-none md:text-[64px]'>{heading}</h1>
         {!currentState && <FindOutButton setCurrentState={setCurrentState} />}
-        {subHeading && <h2 className="text-[20px] md:text-[26px] mt-20 max-w-xl">{subHeading}</h2>}
-        {imageUrl && <Image
-          src={imageUrl}
-          width={imageHeight}
-          height={imageWidth}
-          className='mt-24'
-          alt={imageAlt}
-        />}
+        {subHeading && (
+          <h2 className='mt-20 max-w-xl text-[20px] md:text-[26px]'>
+            {subHeading}
+          </h2>
+        )}
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            width={imageHeight}
+            height={imageWidth}
+            className='mt-24'
+            alt={imageAlt}
+          />
+        )}
       </div>
     </main>
   )

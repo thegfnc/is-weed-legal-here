@@ -15,13 +15,13 @@ const config: Config = {
       },
       colors: {
         brand: {
-          yellow: "#FFFFAD",
-          green: "#75EFB2",
-          purple: "#231746",
-          red: "#FFAB9C"
-        }
-      }
-    }
+          yellow: '#FFFFAD',
+          green: '#75EFB2',
+          purple: '#231746',
+          red: '#FFAB9C',
+        },
+      },
+    },
   },
   plugins: [],
 }
