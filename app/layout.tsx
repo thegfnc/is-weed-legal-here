@@ -4,7 +4,10 @@ import { Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import Script from 'next/script'
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], weight: '700' })
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+})
 
 export const metadata: Metadata = {
   title: 'Is weed legal here?',

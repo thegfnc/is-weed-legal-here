@@ -17,16 +17,20 @@ type FindOutButtonProps = {
   setCurrentState: (state: string) => void
 }
 
-enum LoadingState {}
+enum LoadingState {
+  ASKING_FOR_PERMISSION = 'Asking for permission to see your location...',
+  RETRIEVING_LOCATION = 'Retrieving your location from the browser...',
+  SEARCHING_FOR_DATA = 'Searching for data about your location...',
+}
 
 export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
-  const [loadingState, setLoadingState] = useState<string | null>(null)
+  const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
   const handleGeocode = () => {
     globalThis.navigator.geolocation.getCurrentPosition(
       (position) => {
-        setLoadingState('Searching for data about your location...')
+        setLoadingState(LoadingState.SEARCHING_FOR_DATA)
 
         geocoding.then(async (geocoder) => {
           if (!geocoder) {
@@ -55,7 +59,7 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
 
               setCurrentState(stateResult.address_components[0].long_name)
             })
-            .catch((e) => setError(e))
+            .catch((error) => setError(error))
             .finally(() => setLoadingState(null))
         })
       },
@@ -76,14 +80,14 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
       },
       {
         enableHighAccuracy: false,
-        timeout: 10000, // 10 seconds
+        timeout: 20000, // 20 seconds
         maximumAge: 30000, // 30 seconds
       }
     )
   }
 
   const geolocationPermissionListener = () => {
-    setLoadingState('Asking for permission to see your location...')
+    setLoadingState(LoadingState.ASKING_FOR_PERMISSION)
     navigator.permissions
       .query({ name: 'geolocation' })
       .then((permissionStatus) => {
@@ -97,7 +101,7 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
 
         if (permissionStatus.state === 'granted') {
           handleGeocode()
-          setLoadingState('Retrieving location from browser...')
+          setLoadingState(LoadingState.RETRIEVING_LOCATION)
         }
 
         if (permissionStatus.state === 'prompt') {
@@ -105,7 +109,7 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
 
           const handleChange = () => {
             if (permissionStatus.state === 'granted') {
-              setLoadingState('Retrieving location from browser...')
+              setLoadingState(LoadingState.RETRIEVING_LOCATION)
             }
 
             permissionStatus.removeEventListener('change', handleChange)
@@ -142,14 +146,13 @@ export default function FindOutButton({ setCurrentState }: FindOutButtonProps) {
           'Find out'
         )}
       </button>
-      {
+      {error ? (
+        <p className='mt-10 text-[16px] leading-4 text-red-500'>
+          {error.message}
+        </p>
+      ) : (
         <p className='mt-10 min-h-[16px] text-[16px] leading-4'>
           {loadingState}
-        </p>
-      }
-      {error && (
-        <p className='mt-10 text-[16px] text-red-500 md:text-[20px]'>
-          {error.message}
         </p>
       )}
     </>

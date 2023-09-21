@@ -55,10 +55,21 @@ export default function Home() {
 
   return (
     <main
-      className={`flex h-screen w-screen items-center justify-center ${bgColor} p-6 text-center text-brand-purple transition-colors duration-500`}
+      className={`flex h-screen w-screen flex-col items-center justify-between ${bgColor} px-6 py-10 text-center text-brand-purple transition-colors duration-500`}
     >
+      <h2
+        className={`ease-out-expo text-[18px] font-bold leading-none transition-all duration-1000 ${
+          currentState
+            ? ' translate-y-0 opacity-100'
+            : ' translate-y-16 opacity-0'
+        }`}
+      >
+        Is weed legal here?
+      </h2>
       <div className='flex flex-col items-center'>
-        <h1 className='text-[48px] leading-none md:text-[64px]'>{heading}</h1>
+        <h1 className='text-[48px] font-bold leading-none md:text-[64px]'>
+          {heading}
+        </h1>
         {!currentState && <FindOutButton setCurrentState={setCurrentState} />}
         {subHeading && (
           <h2 className='mt-20 max-w-xl text-[20px] md:text-[26px]'>
@@ -74,6 +85,13 @@ export default function Home() {
             alt={imageAlt}
           />
         )}
+      </div>
+      <div className='flex gap-2 text-[14px]'>
+        <span>Copyright &copy; {new Date().getFullYear()}</span>
+        <span>·</span>
+        <a href='https://www.thegoodfornothings.club/' target='_blank'>
+          The Good for Nothings Club
+        </a>
       </div>
     </main>
   )
