@@ -31,6 +31,10 @@ export default function FindOutButton({
   const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
+  const reloadPage = () => {
+    globalThis.location.reload()
+  }
+
   const handleGeocode = () => {
     globalThis.navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -146,7 +150,7 @@ export default function FindOutButton({
     <>
       <button
         className='mt-10 flex w-40 justify-center rounded-lg bg-brand-purple p-6 text-[24px] text-brand-yellow hover:bg-brand-purple'
-        onClick={handleGeocode}
+        onClick={reloadPage}
       >
         {loadingState ? (
           <Image
