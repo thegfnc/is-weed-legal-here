@@ -72,7 +72,7 @@ export default function Home() {
         </h1>
         {!currentState && <FindOutButton setCurrentState={setCurrentState} />}
         {subHeading && (
-          <h2 className='mt-20 max-w-xl text-[20px] md:text-[26px]'>
+          <h2 className='mt-12 max-w-xl text-[20px] md:mt-20 md:text-[26px]'>
             {subHeading}
           </h2>
         )}
