@@ -24,6 +24,15 @@ enum LoadingState {
   SEARCHING_FOR_DATA = 'Searching for data about your location...',
 }
 
+enum ErrorMessages {
+  LIBRARY_NOT_LOADED = 'Geocoding library could not be loaded.',
+  PERMISSION_DENIED = 'You must allow location access to use this feature.',
+  POSITION_UNAVAILABLE = 'Your location is unavailable.',
+  TIMEOUT = 'Your location request timed out.',
+  UNKNOWN = 'An unknown error occurred.',
+  BAD_LAT_LONG = 'Could not interpret your location based on provided lattitude and longitude coordinates.',
+}
+
 export default function FindOutButton({
   setCurrentState,
   setGoogleMapsLink,
@@ -37,12 +46,12 @@ export default function FindOutButton({
 
   const handleGeocode = () => {
     globalThis.navigator.geolocation.getCurrentPosition(
-      (position) => {
+      position => {
         setLoadingState(LoadingState.SEARCHING_FOR_DATA)
 
-        geocoding.then(async (geocoder) => {
+        geocoding.then(async geocoder => {
           if (!geocoder) {
-            throw new Error('Geocoding library not loaded.')
+            throw new Error(ErrorMessages.LIBRARY_NOT_LOADED)
           }
 
           new geocoder.Geocoder()
@@ -53,22 +62,16 @@ export default function FindOutButton({
               },
             })
             .then((response: google.maps.GeocoderResponse) => {
-              const stateResult = response.results.find((result) => {
-                return result.types.find((type) => {
-                  return type === 'administrative_area_level_1'
-                })
-              })
+              const stateResult = response.results.find(result =>
+                result.types.includes('administrative_area_level_1')
+              )
 
-              const postalCodeResult = response.results.find((result) => {
-                return result.types.find((type) => {
-                  return type === 'postal_code'
-                })
-              })
+              const postalCodeResult = response.results.find(result =>
+                result.types.includes('postal_code')
+              )
 
               if (!stateResult || !postalCodeResult) {
-                throw new Error(
-                  'Could not detect your state based on lat/long coordinates.'
-                )
+                throw new Error(ErrorMessages.BAD_LAT_LONG)
               }
 
               setCurrentState(stateResult.address_components[0].long_name)
@@ -76,23 +79,21 @@ export default function FindOutButton({
                 `https://www.google.com/maps/search/?api=1&query=dispensary+near+${postalCodeResult.address_components[0].long_name}`
               )
             })
-            .catch((error) => setError(error))
+            .catch(error => setError(error))
             .finally(() => setLoadingState(null))
         })
       },
-      (error) => {
+      error => {
         setLoadingState(null)
 
         if (error.code === error.PERMISSION_DENIED) {
-          setError(
-            new Error('You must allow location access to use this feature.')
-          )
+          setError(new Error(ErrorMessages.PERMISSION_DENIED))
         } else if (error.code === error.POSITION_UNAVAILABLE) {
-          setError(new Error('Your location is unavailable.'))
+          setError(new Error(ErrorMessages.POSITION_UNAVAILABLE))
         } else if (error.code === error.TIMEOUT) {
-          setError(new Error('Your location request timed out.'))
+          setError(new Error(ErrorMessages.TIMEOUT))
         } else {
-          setError(new Error('An unknown error occurred.'))
+          setError(new Error(ErrorMessages.UNKNOWN))
         }
       },
       {
@@ -107,12 +108,10 @@ export default function FindOutButton({
     setLoadingState(LoadingState.ASKING_FOR_PERMISSION)
     navigator.permissions
       .query({ name: 'geolocation' })
-      .then((permissionStatus) => {
+      .then(permissionStatus => {
         if (permissionStatus.state === 'denied') {
           setLoadingState(null)
-          setError(
-            new Error('You must allow location access to use this feature.')
-          )
+          setError(new Error(ErrorMessages.PERMISSION_DENIED))
           return
         }
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import ReactDOM from 'react-dom'
 import Image from 'next/image'
 import { MdSearch } from 'react-icons/md'
 
@@ -8,6 +9,11 @@ import FindOutButton from './FindOutButton'
 
 import marijuanaLegailtyByState from './marijuana-legailty-by-state'
 import Link from 'next/link'
+
+enum Images {
+  WEED = '/weed.png',
+  POLICE = '/police.png',
+}
 
 export default function Home() {
   const [currentState, setCurrentState] = useState('' as string)
@@ -26,14 +32,14 @@ export default function Home() {
   if (currentStateData.LEGAL_STATUS === 'Fully Legal') {
     heading = `Yes! Weed is legal in ${currentState}`
     bgColor = 'bg-brand-green'
-    imageUrl = '/weed.png'
+    imageUrl = Images.WEED
     imageHeight = 240
     imageWidth = 240
     imageAlt = 'Stoned marijuana leaf cartoon'
   } else if (currentStateData.LEGAL_STATUS === 'Fully Illegal') {
     heading = `No! Weed is illegal in ${currentState}`
     bgColor = 'bg-brand-red'
-    imageUrl = '/police.png'
+    imageUrl = Images.POLICE
     imageHeight = 321
     imageWidth = 240
     imageAlt = 'Police car seen from rearview mirror'
