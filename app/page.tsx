@@ -7,6 +7,7 @@ import { MdSearch } from 'react-icons/md'
 import FindOutButton from './FindOutButton'
 
 import marijuanaLegailtyByState from './marijuana-legailty-by-state'
+import Link from 'next/link'
 
 export default function Home() {
   const [currentState, setCurrentState] = useState('' as string)
@@ -59,7 +60,8 @@ export default function Home() {
     <main
       className={`flex min-h-[100dvh] w-screen flex-col items-center justify-between ${bgColor} px-6 py-6 text-center text-brand-purple transition-colors duration-500 md:py-10`}
     >
-      <h2
+      <Link
+        href='/'
         className={`ease-out-expo text-[18px] font-bold leading-none transition-all duration-1000 ${
           currentState
             ? ' translate-y-0 opacity-100'
@@ -67,7 +69,7 @@ export default function Home() {
         }`}
       >
         Is weed legal here?
-      </h2>
+      </Link>
       <div className='flex flex-col items-center py-14'>
         <h1 className='text-[48px] font-bold leading-none md:text-[64px]'>
           {heading}
