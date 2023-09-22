@@ -148,8 +148,11 @@ export default function FindOutButton({
   return (
     <>
       <button
-        className='mt-10 flex w-40 justify-center rounded-lg bg-brand-purple p-6 text-[24px] text-brand-yellow hover:bg-brand-purple'
+        className={`mt-10 flex w-40 justify-center rounded-lg bg-brand-purple p-6 text-[24px] text-brand-yellow transition-opacity ${
+          loadingState !== null ? null : 'hover:opacity-95 active:opacity-100'
+        }`}
         onClick={reloadPage}
+        disabled={loadingState !== null}
       >
         {loadingState ? (
           <Image
