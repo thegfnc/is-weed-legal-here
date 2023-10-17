@@ -19,17 +19,17 @@ type FindOutButtonProps = {
 }
 
 enum LoadingState {
-  ASKING_FOR_PERMISSION = 'Asking for permission to see your location...',
-  RETRIEVING_LOCATION = 'Retrieving your location from the browser...',
-  SEARCHING_FOR_DATA = 'Searching for data about your location...',
+  ASKING_FOR_PERMISSION = "Don't hold out on us. Allow your location to find out if you can legally light one up!",
+  RETRIEVING_LOCATION = "We're just waiting on your browser to pass us your location.",
+  SEARCHING_FOR_DATA = "Just a moment while we hit up Google Maps like we're at the bottom of the bag.",
 }
 
 enum ErrorMessages {
   LIBRARY_NOT_LOADED = 'Geocoding library could not be loaded.',
-  PERMISSION_DENIED = 'You must allow location access to use this feature.',
-  POSITION_UNAVAILABLE = 'Your location is unavailable.',
-  TIMEOUT = 'Your location request timed out.',
-  UNKNOWN = 'An unknown error occurred.',
+  PERMISSION_DENIED = 'Allow location access to see if you can legally light one up!',
+  POSITION_UNAVAILABLE = "Bummer! The browser won't share your current location.",
+  TIMEOUT = 'Did you space out? Allow location access to see if you can legally light one up!',
+  UNKNOWN = "An unknown error occurred. That's not very chill. Try hitting that refresh button.",
   BAD_LAT_LONG = 'Could not interpret your location based on provided lattitude and longitude coordinates.',
 }
 
@@ -170,7 +170,7 @@ export default function FindOutButton({
           {error.message}
         </p>
       ) : (
-        <p className='mt-10 min-h-[16px] text-[16px] leading-4'>
+        <p className='mt-10 min-h-[16px] text-[16px] leading-6'>
           {loadingState}
         </p>
       )}

@@ -1,4 +1,4 @@
-import './globals.css'
+import './styles/globals.css'
 import type { Metadata } from 'next'
 import { Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
@@ -6,7 +6,7 @@ import Script from 'next/script'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['400', '500', '700'],
 })
 
 export const metadata: Metadata = {
