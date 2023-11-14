@@ -1,6 +1,5 @@
-import { LegalStatus, LegalityData } from '../data/types'
+import { LegalStatus, CommonLegalityData } from '../data/types'
 import marijuanaLegailtyByCountry from '../data/legality-by-country'
-import marijuanaLegailtyByAdministrativeAreaLevel1 from '../data/legality-by-administrative-area-level-1'
 
 import { CurrentLocation } from '../components/FindOutButton'
 
@@ -12,7 +11,7 @@ const defaultData = {
 
 export type ClosestMatchLevel = 'country' | 'administrativeAreaLevel1' | null
 
-export type GetLegalityDataForLocationReturn = LegalityData & {
+export type GetLegalityDataForLocationReturn = CommonLegalityData & {
   closestMatchLevel: ClosestMatchLevel
 }
 
@@ -33,8 +32,10 @@ const getLegalityDataForLocation = (
   }
 
   const currentAdministrativeAreaLevel1Data =
+    currentCountryData &&
+    currentCountryData.administrativeAreaLevel1 &&
     location.administrativeAreaLevel1 &&
-    marijuanaLegailtyByAdministrativeAreaLevel1[
+    currentCountryData.administrativeAreaLevel1[
       location.administrativeAreaLevel1
     ]
 
@@ -42,11 +43,11 @@ const getLegalityDataForLocation = (
     closestMatchLevel = 'administrativeAreaLevel1'
   }
 
-  // console.log('currentCountryData', currentCountryData)
-  // console.log(
-  //   'currentAdministrativeAreaLevel1Data',
-  //   currentAdministrativeAreaLevel1Data
-  // )
+  console.log('currentCountryData', currentCountryData)
+  console.log(
+    'currentAdministrativeAreaLevel1Data',
+    currentAdministrativeAreaLevel1Data
+  )
 
   const mergedData = {
     ...defaultData,

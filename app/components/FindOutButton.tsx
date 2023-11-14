@@ -69,6 +69,8 @@ export default function FindOutButton({
               },
             })
             .then((response: google.maps.GeocoderResponse) => {
+              console.log(response)
+
               const countryResult = response.results.find(result =>
                 result.types.includes('country')
               )
