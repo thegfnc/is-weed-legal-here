@@ -42,11 +42,11 @@ const getLegalityDataForLocation = (
     closestMatchLevel = 'administrativeAreaLevel1'
   }
 
-  console.log('currentCountryData', currentCountryData)
-  console.log(
-    'currentAdministrativeAreaLevel1Data',
-    currentAdministrativeAreaLevel1Data
-  )
+  // console.log('currentCountryData', currentCountryData)
+  // console.log(
+  //   'currentAdministrativeAreaLevel1Data',
+  //   currentAdministrativeAreaLevel1Data
+  // )
 
   const mergedData = {
     ...defaultData,
@@ -55,7 +55,7 @@ const getLegalityDataForLocation = (
     closestMatchLevel,
   }
 
-  console.log('mergedData', mergedData)
+  // console.log('mergedData', mergedData)
 
   return mergedData
 }

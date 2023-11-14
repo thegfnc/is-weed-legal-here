@@ -22,7 +22,7 @@ export default function Home() {
   const [currentLocation, setCurrentLocation] =
     useState<CurrentLocation | null>(null)
 
-  console.log('currentLocation', currentLocation)
+  // console.log('currentLocation', currentLocation)
 
   const legalityData = getLegalityDataForLocation(currentLocation)
   const { bgColor, heading, subHeading, imageType, ctaLinkUrl, ctaButtonText } =

@@ -3,8 +3,8 @@ import { MainImageType } from '../components/MainImage'
 import { GetLegalityDataForLocationReturn } from './getLegalityDataForLocation'
 
 type StringsData = {
-  heading: string
   bgColor: string
+  heading: string
   subHeading: string
   imageType: MainImageType | null
   ctaLinkUrl: string | null
@@ -12,8 +12,8 @@ type StringsData = {
 }
 
 const defaultData: StringsData = {
-  heading: 'Is weed legal here?',
   bgColor: 'bg-brand-yellow',
+  heading: 'Is weed legal here?',
   subHeading: '',
   imageType: null,
   ctaLinkUrl: null,
@@ -37,9 +37,9 @@ const getStringsForLegalityData = (
       legalityData.MEDICINAL === 'Legal' &&
       legalityData.RECREATIONAL === 'Legal'
     ) {
+      data.bgColor = 'bg-brand-green'
       data.heading = `Dude! Weed is totally legal in ${closestMatchLocation}`
       data.subHeading = 'Enjoy it! Need to buy some bud?'
-      data.bgColor = 'bg-brand-green'
       data.ctaLinkUrl = `https://www.google.com/maps/search/?api=1&query=dispensary+near+${currentLocation.postalCode}`
       data.ctaButtonText = 'Find dispensaries near you'
       data.imageType = MainImageType.Legal
@@ -47,9 +47,9 @@ const getStringsForLegalityData = (
       legalityData.MEDICINAL === 'Illegal' &&
       legalityData.RECREATIONAL === 'Illegal'
     ) {
+      data.bgColor = 'bg-brand-red'
       data.heading = `Bruh! Unfortunately, weed is illegal in ${closestMatchLocation}`
       data.subHeading = 'That’s blows. But maybe you could help?'
-      data.bgColor = 'bg-brand-red'
       data.ctaLinkUrl = 'https://norml.org/act/'
       data.ctaButtonText = 'Find out how to take action'
       data.imageType = MainImageType.Illegal
@@ -60,7 +60,6 @@ const getStringsForLegalityData = (
       data.heading = `Sorry! We don't know if weed is legal in ${closestMatchLocation} yet`
     } else {
       data.heading = `Sort of! Weed is partially legal in ${closestMatchLocation}`
-      data.bgColor = 'bg-brand-yellow'
       data.ctaLinkUrl = 'https://norml.org/act/'
       data.ctaButtonText = 'Find out how to take action'
 
