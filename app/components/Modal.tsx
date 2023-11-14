@@ -40,20 +40,20 @@ const modalContent = {
             target='_blank'
             className='underline-offset-2 hover:underline'
           >
-            norml.org
+            https://norml.org/
           </a>
         </div>
         <div className='pt-6'>
-          <h3 className='text-2xl'>National Cannibus Industry Association</h3>
+          <h3 className='text-2xl'>Wikipedia</h3>
           <a
-            href='https://thecannabisindustry.org'
+            href='https://wikipedia.org/'
             target='_blank'
             className='underline-offset-2 hover:underline'
           >
-            thecannabisindustry.org
+            https://wikipedia.org/
           </a>
         </div>
-        <div className='pt-12 text-sm'>Last updated October 17, 2023</div>
+        <div className='pt-12 text-sm'>Last updated November 14, 2023</div>
       </div>
     ),
   },
