@@ -13,9 +13,16 @@ const geocoding = globalThis.navigator
   ? loader.importLibrary('geocoding')
   : Promise.resolve(null)
 
+export type CurrentLocation = {
+  country?: string
+  administrativeAreaLevel1?: string
+  administrativeAreaLevel2?: string
+  locality?: string
+  postalCode?: string
+}
+
 type FindOutButtonProps = {
-  setCurrentState: (state: string) => void
-  setGoogleMapsLink: (state: string) => void
+  setCurrentLocation: (state: CurrentLocation) => void
 }
 
 enum LoadingState {
@@ -34,8 +41,7 @@ enum ErrorMessages {
 }
 
 export default function FindOutButton({
-  setCurrentState,
-  setGoogleMapsLink,
+  setCurrentLocation,
 }: FindOutButtonProps) {
   const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)
@@ -56,28 +62,51 @@ export default function FindOutButton({
 
           new geocoder.Geocoder()
             .geocode({
+              language: 'en',
               location: {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
               },
             })
             .then((response: google.maps.GeocoderResponse) => {
-              const stateResult = response.results.find(result =>
-                result.types.includes('administrative_area_level_1')
+              const countryResult = response.results.find(result =>
+                result.types.includes('country')
+              )
+
+              // US states are administrative_area_level_1
+              const administrativeAreaLevel1Result = response.results.find(
+                result => result.types.includes('administrative_area_level_1')
+              )
+
+              // US counties are administrative_area_level_2
+              const administrativeAreaLevel2Result = response.results.find(
+                result => result.types.includes('administrative_area_level_2')
+              )
+
+              // US cities are locality
+              const localityResult = response.results.find(result =>
+                result.types.includes('locality')
               )
 
               const postalCodeResult = response.results.find(result =>
                 result.types.includes('postal_code')
               )
 
-              if (!stateResult || !postalCodeResult) {
+              if (!countryResult) {
                 throw new Error(ErrorMessages.BAD_LAT_LONG)
               }
 
-              setCurrentState(stateResult.address_components[0].long_name)
-              setGoogleMapsLink(
-                `https://www.google.com/maps/search/?api=1&query=dispensary+near+${postalCodeResult.address_components[0].long_name}`
-              )
+              setCurrentLocation({
+                country: countryResult?.address_components[0].long_name,
+                administrativeAreaLevel1:
+                  administrativeAreaLevel1Result?.address_components[0]
+                    .long_name,
+                administrativeAreaLevel2:
+                  administrativeAreaLevel2Result?.address_components[0]
+                    .long_name,
+                locality: localityResult?.address_components[0].long_name,
+                postalCode: postalCodeResult?.address_components[0].long_name,
+              })
             })
             .catch(error => setError(error))
             .finally(() => setLoadingState(null))
