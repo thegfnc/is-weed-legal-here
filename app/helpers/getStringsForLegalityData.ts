@@ -72,7 +72,7 @@ const getStringsForLegalityData = (
         data.subHeading += ' and recreational usage is decriminalized'
 
         if (legalityData.QUANTITY) {
-          data.subHeading += ` with possession of up to ${legalityData.QUANTITY}.`
+          data.subHeading += ` up to ${legalityData.QUANTITY}.`
         } else {
           data.subHeading += '.'
         }
