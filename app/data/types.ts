@@ -11,24 +11,22 @@ export type CommonLegalityData = {
   QUANTITY: string | null
 }
 
-type MarijuanaLegalityByLocality = CommonLegalityData & {
+type MarijuanaLegalityByAdministrativeAreaLevel2 = CommonLegalityData & {
   locality?: {
     [key: string]: CommonLegalityData
   }
 }
 
-type MarijuanaLegalityByAdministrativeAreaLevel2 = CommonLegalityData & {
-  administrativeAreaLevel2?: {
-    [key: string]: MarijuanaLegalityByLocality
-  }
-}
-
 type MarijuanaLegalityByAdministrativeAreaLevel1 = CommonLegalityData & {
-  administrativeAreaLevel1?: {
+  administrativeAreaLevel2?: {
     [key: string]: MarijuanaLegalityByAdministrativeAreaLevel2
   }
 }
 
 export type MarijuanaLegalityByCountry = {
-  [key: string]: MarijuanaLegalityByAdministrativeAreaLevel1
+  [key: string]: CommonLegalityData & {
+    administrativeAreaLevel1?: {
+      [key: string]: MarijuanaLegalityByAdministrativeAreaLevel1
+    }
+  }
 }
