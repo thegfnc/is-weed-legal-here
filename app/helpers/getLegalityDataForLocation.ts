@@ -1,5 +1,5 @@
 import { LegalStatus, CommonLegalityData } from '../data/types'
-import marijuanaLegailtyByCountry from '../data/legality-by-country'
+import legailtyByCountry from '../data/legality-by-country'
 
 import { CurrentLocation } from '../components/FindOutButton'
 
@@ -9,7 +9,12 @@ const defaultData = {
   QUANTITY: null,
 }
 
-export type ClosestMatchLevel = 'country' | 'administrativeAreaLevel1' | null
+export type ClosestMatchLevel =
+  | 'country'
+  | 'administrativeAreaLevel1'
+  | 'administrativeAreaLevel2'
+  | 'locality'
+  | null
 
 export type GetLegalityDataForLocationReturn = CommonLegalityData & {
   closestMatchLevel: ClosestMatchLevel
@@ -24,13 +29,21 @@ const getLegalityDataForLocation = (
 
   let closestMatchLevel: ClosestMatchLevel = null
 
+  ////////////////
+  // COUNTRY
+  ////////////////////////////////
   const currentCountryData =
-    location.country && marijuanaLegailtyByCountry[location.country]
+    location.country && legailtyByCountry[location.country]
 
   if (currentCountryData) {
     closestMatchLevel = 'country'
   }
 
+  console.log('currentCountryData', currentCountryData)
+
+  ////////////////
+  // ADMINISTRATIVE AREA LEVEL 1 (US States)
+  ////////////////////////////////
   const currentAdministrativeAreaLevel1Data =
     currentCountryData &&
     currentCountryData.administrativeAreaLevel1 &&
@@ -43,20 +56,59 @@ const getLegalityDataForLocation = (
     closestMatchLevel = 'administrativeAreaLevel1'
   }
 
-  console.log('currentCountryData', currentCountryData)
   console.log(
     'currentAdministrativeAreaLevel1Data',
     currentAdministrativeAreaLevel1Data
   )
 
+  ////////////////
+  // ADMINISTRATIVE AREA LEVEL 2 (US Counties)
+  ////////////////////////////////
+  const currentAdministrativeAreaLevel2Data =
+    currentAdministrativeAreaLevel1Data &&
+    currentAdministrativeAreaLevel1Data.administrativeAreaLevel2 &&
+    location.administrativeAreaLevel2 &&
+    currentAdministrativeAreaLevel1Data.administrativeAreaLevel2[
+      location.administrativeAreaLevel2
+    ]
+
+  if (currentAdministrativeAreaLevel2Data) {
+    closestMatchLevel = 'administrativeAreaLevel2'
+  }
+
+  console.log(
+    'currentAdministrativeAreaLevel2Data',
+    currentAdministrativeAreaLevel2Data
+  )
+
+  ////////////////
+  // LOCALITY (US Cities)
+  ////////////////////////////////
+  const currentLocalityData =
+    currentAdministrativeAreaLevel1Data &&
+    currentAdministrativeAreaLevel1Data.locality &&
+    location.locality &&
+    currentAdministrativeAreaLevel1Data.locality[location.locality]
+
+  if (currentLocalityData) {
+    closestMatchLevel = 'locality'
+  }
+
+  console.log('currentLocalityData', currentLocalityData)
+
+  ////////////////
+  // DATA MERGE
+  ////////////////////////////////
   const mergedData = {
     ...defaultData,
     ...currentCountryData,
     ...currentAdministrativeAreaLevel1Data,
+    ...currentAdministrativeAreaLevel2Data,
+    ...currentLocalityData,
     closestMatchLevel,
   }
 
-  // console.log('mergedData', mergedData)
+  console.log('mergedData', mergedData)
 
   return mergedData
 }

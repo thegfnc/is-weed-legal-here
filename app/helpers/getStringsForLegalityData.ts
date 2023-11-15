@@ -64,11 +64,13 @@ const getStringsForLegalityData = (
       data.ctaButtonText = 'Find out how to take action'
 
       if (legalityData.MEDICINAL === 'Legal') {
-        data.subHeading = 'Medical marijuana is legal'
+        data.subHeading = 'Medical marijuana is legal and'
+      } else if (legalityData.MEDICINAL === 'Illegal') {
+        data.subHeading = 'Medical marijuana is illegal but'
       }
 
       if (legalityData.RECREATIONAL === 'Decriminalized') {
-        data.subHeading += ' and recreational usage is decriminalized'
+        data.subHeading += ' recreational usage is decriminalized'
 
         if (legalityData.QUANTITY) {
           data.subHeading += ` up to ${legalityData.QUANTITY}.`
@@ -76,7 +78,7 @@ const getStringsForLegalityData = (
           data.subHeading += '.'
         }
       } else if (legalityData.RECREATIONAL === 'Illegal') {
-        data.subHeading += ' but recreational usage is not decriminalized.'
+        data.subHeading += ' recreational usage is not decriminalized.'
       }
     }
   }

@@ -1,9 +1,9 @@
 // https://docs.google.com/spreadsheets/d/1ToP7GRVxp6UjyE8fQwZEMB8u2IIUA0S5Swc70lNb7Vk/edit#gid=0
 // https://csvjson.com/
 
-import { LegalStatus, MarijuanaLegalityByCountry } from './types'
+import { LegalStatus, LegalityByCountry } from './types'
 
-const marijuanaLegalityByCountry: MarijuanaLegalityByCountry = {
+const legalityByCountry: LegalityByCountry = {
   Afghanistan: {
     MEDICINAL: LegalStatus.Illegal,
     RECREATIONAL: LegalStatus.Illegal,
@@ -968,6 +968,20 @@ const marijuanaLegalityByCountry: MarijuanaLegalityByCountry = {
         MEDICINAL: LegalStatus.Legal,
         RECREATIONAL: LegalStatus.Illegal,
         QUANTITY: null,
+        administrativeAreaLevel2: {
+          'Jefferson County': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: 'a personal use amount',
+          },
+        },
+        locality: {
+          Tuscaloosa: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: 'a personal use amount',
+          },
+        },
       },
       Alaska: {
         MEDICINAL: LegalStatus.Legal,
@@ -983,6 +997,23 @@ const marijuanaLegalityByCountry: MarijuanaLegalityByCountry = {
         MEDICINAL: LegalStatus.Legal,
         RECREATIONAL: LegalStatus.Illegal,
         QUANTITY: null,
+        locality: {
+          'Eureka Springs': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: null,
+          },
+          Fayetteville: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          'Little Rock': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: 'a personal use amount',
+          },
+        },
       },
       California: {
         MEDICINAL: LegalStatus.Legal,
@@ -1013,11 +1044,149 @@ const marijuanaLegalityByCountry: MarijuanaLegalityByCountry = {
         MEDICINAL: LegalStatus.Legal,
         RECREATIONAL: LegalStatus.Illegal,
         QUANTITY: null,
+        administrativeAreaLevel2: {
+          'Alachua County': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          'Broward County': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          'Miami-Dade County': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          'Osceola County': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          'Palm Beach County': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          'Volusia County': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          'West Palm Beach County': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+        },
+        locality: {
+          'Cocoa Beach': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          'Hallandale Beach': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          'Key West': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          'Miami Beach': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          Orlando: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          'Port Richey': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          Sarasota: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          Tampa: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+        },
       },
       Georgia: {
         MEDICINAL: LegalStatus.Illegal,
         RECREATIONAL: LegalStatus.Illegal,
         QUANTITY: null,
+        administrativeAreaLevel2: {
+          'Fulton County': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          'Macon-Bibb County': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+        },
+        locality: {
+          Athens: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          Atlanta: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          Clarkston: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          'Forest Park': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          Kingsland: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          Savannah: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          'South Fulton': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          Stonecrest: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          'Tybee Island': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+        },
       },
       Hawaii: {
         MEDICINAL: LegalStatus.Legal,
@@ -1048,16 +1217,59 @@ const marijuanaLegalityByCountry: MarijuanaLegalityByCountry = {
         MEDICINAL: LegalStatus.Illegal,
         RECREATIONAL: LegalStatus.Illegal,
         QUANTITY: null,
+        locality: {
+          Lawrence: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 4 grams',
+          },
+          Wichita: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: null,
+          },
+        },
       },
       Kentucky: {
         MEDICINAL: LegalStatus.Illegal,
         RECREATIONAL: LegalStatus.Illegal,
         QUANTITY: null,
+        administrativeAreaLevel2: {
+          'Jefferson County': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+        },
+        locality: {
+          Louisville: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '14 grams',
+          },
+        },
       },
       Louisiana: {
         MEDICINAL: LegalStatus.Legal,
         RECREATIONAL: LegalStatus.Decriminalized,
         QUANTITY: '14 grams',
+        locality: {
+          'Baton Rouge': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '14 grams',
+          },
+          'New Orleans': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: null,
+          },
+          Shreveport: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '14 grams',
+          },
+        },
       },
       Maine: {
         MEDICINAL: LegalStatus.Legal,
@@ -1143,6 +1355,163 @@ const marijuanaLegalityByCountry: MarijuanaLegalityByCountry = {
         MEDICINAL: LegalStatus.Legal,
         RECREATIONAL: LegalStatus.Legal,
         QUANTITY: null,
+        locality: {
+          Adena: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Athens: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Bellaire: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Bremen: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Cincinnati: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '3.5 ounces',
+          },
+          Cleveland: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Columbus: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '3.5 ounces',
+          },
+          Corning: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Dayton: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '3.5 ounces',
+          },
+          'Forest Park': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Fostoria: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Fremont: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Glouster: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Helena: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Jacksonville: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Kent: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: null,
+          },
+          Laurelville: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Logan: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Nelsonville: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Newark: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Northwood: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '20 grams',
+          },
+          Norwood: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Oregon: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Plymouth: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Roseville: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Rushville: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Shawnee: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Toledo: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Trimble: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          Windham: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+          'Yellow Springs': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '7 ounces, 4 grams',
+          },
+        },
       },
       Oklahoma: {
         MEDICINAL: LegalStatus.Legal,
@@ -1158,6 +1527,83 @@ const marijuanaLegalityByCountry: MarijuanaLegalityByCountry = {
         MEDICINAL: LegalStatus.Legal,
         RECREATIONAL: LegalStatus.Illegal,
         QUANTITY: null,
+        locality: {
+          Allentown: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          Bethlehem: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          Doylestown: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          Erie: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          Folcroft: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          Harrisburg: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          Lancaster: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          Norristown: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          Phoenixville: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          Philadelphia: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          Pittsburgh: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          'State College': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          Steelton: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          'West Norriton': {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+          York: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce, 2 grams',
+          },
+        },
       },
       'Rhode Island': {
         MEDICINAL: LegalStatus.Legal,
@@ -1183,6 +1629,90 @@ const marijuanaLegalityByCountry: MarijuanaLegalityByCountry = {
         MEDICINAL: LegalStatus.Illegal,
         RECREATIONAL: LegalStatus.Illegal,
         QUANTITY: null,
+        administrativeAreaLevel2: {
+          'Bexar County': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '4 ounces',
+          },
+          'Harris County': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '4 ounces',
+          },
+          'Hays County': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+          'Nueces County': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '4 ounces',
+          },
+          'Plano County': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+          'Travis County': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+          'Williamson County': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+        },
+        locality: {
+          Austin: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+          'Cedar Park': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+          Dallas: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '4 ounces',
+          },
+          Denton: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+          Elgin: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+          'El Paso': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '4 ounces',
+          },
+          'Harker Heights': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+          Killeen: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+          'San Marcos': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '2 ounces',
+          },
+        },
       },
       Utah: {
         MEDICINAL: LegalStatus.Legal,
@@ -1213,6 +1743,83 @@ const marijuanaLegalityByCountry: MarijuanaLegalityByCountry = {
         MEDICINAL: LegalStatus.Illegal,
         RECREATIONAL: LegalStatus.Illegal,
         QUANTITY: null,
+        locality: {
+          Appleton: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '25 grams',
+          },
+          'Eau Claire': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '25 grams',
+          },
+          'Green Bay': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          Kenosha: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '25 grams',
+          },
+          'La Crosse': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '25 grams',
+          },
+          Madison: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '1 ounce',
+          },
+          Marshfield: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: null,
+          },
+          Milwaukee: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '25 grams',
+          },
+          Monona: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: null,
+          },
+          Oshkosh: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '25 grams',
+          },
+          Racine: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '25 grams on private property',
+          },
+          'Stevens Point': {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '25 grams',
+          },
+          Superior: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: '25 grams',
+          },
+          Waukesha: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: null,
+          },
+          Wausau: {
+            MEDICINAL: LegalStatus.Illegal,
+            RECREATIONAL: LegalStatus.Decriminalized,
+            QUANTITY: null,
+          },
+        },
       },
       Wyoming: {
         MEDICINAL: LegalStatus.Illegal,
@@ -1268,4 +1875,4 @@ const marijuanaLegalityByCountry: MarijuanaLegalityByCountry = {
   },
 }
 
-export default marijuanaLegalityByCountry
+export default legalityByCountry
