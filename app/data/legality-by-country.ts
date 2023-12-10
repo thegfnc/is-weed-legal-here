@@ -959,7 +959,7 @@ const legalityByCountry: LegalityByCountry = {
     RECREATIONAL: LegalStatus.Illegal,
     QUANTITY: null,
   },
-  'United States': {
+  'United Statess': {
     MEDICINAL: LegalStatus.Illegal,
     RECREATIONAL: LegalStatus.Illegal,
     QUANTITY: null,

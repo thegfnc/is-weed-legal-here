@@ -1,3 +1,5 @@
+import { track } from '@vercel/analytics'
+
 import { CurrentLocation } from '../components/FindOutButton'
 import { MainImageType } from '../components/MainImage'
 import { GetLegalityDataForLocationReturn } from './getLegalityDataForLocation'
@@ -60,6 +62,11 @@ const getStringsForLegalityData = (
       data.heading = `Sorry! We don't know if weed is legal in ${
         closestMatchLocation || currentLocation.country || 'your area'
       } yet`
+
+      track('Legality data unknown', {
+        country: currentLocation.country || null,
+        postalCode: currentLocation.postalCode || null,
+      })
     } else {
       data.heading = `Sort of! Weed is partially legal in ${closestMatchLocation}`
       data.ctaLinkUrl = 'https://norml.org/act/'
