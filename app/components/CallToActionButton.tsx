@@ -8,7 +8,7 @@ type CallToActionButtonProps = {
 const CallToActionButton = ({ text, linkUrl }: CallToActionButtonProps) => {
   return (
     <a
-      className='mt-12 flex items-center rounded-full border-2 border-brand-purple py-2 pl-4 pr-5 text-[16px] transition-colors hover:bg-brand-purple hover:text-brand-yellow md:mt-20 md:text-[18px]'
+      className='mt-12 flex items-center rounded-full border-2 border-brand-purple py-2 pl-4 pr-5 text-[16px] transition-colors hover:bg-brand-purple hover:text-brand-yellow md:text-[18px]'
       href={linkUrl}
       target='_blank'
     >

@@ -46,11 +46,7 @@ export default function FindOutButton({
   const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
-  const reloadPage = () => {
-    globalThis.location.reload()
-  }
-
-  const handleGeocode = () => {
+  const handleNavigatorGeolocation = () => {
     globalThis.navigator.geolocation.getCurrentPosition(
       position => {
         setLoadingState(LoadingState.SEARCHING_FOR_DATA)
@@ -145,12 +141,12 @@ export default function FindOutButton({
         }
 
         if (permissionStatus.state === 'granted') {
-          handleGeocode()
+          handleNavigatorGeolocation()
           setLoadingState(LoadingState.RETRIEVING_LOCATION)
         }
 
         if (permissionStatus.state === 'prompt') {
-          handleGeocode()
+          handleNavigatorGeolocation()
 
           const handleChange = () => {
             if (permissionStatus.state === 'granted') {
@@ -165,35 +161,91 @@ export default function FindOutButton({
       })
   }
 
-  useEffect(() => {
-    if (
-      globalThis.navigator?.permissions &&
-      globalThis.navigator?.geolocation
-    ) {
-      geolocationPermissionListener()
+  const handleIPGeolocation = async () => {
+    setLoadingState(LoadingState.SEARCHING_FOR_DATA)
+
+    const response = await fetch('/api/location')
+    const location = await response.json()
+
+    const geocoder = await geocoding
+
+    if (!geocoder) {
+      throw new Error(ErrorMessages.LIBRARY_NOT_LOADED)
     }
+
+    new geocoder.Geocoder()
+      .geocode({
+        language: 'en',
+        location: {
+          lat: Number(location.latitude),
+          lng: Number(location.longitude),
+        },
+      })
+      .then((response: google.maps.GeocoderResponse) => {
+        const countryResult = response.results.find(result =>
+          result.types.includes('country')
+        )
+
+        // US states are administrative_area_level_1
+        const administrativeAreaLevel1Result = response.results.find(result =>
+          result.types.includes('administrative_area_level_1')
+        )
+
+        // US counties are administrative_area_level_2
+        const administrativeAreaLevel2Result = response.results.find(result =>
+          result.types.includes('administrative_area_level_2')
+        )
+
+        // US cities are locality
+        const localityResult = response.results.find(result =>
+          result.types.includes('locality')
+        )
+
+        const postalCodeResult = response.results.find(result =>
+          result.types.includes('postal_code')
+        )
+
+        if (!countryResult) {
+          throw new Error(ErrorMessages.BAD_LAT_LONG)
+        }
+
+        setCurrentLocation({
+          country: countryResult?.address_components[0].long_name,
+          administrativeAreaLevel1:
+            administrativeAreaLevel1Result?.address_components[0].long_name,
+          administrativeAreaLevel2:
+            administrativeAreaLevel2Result?.address_components[0].long_name,
+          locality: localityResult?.address_components[0].long_name,
+          postalCode: postalCodeResult?.address_components[0].long_name,
+        })
+      })
+      .catch(error => setError(error))
+      .finally(() => setLoadingState(null))
+  }
+
+  useEffect(() => {
+    // if (
+    //   globalThis.navigator?.permissions &&
+    //   globalThis.navigator?.geolocation
+    // ) {
+    //   geolocationPermissionListener()
+    // }
+
+    handleIPGeolocation()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
-      <button
-        className={`mt-10 flex w-40 justify-center rounded-lg bg-brand-purple p-6 text-[24px] text-brand-yellow transition-opacity ${
-          loadingState !== null ? null : 'hover:opacity-95 active:opacity-100'
-        }`}
-        onClick={reloadPage}
-        disabled={loadingState !== null}
+      <div
+        className={`mt-10 flex justify-center rounded-lg text-[24px] transition-opacity`}
       >
-        {loadingState ? (
-          <Image
-            src='/loading-spinner.svg'
-            width='36'
-            height='36'
-            alt='Loading spinner'
-          />
-        ) : (
-          'Find out'
-        )}
-      </button>
+        <Image
+          src='/loading-spinner.svg'
+          width='36'
+          height='36'
+          alt='Loading spinner'
+        />
+      </div>
       {error ? (
         <p className='mt-10 text-[16px] leading-4 text-red-500'>
           {error.message}

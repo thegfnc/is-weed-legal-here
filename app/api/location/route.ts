@@ -6,7 +6,6 @@ import { geolocation } from '@vercel/edge'
 export const runtime = 'edge'
 
 export function GET(request: NextRequest) {
-  console.log('VERCEL_ENV', process.env.VERCEL_ENV)
   // geolocation doesn't return any data during local development
   if (!process.env.VERCEL_ENV) {
     return NextResponse.json(
