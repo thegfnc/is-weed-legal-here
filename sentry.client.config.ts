@@ -29,7 +29,7 @@ Sentry.init({
     new Sentry.Feedback({
       // Additional SDK configuration goes in here, for example:
       autoInject: false,
-      colorScheme: 'light',
+      colorScheme: 'dark',
       formTitle: 'Report an Error',
       messagePlaceholder:
         'What went wrong? Let us know if you encountered incorrect data or a bug.',
