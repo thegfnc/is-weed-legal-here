@@ -36,7 +36,7 @@ const MainImage = ({ type }: MainImageProps) => {
 
   return (
     <Image
-      className='mt-12 md:mt-20'
+      className='mt-12'
       src={data.url}
       width={data.width}
       height={data.height}
