@@ -8,43 +8,43 @@ export const runtime = 'edge'
 export function GET(request: NextRequest) {
   // geolocation doesn't return any data during local development
   // use the following locations to test the different states
-  if (!process.env.VERCEL_ENV) {
+  if (process.env.VERCEL_ENV === 'development') {
     ////////////////////////////////////////
     // MEDICINAL: LegalStatus.Legal,
     // RECREATIONAL: LegalStatus.Legal,
     // QUANTITY: null,
-    // return NextResponse.json(
-    //   {
-    //     city: 'San Francisco',
-    //     country: 'US',
-    //     flag: '🇺🇸',
-    //     countryRegion: 'CA',
-    //     region: 'cle1',
-    //     latitude: '37.7749',
-    //     longitude: '-122.4194',
-    //   },
-    //   {
-    //     status: 200,
-    //   }
-    // )
-    ////////////////////////////////////////
-    // MEDICINAL: LegalStatus.Illegal,
-    // RECREATIONAL: LegalStatus.Decriminalized,
-    // QUANTITY: '2 ounces',
     return NextResponse.json(
       {
-        city: 'Austin',
+        city: 'San Francisco',
         country: 'US',
         flag: '🇺🇸',
-        countryRegion: 'TX',
+        countryRegion: 'CA',
         region: 'cle1',
-        latitude: '30.2423',
-        longitude: '-97.7672',
+        latitude: '37.7749',
+        longitude: '-122.4194',
       },
       {
         status: 200,
       }
     )
+    ////////////////////////////////////////
+    // MEDICINAL: LegalStatus.Illegal,
+    // RECREATIONAL: LegalStatus.Decriminalized,
+    // QUANTITY: '2 ounces',
+    // return NextResponse.json(
+    //   {
+    //     city: 'Austin',
+    //     country: 'US',
+    //     flag: '🇺🇸',
+    //     countryRegion: 'TX',
+    //     region: 'cle1',
+    //     latitude: '30.2423',
+    //     longitude: '-97.7672',
+    //   },
+    //   {
+    //     status: 200,
+    //   }
+    // )
     ////////////////////////////////////////
     // MEDICINAL: LegalStatus.Illegal,
     // RECREATIONAL: LegalStatus.Illegal,
