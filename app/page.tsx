@@ -9,12 +9,12 @@ import MainImage, { MainImageType } from './components/MainImage'
 import SubHeading from './components/SubHeading'
 import Heading from './components/Heading'
 import CallToActionButton from './components/CallToActionButton'
-import { CurrentLocation } from './components/FindOutButton'
 
 import getLegalityDataForLocation from './helpers/getLegalityDataForLocation'
 import getStringsForLegalityData from './helpers/getStringsForLegalityData'
+import { CurrentLocation } from './data/types'
 
-const FindOutButton = dynamic(() => import('./components/FindOutButton'), {
+const IPGeolocation = dynamic(() => import('./components/IPGeolocation'), {
   ssr: false,
 })
 
@@ -28,23 +28,26 @@ export default function Home() {
 
   return (
     <>
-      <main
+      <div
         className={`flex min-h-[100dvh] w-screen flex-col items-center justify-between ${bgColor} px-6 py-6 text-center text-brand-purple transition-colors duration-500 md:py-10`}
       >
         <Header isVisible={Boolean(currentLocation)} />
-        <div className='flex flex-col items-center py-14'>
+        <main className='flex flex-col items-center py-24'>
           <Heading text={heading} />
           {!currentLocation && (
-            <FindOutButton setCurrentLocation={setCurrentLocation} />
+            <IPGeolocation setCurrentLocation={setCurrentLocation} />
           )}
           {subHeading && <SubHeading text={subHeading} />}
           {imageType && <MainImage type={imageType} />}
           {ctaLinkUrl && (
             <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />
           )}
-        </div>
-        <Footer />
-      </main>
+        </main>
+        <Footer
+          currentLocation={currentLocation}
+          setCurrentLocation={setCurrentLocation}
+        />
+      </div>
     </>
   )
 }

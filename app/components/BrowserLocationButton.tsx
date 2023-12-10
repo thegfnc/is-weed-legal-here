@@ -2,26 +2,12 @@
 
 import { Loader } from '@googlemaps/js-api-loader'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { CurrentLocation } from '../data/types'
+import geocoding from '../data/geocoding'
 
-const loader = new Loader({
-  apiKey: 'AIzaSyAtFp26-bVYD6DfUZwl_FvhGh0XhScKEI0',
-  version: 'weekly',
-})
-
-const geocoding = globalThis.navigator
-  ? loader.importLibrary('geocoding')
-  : Promise.resolve(null)
-
-export type CurrentLocation = {
-  country?: string
-  administrativeAreaLevel1?: string
-  administrativeAreaLevel2?: string
-  locality?: string
-  postalCode?: string
-}
-
-type FindOutButtonProps = {
+type BrowserLocationButtonProps = {
+  currentLocation: CurrentLocation | null
   setCurrentLocation: (state: CurrentLocation) => void
 }
 
@@ -29,6 +15,7 @@ enum LoadingState {
   ASKING_FOR_PERMISSION = "Don't hold out on us. Allow your location to find out if you can legally light one up!",
   RETRIEVING_LOCATION = "We're just waiting on your browser to pass us your location.",
   SEARCHING_FOR_DATA = "Just a moment while we hit up Google Maps like we're at the bottom of the bag.",
+  SUCCESS = 'Success',
 }
 
 enum ErrorMessages {
@@ -40,15 +27,12 @@ enum ErrorMessages {
   BAD_LAT_LONG = 'Could not interpret your location based on provided lattitude and longitude coordinates.',
 }
 
-export default function FindOutButton({
+export default function BrowserLocationButton({
+  currentLocation,
   setCurrentLocation,
-}: FindOutButtonProps) {
+}: BrowserLocationButtonProps) {
   const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)
-
-  const reloadPage = () => {
-    globalThis.location.reload()
-  }
 
   const handleGeocode = () => {
     globalThis.navigator.geolocation.getCurrentPosition(
@@ -109,7 +93,7 @@ export default function FindOutButton({
               })
             })
             .catch(error => setError(error))
-            .finally(() => setLoadingState(null))
+            .finally(() => setLoadingState(LoadingState.SUCCESS))
         })
       },
       error => {
@@ -165,44 +149,45 @@ export default function FindOutButton({
       })
   }
 
-  useEffect(() => {
-    if (
-      globalThis.navigator?.permissions &&
-      globalThis.navigator?.geolocation
-    ) {
-      geolocationPermissionListener()
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  if (!currentLocation || loadingState === LoadingState.SUCCESS) {
+    return null
+  }
 
   return (
-    <>
-      <button
-        className={`mt-10 flex w-40 justify-center rounded-lg bg-brand-purple p-6 text-[24px] text-brand-yellow transition-opacity ${
-          loadingState !== null ? null : 'hover:opacity-95 active:opacity-100'
-        }`}
-        onClick={reloadPage}
-        disabled={loadingState !== null}
-      >
-        {loadingState ? (
-          <Image
-            src='/loading-spinner.svg'
-            width='36'
-            height='36'
-            alt='Loading spinner'
-          />
-        ) : (
-          'Find out'
-        )}
-      </button>
-      {error ? (
-        <p className='mt-10 text-[16px] leading-4 text-red-500'>
-          {error.message}
-        </p>
+    <div
+      className='mb-6 flex max-w-xl flex-col items-center text-[12px]'
+      // @ts-ignore
+      style={{ textWrap: 'balance' }}
+    >
+      {loadingState ? (
+        <>
+          <div className='mt-6 min-h-[12px] leading-6'>{loadingState}</div>
+          <div className='mt-1'>
+            {loadingState && (
+              <Image
+                src='/loading-spinner.svg'
+                width='20'
+                height='20'
+                alt='Loading spinner'
+              />
+            )}
+          </div>
+        </>
       ) : (
-        <p className='mt-10 min-h-[16px] text-[16px] leading-6'>
-          {loadingState}
-        </p>
+        <div>
+          This location has been estimated based on your IP address. If the
+          location is incorrect or you prefer more precision,{' '}
+          <a
+            href='#'
+            onClick={geolocationPermissionListener}
+            className='font-bold hover:underline'
+          >
+            use your browser location
+          </a>
+          .
+        </div>
       )}
-    </>
+      {error && <p className='mt-6 leading-4 text-red-500'>{error.message}</p>}
+    </div>
   )
 }
