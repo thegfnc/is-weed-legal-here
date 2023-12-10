@@ -1,6 +1,6 @@
 import { track } from '@vercel/analytics'
 
-import { CurrentLocation } from '../components/FindOutButton'
+import { CurrentLocation } from '../components/IPGeolocation'
 import { MainImageType } from '../components/MainImage'
 import { GetLegalityDataForLocationReturn } from './getLegalityDataForLocation'
 

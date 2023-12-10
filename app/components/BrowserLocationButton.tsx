@@ -2,7 +2,8 @@
 
 import { Loader } from '@googlemaps/js-api-loader'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { CurrentLocation } from '../types/CurrentLocation'
 
 const loader = new Loader({
   apiKey: 'AIzaSyAtFp26-bVYD6DfUZwl_FvhGh0XhScKEI0',
@@ -13,15 +14,7 @@ const geocoding = globalThis.navigator
   ? loader.importLibrary('geocoding')
   : Promise.resolve(null)
 
-export type CurrentLocation = {
-  country?: string
-  administrativeAreaLevel1?: string
-  administrativeAreaLevel2?: string
-  locality?: string
-  postalCode?: string
-}
-
-type FindOutButtonProps = {
+type BrowserLocationButtonProps = {
   setCurrentLocation: (state: CurrentLocation) => void
 }
 
@@ -29,6 +22,7 @@ enum LoadingState {
   ASKING_FOR_PERMISSION = "Don't hold out on us. Allow your location to find out if you can legally light one up!",
   RETRIEVING_LOCATION = "We're just waiting on your browser to pass us your location.",
   SEARCHING_FOR_DATA = "Just a moment while we hit up Google Maps like we're at the bottom of the bag.",
+  SUCCESS = 'Success',
 }
 
 enum ErrorMessages {
@@ -40,13 +34,13 @@ enum ErrorMessages {
   BAD_LAT_LONG = 'Could not interpret your location based on provided lattitude and longitude coordinates.',
 }
 
-export default function FindOutButton({
+export default function BrowserLocationButton({
   setCurrentLocation,
-}: FindOutButtonProps) {
+}: BrowserLocationButtonProps) {
   const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
-  const handleNavigatorGeolocation = () => {
+  const handleGeocode = () => {
     globalThis.navigator.geolocation.getCurrentPosition(
       position => {
         setLoadingState(LoadingState.SEARCHING_FOR_DATA)
@@ -105,7 +99,7 @@ export default function FindOutButton({
               })
             })
             .catch(error => setError(error))
-            .finally(() => setLoadingState(null))
+            .finally(() => setLoadingState(LoadingState.SUCCESS))
         })
       },
       error => {
@@ -141,12 +135,12 @@ export default function FindOutButton({
         }
 
         if (permissionStatus.state === 'granted') {
-          handleNavigatorGeolocation()
+          handleGeocode()
           setLoadingState(LoadingState.RETRIEVING_LOCATION)
         }
 
         if (permissionStatus.state === 'prompt') {
-          handleNavigatorGeolocation()
+          handleGeocode()
 
           const handleChange = () => {
             if (permissionStatus.state === 'granted') {
@@ -161,100 +155,43 @@ export default function FindOutButton({
       })
   }
 
-  const handleIPGeolocation = async () => {
-    setLoadingState(LoadingState.SEARCHING_FOR_DATA)
-
-    const response = await fetch('/api/location')
-    const location = await response.json()
-
-    const geocoder = await geocoding
-
-    if (!geocoder) {
-      throw new Error(ErrorMessages.LIBRARY_NOT_LOADED)
-    }
-
-    new geocoder.Geocoder()
-      .geocode({
-        language: 'en',
-        location: {
-          lat: Number(location.latitude),
-          lng: Number(location.longitude),
-        },
-      })
-      .then((response: google.maps.GeocoderResponse) => {
-        const countryResult = response.results.find(result =>
-          result.types.includes('country')
-        )
-
-        // US states are administrative_area_level_1
-        const administrativeAreaLevel1Result = response.results.find(result =>
-          result.types.includes('administrative_area_level_1')
-        )
-
-        // US counties are administrative_area_level_2
-        const administrativeAreaLevel2Result = response.results.find(result =>
-          result.types.includes('administrative_area_level_2')
-        )
-
-        // US cities are locality
-        const localityResult = response.results.find(result =>
-          result.types.includes('locality')
-        )
-
-        const postalCodeResult = response.results.find(result =>
-          result.types.includes('postal_code')
-        )
-
-        if (!countryResult) {
-          throw new Error(ErrorMessages.BAD_LAT_LONG)
-        }
-
-        setCurrentLocation({
-          country: countryResult?.address_components[0].long_name,
-          administrativeAreaLevel1:
-            administrativeAreaLevel1Result?.address_components[0].long_name,
-          administrativeAreaLevel2:
-            administrativeAreaLevel2Result?.address_components[0].long_name,
-          locality: localityResult?.address_components[0].long_name,
-          postalCode: postalCodeResult?.address_components[0].long_name,
-        })
-      })
-      .catch(error => setError(error))
-      .finally(() => setLoadingState(null))
+  if (loadingState === LoadingState.SUCCESS) {
+    return null
   }
 
-  useEffect(() => {
-    // if (
-    //   globalThis.navigator?.permissions &&
-    //   globalThis.navigator?.geolocation
-    // ) {
-    //   geolocationPermissionListener()
-    // }
-
-    handleIPGeolocation()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
-    <>
-      <div
-        className={`mt-10 flex justify-center rounded-lg text-[24px] transition-opacity`}
-      >
-        <Image
-          src='/loading-spinner.svg'
-          width='36'
-          height='36'
-          alt='Loading spinner'
-        />
+    <div className='mt-20 flex max-w-xl flex-col items-center text-[14px]'>
+      <div>
+        This location has been estimated based on your IP address. If it is
+        incorrect or you want something more precise,{' '}
+        <a
+          href='#'
+          onClick={geolocationPermissionListener}
+          className='hover:underline'
+        >
+          click here
+        </a>{' '}
+        to use your browser location.
+      </div>
+      <div className='mt-6'>
+        {loadingState && (
+          <Image
+            src='/loading-spinner.svg'
+            width='36'
+            height='36'
+            alt='Loading spinner'
+          />
+        )}
       </div>
       {error ? (
-        <p className='mt-10 text-[16px] leading-4 text-red-500'>
+        <p className='mt-6 text-[14px] leading-4 text-red-500'>
           {error.message}
         </p>
       ) : (
-        <p className='mt-10 min-h-[16px] text-[16px] leading-6'>
+        <p className='mt-6 min-h-[14px] text-[14px] leading-6'>
           {loadingState}
         </p>
       )}
-    </>
+    </div>
   )
 }

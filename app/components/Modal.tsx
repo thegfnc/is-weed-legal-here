@@ -53,7 +53,7 @@ const modalContent = {
             https://wikipedia.org/
           </a>
         </div>
-        <div className='pt-12 text-sm'>Last updated November 14, 2023</div>
+        <div className='pt-12 text-sm'>Last updated December 10, 2023</div>
       </div>
     ),
   },

@@ -9,14 +9,21 @@ import MainImage, { MainImageType } from './components/MainImage'
 import SubHeading from './components/SubHeading'
 import Heading from './components/Heading'
 import CallToActionButton from './components/CallToActionButton'
-import { CurrentLocation } from './components/FindOutButton'
 
 import getLegalityDataForLocation from './helpers/getLegalityDataForLocation'
 import getStringsForLegalityData from './helpers/getStringsForLegalityData'
+import { CurrentLocation } from './types/CurrentLocation'
 
-const FindOutButton = dynamic(() => import('./components/FindOutButton'), {
+const IPGeolocation = dynamic(() => import('./components/IPGeolocation'), {
   ssr: false,
 })
+
+const PreciseLocationButton = dynamic(
+  () => import('./components/BrowserLocationButton'),
+  {
+    ssr: false,
+  }
+)
 
 export default function Home() {
   const [currentLocation, setCurrentLocation] =
@@ -35,7 +42,7 @@ export default function Home() {
         <div className='flex flex-col items-center py-14'>
           <Heading text={heading} />
           {!currentLocation && (
-            <FindOutButton setCurrentLocation={setCurrentLocation} />
+            <IPGeolocation setCurrentLocation={setCurrentLocation} />
           )}
           {subHeading && <SubHeading text={subHeading} />}
           {imageType && <MainImage type={imageType} />}
@@ -43,7 +50,10 @@ export default function Home() {
             <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />
           )}
         </div>
-        <Footer />
+        <Footer
+          currentLocation={currentLocation}
+          setCurrentLocation={setCurrentLocation}
+        />
       </main>
     </>
   )
