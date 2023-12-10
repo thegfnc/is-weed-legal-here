@@ -3,18 +3,11 @@
 import { Loader } from '@googlemaps/js-api-loader'
 import Image from 'next/image'
 import { useState } from 'react'
-import { CurrentLocation } from '../types/CurrentLocation'
-
-const loader = new Loader({
-  apiKey: 'AIzaSyAtFp26-bVYD6DfUZwl_FvhGh0XhScKEI0',
-  version: 'weekly',
-})
-
-const geocoding = globalThis.navigator
-  ? loader.importLibrary('geocoding')
-  : Promise.resolve(null)
+import { CurrentLocation } from '../data/types'
+import geocoding from '../data/geocoding'
 
 type BrowserLocationButtonProps = {
+  currentLocation: CurrentLocation | null
   setCurrentLocation: (state: CurrentLocation) => void
 }
 
@@ -35,6 +28,7 @@ enum ErrorMessages {
 }
 
 export default function BrowserLocationButton({
+  currentLocation,
   setCurrentLocation,
 }: BrowserLocationButtonProps) {
   const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
@@ -155,23 +149,25 @@ export default function BrowserLocationButton({
       })
   }
 
-  if (loadingState === LoadingState.SUCCESS) {
+  if (!currentLocation || loadingState === LoadingState.SUCCESS) {
     return null
   }
 
   return (
-    <div className='mb-6 flex max-w-xl flex-col items-center text-[14px]'>
+    <div
+      className='mb-6 flex max-w-xl flex-col items-center text-[12px]'
+      // @ts-ignore
+      style={{ textWrap: 'balance' }}
+    >
       {loadingState ? (
         <>
-          <div className='mt-6 min-h-[14px] text-[14px] leading-6'>
-            {loadingState}
-          </div>
-          <div className='mt-4'>
+          <div className='mt-6 min-h-[12px] leading-6'>{loadingState}</div>
+          <div className='mt-1'>
             {loadingState && (
               <Image
                 src='/loading-spinner.svg'
-                width='36'
-                height='36'
+                width='20'
+                height='20'
                 alt='Loading spinner'
               />
             )}
@@ -191,11 +187,7 @@ export default function BrowserLocationButton({
           to use your browser location.
         </div>
       )}
-      {error && (
-        <p className='mt-6 text-[14px] leading-4 text-red-500'>
-          {error.message}
-        </p>
-      )}
+      {error && <p className='mt-6 leading-4 text-red-500'>{error.message}</p>}
     </div>
   )
 }

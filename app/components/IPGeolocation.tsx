@@ -3,16 +3,8 @@
 import { Loader } from '@googlemaps/js-api-loader'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { CurrentLocation } from '../types/CurrentLocation'
-
-const loader = new Loader({
-  apiKey: 'AIzaSyAtFp26-bVYD6DfUZwl_FvhGh0XhScKEI0',
-  version: 'weekly',
-})
-
-const geocoding = globalThis.navigator
-  ? loader.importLibrary('geocoding')
-  : Promise.resolve(null)
+import { CurrentLocation } from '../data/types'
+import geocoding from '../data/geocoding'
 
 type IPGeolocationProps = {
   setCurrentLocation: (state: CurrentLocation) => void

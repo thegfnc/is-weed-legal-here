@@ -12,7 +12,7 @@ import CallToActionButton from './components/CallToActionButton'
 
 import getLegalityDataForLocation from './helpers/getLegalityDataForLocation'
 import getStringsForLegalityData from './helpers/getStringsForLegalityData'
-import { CurrentLocation } from './types/CurrentLocation'
+import { CurrentLocation } from './data/types'
 
 const IPGeolocation = dynamic(() => import('./components/IPGeolocation'), {
   ssr: false,
@@ -28,11 +28,11 @@ export default function Home() {
 
   return (
     <>
-      <main
+      <div
         className={`flex min-h-[100dvh] w-screen flex-col items-center justify-between ${bgColor} px-6 py-6 text-center text-brand-purple transition-colors duration-500 md:py-10`}
       >
         <Header isVisible={Boolean(currentLocation)} />
-        <div className='flex flex-col items-center py-20'>
+        <main className='flex flex-col items-center py-20'>
           <Heading text={heading} />
           {!currentLocation && (
             <IPGeolocation setCurrentLocation={setCurrentLocation} />
@@ -42,12 +42,12 @@ export default function Home() {
           {ctaLinkUrl && (
             <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />
           )}
-        </div>
+        </main>
         <Footer
           currentLocation={currentLocation}
           setCurrentLocation={setCurrentLocation}
         />
-      </main>
+      </div>
     </>
   )
 }
