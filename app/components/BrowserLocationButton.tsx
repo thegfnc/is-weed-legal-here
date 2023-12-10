@@ -175,12 +175,12 @@ export default function BrowserLocationButton({
         </>
       ) : (
         <div>
-          This location has been estimated based on your IP address. If it is
-          incorrect or you want something more precise,{' '}
+          This location has been estimated based on your IP address. If the
+          location is incorrect or you prefer more precision,{' '}
           <a
             href='#'
             onClick={geolocationPermissionListener}
-            className='hover:underline'
+            className='font-bold hover:underline'
           >
             click here
           </a>{' '}
