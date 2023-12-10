@@ -97,7 +97,7 @@ export default function IPGeolocation({
         className={`mt-10 flex justify-center rounded-lg text-[24px] transition-opacity`}
       >
         <Image
-          src='/loading-spinner.svg'
+          src='/loading-spinner-dark.svg'
           width='36'
           height='36'
           alt='Loading spinner'
