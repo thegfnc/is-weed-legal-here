@@ -39,8 +39,6 @@ const getLegalityDataForLocation = (
     closestMatchLevel = 'country'
   }
 
-  console.log('currentCountryData', currentCountryData)
-
   ////////////////
   // ADMINISTRATIVE AREA LEVEL 1 (US States)
   ////////////////////////////////
@@ -55,11 +53,6 @@ const getLegalityDataForLocation = (
   if (currentAdministrativeAreaLevel1Data) {
     closestMatchLevel = 'administrativeAreaLevel1'
   }
-
-  console.log(
-    'currentAdministrativeAreaLevel1Data',
-    currentAdministrativeAreaLevel1Data
-  )
 
   ////////////////
   // ADMINISTRATIVE AREA LEVEL 2 (US Counties)
@@ -76,11 +69,6 @@ const getLegalityDataForLocation = (
     closestMatchLevel = 'administrativeAreaLevel2'
   }
 
-  console.log(
-    'currentAdministrativeAreaLevel2Data',
-    currentAdministrativeAreaLevel2Data
-  )
-
   ////////////////
   // LOCALITY (US Cities)
   ////////////////////////////////
@@ -94,8 +82,6 @@ const getLegalityDataForLocation = (
     closestMatchLevel = 'locality'
   }
 
-  console.log('currentLocalityData', currentLocalityData)
-
   ////////////////
   // DATA MERGE
   ////////////////////////////////
@@ -107,8 +93,6 @@ const getLegalityDataForLocation = (
     ...currentLocalityData,
     closestMatchLevel,
   }
-
-  console.log('mergedData', mergedData)
 
   return mergedData
 }
