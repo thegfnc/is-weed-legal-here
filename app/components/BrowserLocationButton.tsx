@@ -165,7 +165,7 @@ export default function BrowserLocationButton({
           <div className='mt-1'>
             {loadingState && (
               <Image
-                src='/loading-spinner.svg'
+                src='/loading-spinner-dark.svg'
                 width='20'
                 height='20'
                 alt='Loading spinner'
