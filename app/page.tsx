@@ -18,13 +18,6 @@ const IPGeolocation = dynamic(() => import('./components/IPGeolocation'), {
   ssr: false,
 })
 
-const PreciseLocationButton = dynamic(
-  () => import('./components/BrowserLocationButton'),
-  {
-    ssr: false,
-  }
-)
-
 export default function Home() {
   const [currentLocation, setCurrentLocation] =
     useState<CurrentLocation | null>(null)

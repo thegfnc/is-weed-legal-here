@@ -3,12 +3,16 @@ import { BrowserClient, Feedback, getCurrentHub } from '@sentry/react'
 
 import Modal, { ModalType } from './Modal'
 import { CurrentLocation } from '../types/CurrentLocation'
-import BrowserLocationButton from './BrowserLocationButton'
+import dynamic from 'next/dynamic'
 
 type FooterProps = {
   currentLocation: CurrentLocation | null
   setCurrentLocation: (state: CurrentLocation) => void
 }
+
+const BrowserLocationButton = dynamic(() => import('./BrowserLocationButton'), {
+  ssr: false,
+})
 
 const Footer = ({ currentLocation, setCurrentLocation }: FooterProps) => {
   const client = getCurrentHub().getClient<BrowserClient>()
