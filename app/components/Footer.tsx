@@ -1,7 +1,12 @@
 import { useState } from 'react'
+import { BrowserClient, Feedback, getCurrentHub } from '@sentry/react'
+
 import Modal, { ModalType } from './Modal'
 
 const Footer = () => {
+  const client = getCurrentHub().getClient<BrowserClient>()
+  const feedback = client?.getIntegration(Feedback)
+
   const [modalType, setModalType] = useState<ModalType | null>(null)
 
   return (
@@ -31,6 +36,13 @@ const Footer = () => {
             onClick={() => setModalType(ModalType.SOURCES)}
           >
             Sources
+          </button>
+          <span>·</span>
+          <button
+            className='underline-offset-2 hover:underline'
+            onClick={() => feedback && feedback.openDialog()}
+          >
+            Report Error
           </button>
         </div>
       </div>

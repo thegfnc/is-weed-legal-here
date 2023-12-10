@@ -2,10 +2,10 @@
 // The config you add here will be used whenever a users loads a page in their browser.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-import * as Sentry from "@sentry/nextjs";
+import * as Sentry from '@sentry/nextjs'
 
 Sentry.init({
-  dsn: "https://b33f06fd16bbb495c85d256ee5f32729@o4506369040187392.ingest.sentry.io/4506369042415616",
+  dsn: 'https://b33f06fd16bbb495c85d256ee5f32729@o4506369040187392.ingest.sentry.io/4506369042415616',
 
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 1,
@@ -26,5 +26,14 @@ Sentry.init({
       maskAllText: true,
       blockAllMedia: true,
     }),
+    new Sentry.Feedback({
+      // Additional SDK configuration goes in here, for example:
+      autoInject: false,
+      colorScheme: 'light',
+      formTitle: 'Report an Error',
+      messagePlaceholder:
+        'What went wrong? Let us know if you encountered incorrect data or a bug.',
+      submitButtonLabel: 'Send Report',
+    }),
   ],
-});
+})
