@@ -57,7 +57,9 @@ const getStringsForLegalityData = (
       legalityData.MEDICINAL === 'Unknown' &&
       legalityData.RECREATIONAL === 'Unknown'
     ) {
-      data.heading = `Sorry! We don't know if weed is legal in ${closestMatchLocation} yet`
+      data.heading = `Sorry! We don't know if weed is legal in ${
+        closestMatchLocation || currentLocation.country || 'your area'
+      } yet`
     } else {
       data.heading = `Sort of! Weed is partially legal in ${closestMatchLocation}`
       data.ctaLinkUrl = 'https://norml.org/act/'
