@@ -182,9 +182,9 @@ export default function BrowserLocationButton({
             onClick={geolocationPermissionListener}
             className='font-bold hover:underline'
           >
-            click here
-          </a>{' '}
-          to use your browser location.
+            use your browser location
+          </a>
+          .
         </div>
       )}
       {error && <p className='mt-6 leading-4 text-red-500'>{error.message}</p>}
