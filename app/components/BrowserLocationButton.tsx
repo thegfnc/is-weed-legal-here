@@ -160,36 +160,40 @@ export default function BrowserLocationButton({
   }
 
   return (
-    <div className='mt-20 flex max-w-xl flex-col items-center text-[14px]'>
-      <div>
-        This location has been estimated based on your IP address. If it is
-        incorrect or you want something more precise,{' '}
-        <a
-          href='#'
-          onClick={geolocationPermissionListener}
-          className='hover:underline'
-        >
-          click here
-        </a>{' '}
-        to use your browser location.
-      </div>
-      <div className='mt-6'>
-        {loadingState && (
-          <Image
-            src='/loading-spinner.svg'
-            width='36'
-            height='36'
-            alt='Loading spinner'
-          />
-        )}
-      </div>
-      {error ? (
+    <div className='mb-6 flex max-w-xl flex-col items-center text-[14px]'>
+      {loadingState ? (
+        <>
+          <div className='mt-6 min-h-[14px] text-[14px] leading-6'>
+            {loadingState}
+          </div>
+          <div className='mt-4'>
+            {loadingState && (
+              <Image
+                src='/loading-spinner.svg'
+                width='36'
+                height='36'
+                alt='Loading spinner'
+              />
+            )}
+          </div>
+        </>
+      ) : (
+        <div>
+          This location has been estimated based on your IP address. If it is
+          incorrect or you want something more precise,{' '}
+          <a
+            href='#'
+            onClick={geolocationPermissionListener}
+            className='hover:underline'
+          >
+            click here
+          </a>{' '}
+          to use your browser location.
+        </div>
+      )}
+      {error && (
         <p className='mt-6 text-[14px] leading-4 text-red-500'>
           {error.message}
-        </p>
-      ) : (
-        <p className='mt-6 min-h-[14px] text-[14px] leading-6'>
-          {loadingState}
         </p>
       )}
     </div>

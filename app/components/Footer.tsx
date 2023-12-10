@@ -21,7 +21,7 @@ const Footer = ({ currentLocation, setCurrentLocation }: FooterProps) => {
   const [modalType, setModalType] = useState<ModalType | null>(null)
 
   return (
-    <>
+    <footer className='flex flex-col items-center'>
       {currentLocation && (
         <BrowserLocationButton setCurrentLocation={setCurrentLocation} />
       )}
@@ -61,7 +61,7 @@ const Footer = ({ currentLocation, setCurrentLocation }: FooterProps) => {
         </div>
       </div>
       <Modal type={modalType} onClose={() => setModalType(null)} />
-    </>
+    </footer>
   )
 }
 
