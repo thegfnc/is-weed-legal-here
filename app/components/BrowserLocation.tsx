@@ -1,12 +1,12 @@
 'use client'
 
-import { Loader } from '@googlemaps/js-api-loader'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CurrentLocation } from '../data/types'
 import geocoding from '../data/geocoding'
+import IPGeolocation from './IPGeolocation'
 
-type BrowserLocationButtonProps = {
+type BrowserLocationProps = {
   currentLocation: CurrentLocation | null
   setCurrentLocation: (state: CurrentLocation) => void
 }
@@ -27,10 +27,10 @@ enum ErrorMessages {
   BAD_LAT_LONG = 'Could not interpret your location based on provided lattitude and longitude coordinates.',
 }
 
-export default function BrowserLocationButton({
+export default function BrowserLocation({
   currentLocation,
   setCurrentLocation,
-}: BrowserLocationButtonProps) {
+}: BrowserLocationProps) {
   const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
@@ -149,45 +149,41 @@ export default function BrowserLocationButton({
       })
   }
 
-  if (!currentLocation || loadingState === LoadingState.SUCCESS) {
+  useEffect(() => {
+    geolocationPermissionListener()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (currentLocation) {
     return null
   }
 
   return (
     <div
-      className='mb-6 flex max-w-xl flex-col items-center text-[12px]'
+      className='mb-6 flex max-w-xl flex-col items-center text-[18px]'
       // @ts-ignore
       style={{ textWrap: 'balance' }}
     >
-      {loadingState ? (
+      {loadingState && (
         <>
-          <div className='mt-6 min-h-[12px] leading-6'>{loadingState}</div>
-          <div className='mt-1'>
+          <div className='mt-10'>
             {loadingState && (
               <Image
                 src='/loading-spinner-dark.svg'
-                width='20'
-                height='20'
+                width='42'
+                height='42'
                 alt='Loading spinner'
               />
             )}
           </div>
+          <div className='mt-10 min-h-[48px] leading-6'>{loadingState}</div>
         </>
-      ) : (
-        <div>
-          This location has been estimated based on your IP address. If the
-          location is incorrect or you prefer more precision,{' '}
-          <a
-            href='#'
-            onClick={geolocationPermissionListener}
-            className='font-bold hover:underline'
-          >
-            use your browser location
-          </a>
-          .
-        </div>
       )}
-      {error && <p className='mt-6 leading-4 text-red-500'>{error.message}</p>}
+      {!loadingState && error && (
+        <>
+          <div className='mt-6 leading-6 text-red-500'>{error.message}</div>
+          <IPGeolocation setCurrentLocation={setCurrentLocation} />
+        </>
+      )}
     </div>
   )
 }
