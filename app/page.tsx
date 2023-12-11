@@ -14,7 +14,7 @@ import getLegalityDataForLocation from './helpers/getLegalityDataForLocation'
 import getStringsForLegalityData from './helpers/getStringsForLegalityData'
 import { CurrentLocation } from './data/types'
 
-const IPGeolocation = dynamic(() => import('./components/IPGeolocation'), {
+const BrowserLocation = dynamic(() => import('./components/BrowserLocation'), {
   ssr: false,
 })
 
@@ -35,7 +35,10 @@ export default function Home() {
         <main className='flex flex-col items-center py-24'>
           <Heading text={heading} />
           {!currentLocation && (
-            <IPGeolocation setCurrentLocation={setCurrentLocation} />
+            <BrowserLocation
+              currentLocation={currentLocation}
+              setCurrentLocation={setCurrentLocation}
+            />
           )}
           {subHeading && <SubHeading text={subHeading} />}
           {imageType && <MainImage type={imageType} />}

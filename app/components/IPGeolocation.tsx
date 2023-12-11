@@ -1,8 +1,9 @@
 'use client'
 
-import { Loader } from '@googlemaps/js-api-loader'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { MdOutlineMyLocation } from 'react-icons/md'
+
 import { CurrentLocation } from '../data/types'
 import geocoding from '../data/geocoding'
 
@@ -87,31 +88,37 @@ export default function IPGeolocation({
       .finally(() => setLoadingState(null))
   }
 
-  useEffect(() => {
-    handleIPGeolocation()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <>
       <div
-        className={`mt-10 flex justify-center rounded-lg text-[24px] transition-opacity`}
+        className={`mt-14 flex max-w-md flex-col items-center rounded-lg bg-black/5 p-6 text-[12px] leading-4 transition-opacity`}
       >
-        <Image
-          src='/loading-spinner-dark.svg'
-          width='36'
-          height='36'
-          alt='Loading spinner'
-        />
+        {error ? (
+          <div className='text-red-500'>{error.message}</div>
+        ) : (
+          <div>
+            {loadingState ||
+              "If you don't feel comfortable sharing your browser's location, we can estimate your location using your IP address."}
+          </div>
+        )}
+        {loadingState ? (
+          <Image
+            src='/loading-spinner-dark.svg'
+            width='32'
+            height='32'
+            alt='Loading spinner'
+            className='mt-4'
+          />
+        ) : (
+          <button
+            onClick={handleIPGeolocation}
+            className='mt-4 flex items-center rounded-full bg-brand-purple px-4 py-2 text-brand-yellow transition-opacity hover:opacity-90 active:opacity-100'
+          >
+            <MdOutlineMyLocation className='mr-2' />
+            Estimate my location
+          </button>
+        )}
       </div>
-      {error ? (
-        <p className='mt-10 text-[16px] leading-4 text-red-500'>
-          {error.message}
-        </p>
-      ) : (
-        <p className='mt-10 min-h-[16px] text-[16px] leading-6'>
-          {loadingState}
-        </p>
-      )}
     </>
   )
 }

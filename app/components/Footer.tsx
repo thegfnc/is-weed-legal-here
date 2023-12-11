@@ -3,16 +3,11 @@ import { BrowserClient, Feedback, getCurrentHub } from '@sentry/react'
 
 import Modal, { ModalType } from './Modal'
 import { CurrentLocation } from '../data/types'
-import dynamic from 'next/dynamic'
 
 type FooterProps = {
   currentLocation: CurrentLocation | null
   setCurrentLocation: (state: CurrentLocation) => void
 }
-
-const BrowserLocationButton = dynamic(() => import('./BrowserLocationButton'), {
-  ssr: false,
-})
 
 const Footer = ({ currentLocation, setCurrentLocation }: FooterProps) => {
   const client = getCurrentHub().getClient<BrowserClient>()
@@ -22,10 +17,6 @@ const Footer = ({ currentLocation, setCurrentLocation }: FooterProps) => {
 
   return (
     <footer className='flex flex-col items-center'>
-      <BrowserLocationButton
-        currentLocation={currentLocation}
-        setCurrentLocation={setCurrentLocation}
-      />
       <div className='flex flex-col gap-2 text-[14px] sm:flex-row'>
         <div className='flex gap-2'>
           <span> &copy; {new Date().getFullYear()}</span>
