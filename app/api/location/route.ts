@@ -8,7 +8,7 @@ export const runtime = 'edge'
 export function GET(request: NextRequest) {
   // geolocation doesn't return any data during local development
   // use the following locations to test the different states
-  if (!process.env.VERCEL_ENV) {
+  if (process.env.VERCEL_ENV === 'development') {
     ////////////////////////////////////////
     // MEDICINAL: LegalStatus.Legal,
     // RECREATIONAL: LegalStatus.Legal,
