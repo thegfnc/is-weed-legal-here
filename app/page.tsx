@@ -12,7 +12,7 @@ import CallToActionButton from './components/CallToActionButton'
 
 import getLegalityDataForLocation from './helpers/getLegalityDataForLocation'
 import getStringsForLegalityData from './helpers/getStringsForLegalityData'
-import { CurrentLocation } from './data/types'
+import { CurrentLocation } from './types'
 
 const BrowserLocation = dynamic(() => import('./components/BrowserLocation'), {
   ssr: false,

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BrowserClient, Feedback, getCurrentHub } from '@sentry/react'
 
 import Modal, { ModalType } from './Modal'
-import { CurrentLocation } from '../data/types'
+import { CurrentLocation } from '../types'
 
 type FooterProps = {
   currentLocation: CurrentLocation | null

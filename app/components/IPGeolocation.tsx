@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { MdOutlineMyLocation } from 'react-icons/md'
 
-import { CurrentLocation } from '../data/types'
+import { CurrentLocation } from '../types'
 import geocoding from '../data/geocoding'
 
 type IPGeolocationProps = {

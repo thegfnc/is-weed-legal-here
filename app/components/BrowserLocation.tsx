@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { CurrentLocation } from '../data/types'
+import { CurrentLocation } from '../types'
 import geocoding from '../data/geocoding'
 import IPGeolocation from './IPGeolocation'
 

@@ -1,7 +1,11 @@
 import { Loader } from '@googlemaps/js-api-loader'
 
+if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
+  throw new Error('Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY')
+}
+
 const loader = new Loader({
-  apiKey: 'AIzaSyAtFp26-bVYD6DfUZwl_FvhGh0XhScKEI0',
+  apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   version: 'weekly',
 })
 

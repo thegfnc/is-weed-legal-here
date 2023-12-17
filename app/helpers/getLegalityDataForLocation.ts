@@ -1,6 +1,6 @@
-import { LegalStatus, CommonLegalityData } from '../data/types'
+import { LegalStatus, CommonLegalityData } from '../types'
 import legailtyByCountry from '../data/legality-by-country'
-import { CurrentLocation } from '../data/types'
+import { CurrentLocation } from '../types'
 
 const defaultData = {
   MEDICINAL: LegalStatus.Unknown,

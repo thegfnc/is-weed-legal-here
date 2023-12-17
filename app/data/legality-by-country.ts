@@ -1,7 +1,7 @@
 // https://docs.google.com/spreadsheets/d/1ToP7GRVxp6UjyE8fQwZEMB8u2IIUA0S5Swc70lNb7Vk/edit#gid=0
 // https://csvjson.com/
 
-import { LegalStatus, LegalityByCountry } from './types'
+import { LegalStatus, LegalityByCountry } from '../types'
 
 const legalityByCountry: LegalityByCountry = {
   Afghanistan: {
