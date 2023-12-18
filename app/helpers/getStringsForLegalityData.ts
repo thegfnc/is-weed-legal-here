@@ -1,6 +1,6 @@
 import { track } from '@vercel/analytics'
 
-import { MainImageType } from '../components/MainImage'
+import { MainImageType } from '../data/images'
 import { GetLegalityDataForLocationReturn } from './getLegalityDataForLocation'
 import { CurrentLocation } from '../types'
 

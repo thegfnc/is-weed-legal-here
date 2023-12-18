@@ -2,14 +2,8 @@ import { useState } from 'react'
 import { BrowserClient, Feedback, getCurrentHub } from '@sentry/react'
 
 import Modal, { ModalType } from './Modal'
-import { CurrentLocation } from '../types'
 
-type FooterProps = {
-  currentLocation: CurrentLocation | null
-  setCurrentLocation: (state: CurrentLocation) => void
-}
-
-const Footer = ({ currentLocation, setCurrentLocation }: FooterProps) => {
+const Footer = () => {
   const client = getCurrentHub().getClient<BrowserClient>()
   const feedback = client?.getIntegration(Feedback)
 
