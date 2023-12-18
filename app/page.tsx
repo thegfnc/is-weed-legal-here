@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 
 import Header from './components/Header'
 import Footer from './components/Footer'
-import MainImage, { MainImageType } from './components/MainImage'
+import MainImage from './components/MainImage'
 import SubHeading from './components/SubHeading'
 import Heading from './components/Heading'
 import CallToActionButton from './components/CallToActionButton'
@@ -46,10 +46,7 @@ export default function Home() {
             <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />
           )}
         </main>
-        <Footer
-          currentLocation={currentLocation}
-          setCurrentLocation={setCurrentLocation}
-        />
+        <Footer />
       </div>
     </>
   )
