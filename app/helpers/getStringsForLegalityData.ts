@@ -1,4 +1,4 @@
-import { track } from '@vercel/analytics'
+import { track } from '@vercel/analytics/server'
 
 import { MainImageType } from '../data/images'
 import { GetLegalityDataForLocationReturn } from './getLegalityDataForLocation'
@@ -59,9 +59,7 @@ const getStringsForLegalityData = (
       legalityData.MEDICINAL === 'Unknown' &&
       legalityData.RECREATIONAL === 'Unknown'
     ) {
-      data.heading = `Sorry! We don't know if weed is legal in ${
-        closestMatchLocation || currentLocation.country || 'your area'
-      } yet`
+      data.heading = `Sorry! We don't know if weed is legal in your area yet`
 
       track('Legality data unknown', {
         country: currentLocation.country || null,

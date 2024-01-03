@@ -2,14 +2,10 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { CurrentLocation } from '../types'
 import geocoding from '../data/geocoding'
 import IPGeolocation from './IPGeolocation'
-
-type BrowserLocationProps = {
-  currentLocation: CurrentLocation | null
-  setCurrentLocation: (state: CurrentLocation) => void
-}
+import { useRouter } from 'next/navigation'
+import getCurrentLocationFromGeocoderResponse from '../helpers/getCurrentLocationFromGeocoderResponse'
 
 enum LoadingState {
   ASKING_FOR_PERMISSION = "Don't hold out on us. Allow your location to find out if you can legally light one up!",
@@ -27,10 +23,8 @@ enum ErrorMessages {
   BAD_LAT_LONG = 'Could not interpret your location based on provided lattitude and longitude coordinates.',
 }
 
-export default function BrowserLocation({
-  currentLocation,
-  setCurrentLocation,
-}: BrowserLocationProps) {
+export default function BrowserLocation() {
+  const router = useRouter()
   const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
@@ -53,44 +47,23 @@ export default function BrowserLocation({
               },
             })
             .then((response: google.maps.GeocoderResponse) => {
-              const countryResult = response.results.find(result =>
-                result.types.includes('country')
-              )
+              const currentLocation =
+                getCurrentLocationFromGeocoderResponse(response)
 
-              // US states are administrative_area_level_1
-              const administrativeAreaLevel1Result = response.results.find(
-                result => result.types.includes('administrative_area_level_1')
-              )
-
-              // US counties are administrative_area_level_2
-              const administrativeAreaLevel2Result = response.results.find(
-                result => result.types.includes('administrative_area_level_2')
-              )
-
-              // US cities are locality
-              const localityResult = response.results.find(result =>
-                result.types.includes('locality')
-              )
-
-              const postalCodeResult = response.results.find(result =>
-                result.types.includes('postal_code')
-              )
-
-              if (!countryResult) {
+              if (currentLocation.country === '-') {
                 throw new Error(ErrorMessages.BAD_LAT_LONG)
               }
 
-              setCurrentLocation({
-                country: countryResult?.address_components[0].long_name,
-                administrativeAreaLevel1:
-                  administrativeAreaLevel1Result?.address_components[0]
-                    .long_name,
-                administrativeAreaLevel2:
-                  administrativeAreaLevel2Result?.address_components[0]
-                    .long_name,
-                locality: localityResult?.address_components[0].long_name,
-                postalCode: postalCodeResult?.address_components[0].long_name,
-              })
+              const url = [
+                '/result',
+                encodeURIComponent(currentLocation.country),
+                encodeURIComponent(currentLocation.administrativeAreaLevel1),
+                encodeURIComponent(currentLocation.administrativeAreaLevel2),
+                encodeURIComponent(currentLocation.locality),
+                encodeURIComponent(currentLocation.postalCode),
+              ].join('/')
+
+              router.push(url)
             })
             .catch(error => setError(error))
             .finally(() => setLoadingState(LoadingState.SUCCESS))
@@ -153,10 +126,6 @@ export default function BrowserLocation({
     geolocationPermissionListener()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (currentLocation) {
-    return null
-  }
-
   return (
     <div
       className='mb-6 flex max-w-xl flex-col items-center text-[18px]'
@@ -181,7 +150,7 @@ export default function BrowserLocation({
       {!loadingState && error && (
         <>
           <div className='mt-6 leading-6 text-red-500'>{error.message}</div>
-          <IPGeolocation setCurrentLocation={setCurrentLocation} />
+          <IPGeolocation />
         </>
       )}
     </div>
