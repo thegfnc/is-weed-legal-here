@@ -7,6 +7,7 @@ import { MdOutlineMyLocation } from 'react-icons/md'
 import geocoding from '../data/geocoding'
 import { useRouter } from 'next/navigation'
 import getCurrentLocationFromGeocoderResponse from '../helpers/getCurrentLocationFromGeocoderResponse'
+import getResultUrlFromCurrentLocation from '../helpers/getResultUrlFromCurrentLocation'
 
 enum LoadingState {
   SEARCHING_FOR_DATA = "Just a moment while we hit up Google Maps like we're at the bottom of the bag.",
@@ -48,15 +49,7 @@ export default function IPGeolocation() {
           throw new Error(ErrorMessages.BAD_LAT_LONG)
         }
 
-        const url = [
-          '/result',
-          encodeURIComponent(currentLocation.country),
-          encodeURIComponent(currentLocation.administrativeAreaLevel1),
-          encodeURIComponent(currentLocation.administrativeAreaLevel2),
-          encodeURIComponent(currentLocation.locality),
-          encodeURIComponent(currentLocation.postalCode),
-        ].join('/')
-
+        const url = getResultUrlFromCurrentLocation(currentLocation)
         router.push(url)
       })
       .catch(error => setError(error))

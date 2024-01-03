@@ -6,6 +6,7 @@ import geocoding from '../data/geocoding'
 import IPGeolocation from './IPGeolocation'
 import { useRouter } from 'next/navigation'
 import getCurrentLocationFromGeocoderResponse from '../helpers/getCurrentLocationFromGeocoderResponse'
+import getResultUrlFromCurrentLocation from '../helpers/getResultUrlFromCurrentLocation'
 
 enum LoadingState {
   ASKING_FOR_PERMISSION = "Don't hold out on us. Allow your location to find out if you can legally light one up!",
@@ -54,15 +55,7 @@ export default function BrowserLocation() {
                 throw new Error(ErrorMessages.BAD_LAT_LONG)
               }
 
-              const url = [
-                '/result',
-                encodeURIComponent(currentLocation.country),
-                encodeURIComponent(currentLocation.administrativeAreaLevel1),
-                encodeURIComponent(currentLocation.administrativeAreaLevel2),
-                encodeURIComponent(currentLocation.locality),
-                encodeURIComponent(currentLocation.postalCode),
-              ].join('/')
-
+              const url = getResultUrlFromCurrentLocation(currentLocation)
               router.push(url)
             })
             .catch(error => setError(error))
