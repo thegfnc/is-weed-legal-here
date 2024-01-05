@@ -106,12 +106,21 @@ export default function Admin() {
         <Heading text='Legality Data' />
       </div>
       <table className='min-w-full table-fixed border-collapse border-inherit text-center indent-0'>
-        <thead className='sticky top-0 bg-white'>
+        <thead className='sticky top-0 bg-white align-top'>
           <tr>
             <th className={thClassName + ' text-left'}>Country</th>
-            <th className={thClassName}>Administrative Area Level 1</th>
-            <th className={thClassName}>Administrative Area Level 2</th>
-            <th className={thClassName}>Locality</th>
+            <th className={thClassName}>
+              Administrative Area Level 1 <br />
+              <span className='text-xs'>(US States)</span>
+            </th>
+            <th className={thClassName}>
+              Administrative Area Level 2 <br />
+              <span className='text-xs'>(US Counties)</span>
+            </th>
+            <th className={thClassName}>
+              Locality <br />
+              <span className='text-xs'>(US Cities)</span>
+            </th>
             <th className={thClassName}>Medicinal</th>
             <th className={thClassName}>Recreational</th>
             <th className={thClassName}>Quantity</th>
