@@ -6,7 +6,7 @@ const thClassName =
   'px-6 py-6 text-s font-medium text-gray-500 uppercase tracking-wider'
 
 const tdClassName =
-  'px-6 py-4 whitespace-nowrap text-sm text-gray-100 text-nowrap border-r-2 border-slate-700'
+  'px-6 py-4 whitespace-nowrap text-sm text-nowrap border-r-2 border-slate-700'
 
 type TableRow = {
   country: string
@@ -105,7 +105,7 @@ export default function Admin() {
       <div className='mb-10'>
         <Heading text='Legality Data' />
       </div>
-      <table className='min-w-full table-fixed border-collapse border-inherit text-center indent-0'>
+      <table className='min-w-full table-fixed border-collapse border-inherit text-center indent-0 text-gray-100'>
         <thead className='sticky top-0 bg-white align-top'>
           <tr>
             <th className={thClassName + ' text-left'}>Country</th>
