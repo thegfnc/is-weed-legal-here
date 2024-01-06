@@ -2,11 +2,11 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import geocoding from '../data/geocoding'
+import geocoding from '@/app/data/geocoding'
 import IPGeolocation from './IPGeolocation'
 import { useRouter } from 'next/navigation'
-import getCurrentLocationFromGeocoderResponse from '../helpers/getCurrentLocationFromGeocoderResponse'
-import getResultUrlFromCurrentLocation from '../helpers/getResultUrlFromCurrentLocation'
+import getCurrentLocationFromGeocoderResponse from '@/app/helpers/getCurrentLocationFromGeocoderResponse'
+import getResultUrlFromCurrentLocation from '@/app/helpers/getResultUrlFromCurrentLocation'
 
 enum LoadingState {
   ASKING_FOR_PERMISSION = "Don't hold out on us. Allow your location to find out if you can legally light one up!",

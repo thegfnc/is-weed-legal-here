@@ -1,13 +1,11 @@
-import Header from '../../../../../../components/Header'
-import Footer from '../../../../../../components/Footer'
-import MainImage from '../../../../../../components/MainImage'
-import SubHeading from '../../../../../../components/SubHeading'
-import Heading from '../../../../../../components/Heading'
-import CallToActionButton from '../../../../../../components/CallToActionButton'
+import MainImage from '@/app/components/MainImage'
+import SubHeading from '@/app/components/SubHeading'
+import Heading from '@/app/components/Heading'
+import CallToActionButton from '@/app/components/CallToActionButton'
 
-import getLegalityDataForLocation from '../../../../../../helpers/getLegalityDataForLocation'
-import getStringsForLegalityData from '../../../../../../helpers/getStringsForLegalityData'
-import { CurrentLocation } from '../../../../../../types'
+import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
+import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
+import { CurrentLocation } from '@/app/types'
 
 type ResultProps = {
   params: CurrentLocation
@@ -35,21 +33,13 @@ export default function Result({
     getStringsForLegalityData(legalityData, currentLocation)
 
   return (
-    <>
-      <div
-        className={`flex min-h-[100dvh] w-screen flex-col items-center justify-between ${bgColor} px-6 py-6 text-center text-brand-purple transition-colors duration-500 md:py-10`}
-      >
-        <Header isVisible={true} />
-        <main className='flex flex-col items-center py-24'>
-          <Heading text={heading} />
-          {subHeading && <SubHeading text={subHeading} />}
-          {imageType && <MainImage type={imageType} />}
-          {ctaLinkUrl && (
-            <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />
-          )}
-        </main>
-        <Footer />
-      </div>
-    </>
+    <main className='flex flex-col items-center py-24'>
+      <Heading text={heading} />
+      {subHeading && <SubHeading text={subHeading} />}
+      {imageType && <MainImage type={imageType} />}
+      {ctaLinkUrl && (
+        <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />
+      )}
+    </main>
   )
 }

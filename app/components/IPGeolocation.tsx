@@ -4,10 +4,10 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { MdOutlineMyLocation } from 'react-icons/md'
 
-import geocoding from '../data/geocoding'
+import geocoding from '@/app//data/geocoding'
 import { useRouter } from 'next/navigation'
-import getCurrentLocationFromGeocoderResponse from '../helpers/getCurrentLocationFromGeocoderResponse'
-import getResultUrlFromCurrentLocation from '../helpers/getResultUrlFromCurrentLocation'
+import getCurrentLocationFromGeocoderResponse from '@/app//helpers/getCurrentLocationFromGeocoderResponse'
+import getResultUrlFromCurrentLocation from '@/app//helpers/getResultUrlFromCurrentLocation'
 
 enum LoadingState {
   SEARCHING_FOR_DATA = "Just a moment while we hit up Google Maps like we're at the bottom of the bag.",

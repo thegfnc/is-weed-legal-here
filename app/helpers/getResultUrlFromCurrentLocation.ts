@@ -1,4 +1,4 @@
-import { CurrentLocation } from '../types'
+import { CurrentLocation } from '@/app/types'
 
 export default function getResultUrlFromCurrentLocation(
   currentLocation: CurrentLocation

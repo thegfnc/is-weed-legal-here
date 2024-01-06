@@ -1,10 +1,12 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-type HeaderProps = {
-  isVisible: boolean
-}
+const Header = () => {
+  const pathname = usePathname()
+  const isVisible = pathname !== '/'
 
-const Header = ({ isVisible }: HeaderProps) => {
   return (
     <Link
       href='/'

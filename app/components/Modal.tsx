@@ -1,7 +1,7 @@
 'use client'
 
 import { MdClose } from 'react-icons/md'
-import modalContent from '../data/modalContent'
+import modalContent from '@/app/data/modalContent'
 
 export enum ModalType {
   DISCLAIMER = 'DISCLAIMER',

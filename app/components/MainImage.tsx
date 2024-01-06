@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import imageData, { MainImageData, MainImageType } from '../data/images'
+import imageData, { MainImageData, MainImageType } from '@/app/data/images'
 
 type MainImageProps = {
   type: MainImageType

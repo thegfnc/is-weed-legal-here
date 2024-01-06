@@ -1,8 +1,8 @@
 import { track } from '@vercel/analytics/server'
 
-import { MainImageType } from '../data/images'
+import { MainImageType } from '@/app/data/images'
 import { GetLegalityDataForLocationReturn } from './getLegalityDataForLocation'
-import { CurrentLocation } from '../types'
+import { CurrentLocation } from '@/app/types'
 
 type StringsData = {
   bgColor: string
