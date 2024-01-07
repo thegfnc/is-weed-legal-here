@@ -1,7 +1,5 @@
 import { CurrentLocation } from '@/app/types'
 
-const FILTER_OUT = 'FILTER_OUT'
-
 export default function getResultUrlFromCurrentLocation(
   currentLocation: CurrentLocation
 ) {
