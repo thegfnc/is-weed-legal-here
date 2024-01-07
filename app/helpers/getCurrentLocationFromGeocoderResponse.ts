@@ -28,9 +28,9 @@ export default function getCurrentLocationFromGeocoderResponse(
 
   return {
     country: country || '-',
-    administrativeAreaLevel1: administrativeAreaLevel1 || '-',
-    administrativeAreaLevel2: administrativeAreaLevel2 || '-',
-    locality: locality || '-',
-    postalCode: postalCode || '-',
+    administrativeAreaLevel1: administrativeAreaLevel1,
+    administrativeAreaLevel2: administrativeAreaLevel2,
+    locality: locality,
+    postalCode: postalCode,
   }
 }

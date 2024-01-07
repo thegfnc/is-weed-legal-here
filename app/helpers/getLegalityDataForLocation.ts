@@ -1,99 +1,105 @@
-import { LegalStatus, CommonLegalityData } from '@/app/types'
+import pick from 'lodash.pick'
+
+import { CommonLegalityData, LegalStatus } from '@/app/types'
 import legailtyByCountry from '@/app/data/legality-by-country'
 import { CurrentLocation } from '@/app/types'
 
-const defaultData = {
-  MEDICINAL: LegalStatus.Unknown,
-  RECREATIONAL: LegalStatus.Unknown,
-  QUANTITY: null,
-}
-
-export type ClosestMatchLevel =
+export type ClosestMatchKey =
   | 'country'
   | 'administrativeAreaLevel1'
   | 'administrativeAreaLevel2'
   | 'locality'
-  | null
 
-export type GetLegalityDataForLocationReturn = CommonLegalityData & {
-  closestMatchLevel: ClosestMatchLevel
+export type GetLegalityDataForLocationReturn = {
+  country?: CommonLegalityData
+  administrativeAreaLevel1?: CommonLegalityData
+  administrativeAreaLevel2?: CommonLegalityData
+  locality?: CommonLegalityData
+  closestMatchKey?: ClosestMatchKey
 }
 
 const getLegalityDataForLocation = (
-  location: CurrentLocation | null
+  location: CurrentLocation
 ): GetLegalityDataForLocationReturn | null => {
   if (!location) {
     return null
   }
 
-  let closestMatchLevel: ClosestMatchLevel = null
+  const legalityData: GetLegalityDataForLocationReturn = {}
 
   ////////////////
   // COUNTRY
   ////////////////////////////////
-  const currentCountryData =
-    location.country && legailtyByCountry[location.country]
+  const countryMatch = legailtyByCountry[location.country]
 
-  if (currentCountryData) {
-    closestMatchLevel = 'country'
+  if (countryMatch) {
+    legalityData.country = pick(countryMatch, [
+      'MEDICINAL',
+      'RECREATIONAL',
+      'QUANTITY',
+    ])
+    legalityData.closestMatchKey = 'country'
   }
 
   ////////////////
   // ADMINISTRATIVE AREA LEVEL 1 (US States)
   ////////////////////////////////
-  const currentAdministrativeAreaLevel1Data =
-    currentCountryData &&
-    currentCountryData.administrativeAreaLevel1 &&
+  const administrativeAreaLevel1Match =
+    countryMatch &&
+    countryMatch.administrativeAreaLevel1 &&
     location.administrativeAreaLevel1 &&
-    currentCountryData.administrativeAreaLevel1[
-      location.administrativeAreaLevel1
-    ]
+    countryMatch.administrativeAreaLevel1[location.administrativeAreaLevel1]
 
-  if (currentAdministrativeAreaLevel1Data) {
-    closestMatchLevel = 'administrativeAreaLevel1'
+  if (administrativeAreaLevel1Match) {
+    legalityData.administrativeAreaLevel1 = pick(
+      administrativeAreaLevel1Match,
+      ['MEDICINAL', 'RECREATIONAL', 'QUANTITY']
+    )
+    legalityData.closestMatchKey = 'administrativeAreaLevel1'
   }
 
   ////////////////
   // ADMINISTRATIVE AREA LEVEL 2 (US Counties)
   ////////////////////////////////
-  const currentAdministrativeAreaLevel2Data =
-    currentAdministrativeAreaLevel1Data &&
-    currentAdministrativeAreaLevel1Data.administrativeAreaLevel2 &&
+  const administrativeAreaLevel2Match =
+    administrativeAreaLevel1Match &&
+    administrativeAreaLevel1Match.administrativeAreaLevel2 &&
     location.administrativeAreaLevel2 &&
-    currentAdministrativeAreaLevel1Data.administrativeAreaLevel2[
+    administrativeAreaLevel1Match.administrativeAreaLevel2[
       location.administrativeAreaLevel2
     ]
 
-  if (currentAdministrativeAreaLevel2Data) {
-    closestMatchLevel = 'administrativeAreaLevel2'
+  if (administrativeAreaLevel2Match) {
+    legalityData.administrativeAreaLevel2 = pick(
+      administrativeAreaLevel2Match,
+      ['MEDICINAL', 'RECREATIONAL', 'QUANTITY']
+    )
+    legalityData.closestMatchKey = 'administrativeAreaLevel2'
   }
 
   ////////////////
   // LOCALITY (US Cities)
   ////////////////////////////////
-  const currentLocalityData =
-    currentAdministrativeAreaLevel1Data &&
-    currentAdministrativeAreaLevel1Data.locality &&
+  const localityMatch =
+    administrativeAreaLevel1Match &&
+    administrativeAreaLevel1Match.locality &&
     location.locality &&
-    currentAdministrativeAreaLevel1Data.locality[location.locality]
+    administrativeAreaLevel1Match.locality[location.locality]
 
-  if (currentLocalityData) {
-    closestMatchLevel = 'locality'
+  if (localityMatch) {
+    legalityData.locality = pick(localityMatch, [
+      'MEDICINAL',
+      'RECREATIONAL',
+      'QUANTITY',
+    ])
+    legalityData.closestMatchKey = 'locality'
   }
 
-  ////////////////
-  // DATA MERGE
-  ////////////////////////////////
-  const mergedData = {
-    ...defaultData,
-    ...currentCountryData,
-    ...currentAdministrativeAreaLevel1Data,
-    ...currentAdministrativeAreaLevel2Data,
-    ...currentLocalityData,
-    closestMatchLevel,
+  if (legalityData.closestMatchKey) {
+    return legalityData
   }
 
-  return mergedData
+  return null
 }
 
 export default getLegalityDataForLocation

@@ -7,34 +7,31 @@ import CallToActionButton from '@/app/components/CallToActionButton'
 
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
 import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
-import { CurrentLocation } from '@/app/types'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
+import { CurrentLocation } from '@/app/types'
 
 type ResultProps = {
-  params: CurrentLocation
+  params: {
+    currentLocation: string[]
+  }
 }
 
-export default function Result({
-  params: {
-    country,
-    administrativeAreaLevel1,
-    administrativeAreaLevel2,
-    locality,
-    postalCode,
-  },
-}: ResultProps) {
+export default function Result({ params: { currentLocation } }: ResultProps) {
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
-  const currentLocation = {
-    country: decodeURIComponent(country),
-    administrativeAreaLevel1: decodeURIComponent(administrativeAreaLevel1),
-    administrativeAreaLevel2: decodeURIComponent(administrativeAreaLevel2),
-    locality: decodeURIComponent(locality),
-    postalCode: decodeURIComponent(postalCode),
+  const partialCurrentLocation: CurrentLocation = {
+    country: decodeURIComponent(currentLocation[0]),
+    administrativeAreaLevel1:
+      currentLocation[1] && decodeURIComponent(currentLocation[1]),
+    administrativeAreaLevel2:
+      currentLocation[2] && decodeURIComponent(currentLocation[2]),
+    locality: currentLocation[3] && decodeURIComponent(currentLocation[3]),
+    postalCode: currentLocation[4] && decodeURIComponent(currentLocation[4]),
   }
 
-  const legalityData = getLegalityDataForLocation(currentLocation)
+  const legalityData = getLegalityDataForLocation(partialCurrentLocation)
+
   const {
     backgroundColor,
     heading,
@@ -42,9 +39,11 @@ export default function Result({
     imageType,
     ctaLinkUrl,
     ctaButtonText,
-  } = getStringsForLegalityData(legalityData, currentLocation)
+  } = getStringsForLegalityData(legalityData, partialCurrentLocation)
 
-  setBackgroundColor(backgroundColor)
+  useEffect(() => {
+    setBackgroundColor(backgroundColor)
+  }, [setBackgroundColor, backgroundColor])
 
   return (
     <main className='flex flex-col items-center py-24 text-center'>

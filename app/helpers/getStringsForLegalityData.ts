@@ -14,41 +14,50 @@ type StringsData = {
   ctaButtonText: string
 }
 
-const defaultData: StringsData = {
-  backgroundColor: BackgroundColor.YELLOW,
-  heading: 'Is weed legal here?',
-  subHeading: '',
-  imageType: null,
-  ctaLinkUrl: null,
-  ctaButtonText: '',
-}
-
 const getStringsForLegalityData = (
   legalityData: GetLegalityDataForLocationReturn | null,
   currentLocation: CurrentLocation | null
 ) => {
-  const data = {
-    ...defaultData,
+  const data: StringsData = {
+    backgroundColor: BackgroundColor.YELLOW,
+    heading: "Sorry! We don't know if weed is legal in your location yet",
+    subHeading: '',
+    imageType: null,
+    ctaLinkUrl: null,
+    ctaButtonText: '',
   }
 
-  if (legalityData && currentLocation) {
-    const closestMatchLocation =
-      legalityData.closestMatchLevel &&
-      currentLocation[legalityData.closestMatchLevel]
+  const closestMatchLocation =
+    legalityData &&
+    legalityData.closestMatchKey &&
+    currentLocation &&
+    currentLocation[legalityData.closestMatchKey]
 
+  const closestMatchLegalityData =
+    legalityData &&
+    legalityData.closestMatchKey &&
+    legalityData[legalityData.closestMatchKey]
+
+  if (closestMatchLocation && closestMatchLegalityData) {
     if (
-      legalityData.MEDICINAL === 'Legal' &&
-      legalityData.RECREATIONAL === 'Legal'
+      closestMatchLegalityData.MEDICINAL === 'Legal' &&
+      closestMatchLegalityData.RECREATIONAL === 'Legal'
     ) {
       data.backgroundColor = BackgroundColor.GREEN
       data.heading = `Dude! Weed is totally legal in ${closestMatchLocation}`
       data.subHeading = 'Enjoy it! Need to buy some bud?'
-      data.ctaLinkUrl = `https://www.google.com/maps/search/?api=1&query=dispensary+near+${currentLocation.postalCode}`
+      data.ctaLinkUrl = `https://www.google.com/maps/search/?api=1&query=dispensary+near+${
+        currentLocation.postalCode ||
+        currentLocation.locality ||
+        currentLocation.administrativeAreaLevel2 ||
+        currentLocation.administrativeAreaLevel1 ||
+        currentLocation.country
+      }`
       data.ctaButtonText = 'Find dispensaries near you'
       data.imageType = MainImageType.Legal
     } else if (
-      legalityData.MEDICINAL === 'Illegal' &&
-      legalityData.RECREATIONAL === 'Illegal'
+      closestMatchLegalityData.MEDICINAL === 'Illegal' &&
+      closestMatchLegalityData.RECREATIONAL === 'Illegal'
     ) {
       data.backgroundColor = BackgroundColor.RED
       data.heading = `Bruh! Unfortunately, weed is illegal in ${closestMatchLocation}`
@@ -57,38 +66,38 @@ const getStringsForLegalityData = (
       data.ctaButtonText = 'Find out how to take action'
       data.imageType = MainImageType.Illegal
     } else if (
-      legalityData.MEDICINAL === 'Unknown' &&
-      legalityData.RECREATIONAL === 'Unknown'
+      closestMatchLegalityData.MEDICINAL === 'Unknown' &&
+      closestMatchLegalityData.RECREATIONAL === 'Unknown'
     ) {
-      data.heading = `Sorry! We don't know if weed is legal in your area yet`
-
-      track('Legality data unknown', {
-        country: currentLocation.country || null,
-        postalCode: currentLocation.postalCode || null,
-      })
+      data.heading = `Sorry! We don't know if weed is legal in ${closestMatchLocation} yet`
     } else {
       data.heading = `Sort of! Weed is partially legal in ${closestMatchLocation}`
       data.ctaLinkUrl = 'https://norml.org/act/'
       data.ctaButtonText = 'Find out how to take action'
 
-      if (legalityData.MEDICINAL === 'Legal') {
+      if (closestMatchLegalityData.MEDICINAL === 'Legal') {
         data.subHeading = 'Medical marijuana is legal and'
-      } else if (legalityData.MEDICINAL === 'Illegal') {
+      } else if (closestMatchLegalityData.MEDICINAL === 'Illegal') {
         data.subHeading = 'Medical marijuana is illegal but'
       }
 
-      if (legalityData.RECREATIONAL === 'Decriminalized') {
+      if (closestMatchLegalityData.RECREATIONAL === 'Decriminalized') {
         data.subHeading += ' recreational usage is decriminalized'
 
-        if (legalityData.QUANTITY) {
-          data.subHeading += ` up to ${legalityData.QUANTITY}.`
+        if (closestMatchLegalityData.QUANTITY) {
+          data.subHeading += ` up to ${closestMatchLegalityData.QUANTITY}.`
         } else {
           data.subHeading += '.'
         }
-      } else if (legalityData.RECREATIONAL === 'Illegal') {
+      } else if (closestMatchLegalityData.RECREATIONAL === 'Illegal') {
         data.subHeading += ' recreational usage is not decriminalized.'
       }
     }
+  } else {
+    track('Legality data unknown', {
+      country: currentLocation?.country || null,
+      postalCode: currentLocation?.postalCode || null,
+    })
   }
 
   return data
