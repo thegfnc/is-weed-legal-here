@@ -7,8 +7,9 @@ import CallToActionButton from '@/app/components/CallToActionButton'
 
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
 import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
+import { CurrentLocation } from '@/app/types'
 
 type ResultProps = {
   params: {
@@ -19,12 +20,14 @@ type ResultProps = {
 export default function Result({ params: { currentLocation } }: ResultProps) {
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
-  const partialCurrentLocation = {
+  const partialCurrentLocation: CurrentLocation = {
     country: decodeURIComponent(currentLocation[0]),
-    administrativeAreaLevel1: decodeURIComponent(currentLocation[1]),
-    administrativeAreaLevel2: decodeURIComponent(currentLocation[2]),
-    locality: decodeURIComponent(currentLocation[3]),
-    postalCode: decodeURIComponent(currentLocation[4]),
+    administrativeAreaLevel1:
+      currentLocation[1] && decodeURIComponent(currentLocation[1]),
+    administrativeAreaLevel2:
+      currentLocation[2] && decodeURIComponent(currentLocation[2]),
+    locality: currentLocation[3] && decodeURIComponent(currentLocation[3]),
+    postalCode: currentLocation[4] && decodeURIComponent(currentLocation[4]),
   }
 
   const legalityData = getLegalityDataForLocation(partialCurrentLocation)
@@ -38,7 +41,9 @@ export default function Result({ params: { currentLocation } }: ResultProps) {
     ctaButtonText,
   } = getStringsForLegalityData(legalityData, partialCurrentLocation)
 
-  setBackgroundColor(backgroundColor)
+  useEffect(() => {
+    setBackgroundColor(backgroundColor)
+  }, [setBackgroundColor, backgroundColor])
 
   return (
     <main className='flex flex-col items-center py-24 text-center'>

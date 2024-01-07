@@ -1,5 +1,3 @@
-'use client'
-
 import { MdClose } from 'react-icons/md'
 import modalContent from '@/app/data/modalContent'
 

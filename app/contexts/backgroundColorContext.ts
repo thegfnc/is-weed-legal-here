@@ -1,5 +1,3 @@
-'use client'
-
 import { Dispatch, SetStateAction, createContext } from 'react'
 
 export enum BackgroundColor {
