@@ -2,12 +2,6 @@ import Heading from '../components/Heading'
 import legalityByCountry from '../data/legality-by-country'
 import { LegalStatus, LegalityByCountry } from '../types'
 
-const thClassName =
-  'px-6 py-6 text-s font-medium text-gray-500 uppercase tracking-wider'
-
-const tdClassName =
-  'px-6 py-4 whitespace-nowrap text-sm text-nowrap border-r-2 border-slate-700'
-
 type TableRow = {
   country: string
   administrativeAreaLevel1?: string
@@ -97,77 +91,89 @@ const getAdditionalCellStyles = (legalStatus: LegalStatus) => {
   }
 }
 
+const TH_CLASS_NAME =
+  'px-6 py-6 text-s font-medium text-gray-500 uppercase tracking-wider'
+
+const TD_CLASS_NAME = 'px-6 py-4 text-sm border-r-2 border-slate-700'
+
 export default function Admin() {
   const tableRows = flattenLegalityData(legalityByCountry)
 
   return (
-    <div className='m-10'>
-      <div className='mb-10'>
-        <Heading text='Legality Data' />
-      </div>
-      <table className='min-w-full table-fixed border-collapse border-inherit text-center indent-0 text-gray-100'>
-        <thead className='sticky top-0 bg-white align-top'>
-          <tr>
-            <th className={thClassName + ' text-left'}>Country</th>
-            <th className={thClassName}>
-              Administrative Area Level 1 <br />
-              <span className='text-xs'>(US States)</span>
-            </th>
-            <th className={thClassName}>
-              Administrative Area Level 2 <br />
-              <span className='text-xs'>(US Counties)</span>
-            </th>
-            <th className={thClassName}>
-              Locality <br />
-              <span className='text-xs'>(US Cities)</span>
-            </th>
-            <th className={thClassName}>Medicinal</th>
-            <th className={thClassName}>Recreational</th>
-            <th className={thClassName}>Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableRows.map(
-            (
-              {
-                country,
-                administrativeAreaLevel1,
-                administrativeAreaLevel2,
-                locality,
-                medicinal,
-                recreational,
-                quantity,
-              },
-              index
-            ) => (
-              <tr
-                key={country}
-                className={`border-b-2 border-slate-600 hover:bg-slate-600 ${
-                  index % 2 === 1 ? 'bg-slate-800' : 'bg-transparent'
-                }`}
-              >
-                <td className={tdClassName + ' text-left'}>{country}</td>
-                <td className={tdClassName}>{administrativeAreaLevel1}</td>
-                <td className={tdClassName}>{administrativeAreaLevel2}</td>
-                <td className={tdClassName}>{locality}</td>
-                <td
-                  className={tdClassName + getAdditionalCellStyles(medicinal)}
-                >
-                  {medicinal}
-                </td>
-                <td
-                  className={
-                    tdClassName + getAdditionalCellStyles(recreational)
+    <div className='my-10 w-full'>
+      <Heading text='Legality Data' />
+      <div className='mt-10 w-full overflow-scroll bg-black p-4'>
+        <table className='w-full min-w-[1200px] table-fixed border-collapse border-inherit text-center indent-0 text-gray-100'>
+          <thead className='sticky top-0 bg-white align-top'>
+            <tr>
+              <th className={TH_CLASS_NAME + ' text-left'}>Country</th>
+              <th className={TH_CLASS_NAME}>
+                Administrative Area Level 1 <br />
+                <span className='text-xs'>(US States)</span>
+              </th>
+              <th className={TH_CLASS_NAME}>
+                Administrative Area Level 2 <br />
+                <span className='text-xs'>(US Counties)</span>
+              </th>
+              <th className={TH_CLASS_NAME}>
+                Locality <br />
+                <span className='text-xs'>(US Cities)</span>
+              </th>
+              <th className={TH_CLASS_NAME}>Medicinal</th>
+              <th className={TH_CLASS_NAME}>Recreational</th>
+              <th className={TH_CLASS_NAME}>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableRows.map(
+              (
+                {
+                  country,
+                  administrativeAreaLevel1,
+                  administrativeAreaLevel2,
+                  locality,
+                  medicinal,
+                  recreational,
+                  quantity,
+                },
+                index
+              ) => (
+                <tr
+                  key={
+                    country +
+                    administrativeAreaLevel1 +
+                    administrativeAreaLevel2 +
+                    locality
                   }
+                  className={`border-b-2 border-slate-600 hover:bg-slate-600 ${
+                    index % 2 === 1 ? 'bg-slate-800' : 'bg-transparent'
+                  }`}
                 >
-                  {recreational}
-                </td>
-                <td className={tdClassName}>{quantity}</td>
-              </tr>
-            )
-          )}
-        </tbody>
-      </table>
+                  <td className={TD_CLASS_NAME + ' text-left'}>{country}</td>
+                  <td className={TD_CLASS_NAME}>{administrativeAreaLevel1}</td>
+                  <td className={TD_CLASS_NAME}>{administrativeAreaLevel2}</td>
+                  <td className={TD_CLASS_NAME}>{locality}</td>
+                  <td
+                    className={
+                      TD_CLASS_NAME + getAdditionalCellStyles(medicinal)
+                    }
+                  >
+                    {medicinal}
+                  </td>
+                  <td
+                    className={
+                      TD_CLASS_NAME + getAdditionalCellStyles(recreational)
+                    }
+                  >
+                    {recreational}
+                  </td>
+                  <td className={TD_CLASS_NAME}>{quantity}</td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

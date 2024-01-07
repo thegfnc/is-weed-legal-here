@@ -1,10 +1,16 @@
 import './styles/globals.css'
+
 import type { Metadata } from 'next'
 import { Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import Script from 'next/script'
-import Header from '@/app/components/Header'
-import Footer from '@/app/components/Footer'
+import PageWrapper from './components/PageWrapper'
+import Header from './components/Header'
+import Footer from './components/Footer'
+
+type RootLayoutProps = {
+  children: React.ReactNode
+}
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -38,23 +44,15 @@ export const metadata: Metadata = {
   creator: 'The Good for Nothings Club',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const bgColor = 'bg-brand-yellow'
-
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang='en'>
       <body className={spaceGrotesk.className}>
-        <div
-          className={`flex min-h-[100dvh] w-screen flex-col items-center justify-between ${bgColor} px-6 py-6 text-center text-brand-purple transition-colors duration-500 md:py-10`}
-        >
+        <PageWrapper>
           <Header />
           {children}
           <Footer />
-        </div>
+        </PageWrapper>
         <Analytics />
         <Script src='https://www.googletagmanager.com/gtag/js?id=G-3MCRMXW804' />
         <Script id='google-analytics'>

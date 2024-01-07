@@ -119,11 +119,7 @@ export default function BrowserLocation() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div
-      className='mb-6 flex max-w-xl flex-col items-center text-[18px]'
-      // @ts-ignore
-      style={{ textWrap: 'balance' }}
-    >
+    <div className='mb-6 flex max-w-xl flex-col items-center text-balance text-[18px]'>
       {loadingState && (
         <>
           <div className='mt-10'>
