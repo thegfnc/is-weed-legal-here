@@ -1,11 +1,12 @@
-import { track } from '@vercel/analytics'
+import { track } from '@vercel/analytics/server'
 
-import { MainImageType } from '../data/images'
+import { MainImageType } from '@/app/data/images'
 import { GetLegalityDataForLocationReturn } from './getLegalityDataForLocation'
-import { CurrentLocation } from '../types'
+import { CurrentLocation } from '@/app/types'
+import { BackgroundColor } from '../contexts/backgroundColorContext'
 
 type StringsData = {
-  bgColor: string
+  backgroundColor: BackgroundColor
   heading: string
   subHeading: string
   imageType: MainImageType | null
@@ -14,7 +15,7 @@ type StringsData = {
 }
 
 const defaultData: StringsData = {
-  bgColor: 'bg-brand-yellow',
+  backgroundColor: BackgroundColor.YELLOW,
   heading: 'Is weed legal here?',
   subHeading: '',
   imageType: null,
@@ -39,7 +40,7 @@ const getStringsForLegalityData = (
       legalityData.MEDICINAL === 'Legal' &&
       legalityData.RECREATIONAL === 'Legal'
     ) {
-      data.bgColor = 'bg-brand-green'
+      data.backgroundColor = BackgroundColor.GREEN
       data.heading = `Dude! Weed is totally legal in ${closestMatchLocation}`
       data.subHeading = 'Enjoy it! Need to buy some bud?'
       data.ctaLinkUrl = `https://www.google.com/maps/search/?api=1&query=dispensary+near+${currentLocation.postalCode}`
@@ -49,7 +50,7 @@ const getStringsForLegalityData = (
       legalityData.MEDICINAL === 'Illegal' &&
       legalityData.RECREATIONAL === 'Illegal'
     ) {
-      data.bgColor = 'bg-brand-red'
+      data.backgroundColor = BackgroundColor.RED
       data.heading = `Bruh! Unfortunately, weed is illegal in ${closestMatchLocation}`
       data.subHeading = 'That’s blows. But maybe you could help?'
       data.ctaLinkUrl = 'https://norml.org/act/'
@@ -59,9 +60,7 @@ const getStringsForLegalityData = (
       legalityData.MEDICINAL === 'Unknown' &&
       legalityData.RECREATIONAL === 'Unknown'
     ) {
-      data.heading = `Sorry! We don't know if weed is legal in ${
-        closestMatchLocation || currentLocation.country || 'your area'
-      } yet`
+      data.heading = `Sorry! We don't know if weed is legal in your area yet`
 
       track('Legality data unknown', {
         country: currentLocation.country || null,

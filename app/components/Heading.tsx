@@ -4,11 +4,7 @@ type HeadingProps = {
 
 const Heading = ({ text }: HeadingProps) => {
   return (
-    <h1
-      className='max-w-6xl text-[48px] font-bold leading-none md:text-[64px]'
-      // @ts-ignore
-      style={{ textWrap: 'balance' }}
-    >
+    <h1 className='text-balance text-[48px] font-bold leading-none md:text-[64px]'>
       {text}
     </h1>
   )
