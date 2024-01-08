@@ -61,7 +61,7 @@ const getStringsForLegalityData = (
     ) {
       data.backgroundColor = BackgroundColor.RED
       data.heading = `Bruh! Unfortunately, weed is illegal in ${closestMatchLocation}`
-      data.subHeading = 'That’s blows. But maybe you could help?'
+      data.subHeading = 'That blows. But maybe you could help?'
       data.ctaLinkUrl = 'https://norml.org/act/'
       data.ctaButtonText = 'Find out how to take action'
       data.imageType = MainImageType.Illegal
