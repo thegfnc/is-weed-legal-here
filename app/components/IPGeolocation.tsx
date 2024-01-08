@@ -50,8 +50,10 @@ export default function IPGeolocation() {
         const url = getResultUrlFromCurrentLocation(currentLocation)
         router.push(url)
       })
-      .catch(error => setError(error))
-      .finally(() => setLoadingState(null))
+      .catch(error => {
+        setLoadingState(null)
+        setError(error)
+      })
   }
 
   return (
