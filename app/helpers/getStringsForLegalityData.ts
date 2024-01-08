@@ -20,7 +20,7 @@ const getStringsForLegalityData = (
 ) => {
   const data: StringsData = {
     backgroundColor: BackgroundColor.YELLOW,
-    heading: "Sorry! We don't know if weed is legal in your location yet",
+    heading: "Sorry! We don't know if weed is legal in your location yet.",
     subHeading: '',
     imageType: null,
     ctaLinkUrl: null,
@@ -44,7 +44,7 @@ const getStringsForLegalityData = (
       closestMatchLegalityData.RECREATIONAL === 'Legal'
     ) {
       data.backgroundColor = BackgroundColor.GREEN
-      data.heading = `Dude! Weed is totally legal in ${closestMatchLocation}`
+      data.heading = `Dude! Weed is totally legal in ${closestMatchLocation}.`
       data.subHeading = 'Enjoy it! Need to buy some bud?'
       data.ctaLinkUrl = `https://www.google.com/maps/search/?api=1&query=dispensary+near+${
         currentLocation.postalCode ||
@@ -60,7 +60,7 @@ const getStringsForLegalityData = (
       closestMatchLegalityData.RECREATIONAL === 'Illegal'
     ) {
       data.backgroundColor = BackgroundColor.RED
-      data.heading = `Bruh! Unfortunately, weed is illegal in ${closestMatchLocation}`
+      data.heading = `Bruh! Unfortunately, weed is illegal in ${closestMatchLocation}.`
       data.subHeading = 'That blows. But maybe you could help?'
       data.ctaLinkUrl = 'https://norml.org/act/'
       data.ctaButtonText = 'Find out how to take action'
@@ -69,9 +69,9 @@ const getStringsForLegalityData = (
       closestMatchLegalityData.MEDICINAL === 'Unknown' &&
       closestMatchLegalityData.RECREATIONAL === 'Unknown'
     ) {
-      data.heading = `Sorry! We don't know if weed is legal in ${closestMatchLocation} yet`
+      data.heading = `Sorry! We don't know if weed is legal in ${closestMatchLocation} yet.`
     } else {
-      data.heading = `Sort of! Weed is partially legal in ${closestMatchLocation}`
+      data.heading = `Sort of! Weed is partially legal in ${closestMatchLocation}.`
       data.ctaLinkUrl = 'https://norml.org/act/'
       data.ctaButtonText = 'Find out how to take action'
 
