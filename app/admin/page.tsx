@@ -149,7 +149,13 @@ export default function Admin() {
                     index % 2 === 1 ? 'bg-slate-800' : 'bg-transparent'
                   }`}
                 >
-                  <td className={TD_CLASS_NAME + ' text-left'}>{country}</td>
+                  <td
+                    className={
+                      TD_CLASS_NAME + ' border-l-2 border-slate-700 text-left'
+                    }
+                  >
+                    {country}
+                  </td>
                   <td className={TD_CLASS_NAME}>{administrativeAreaLevel1}</td>
                   <td className={TD_CLASS_NAME}>{administrativeAreaLevel2}</td>
                   <td className={TD_CLASS_NAME}>{locality}</td>
