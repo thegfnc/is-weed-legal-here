@@ -23,7 +23,9 @@ enum ErrorMessages {
 
 export default function BrowserLocation() {
   const router = useRouter()
-  const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
+  const [loadingState, setLoadingState] = useState<LoadingState | null>(
+    LoadingState.ASKING_FOR_PERMISSION
+  )
   const [error, setError] = useState<Error | null>(null)
 
   const handleGeocode = () => {
@@ -55,8 +57,10 @@ export default function BrowserLocation() {
               const url = getResultUrlFromCurrentLocation(currentLocation)
               router.push(url)
             })
-            .catch(error => setError(error))
-            .finally(() => setLoadingState(null))
+            .catch(error => {
+              setLoadingState(null)
+              setError(error)
+            })
         })
       },
       error => {
