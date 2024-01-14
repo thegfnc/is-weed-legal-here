@@ -6,7 +6,7 @@ import {
   SetBackgroundColorContext,
 } from '@/app/contexts/backgroundColorContext'
 import { CurrentLocation } from '@/app/types'
-import getChildLocationsFromLocation from '@/app/helpers/getChildLocationsFromLocation'
+import getChildLocationsFromLocation from '@/app/helpers/getChildLocationGroupsFromLocation'
 import Link from 'next/link'
 import getUrlFromCurrentLocation, {
   DASH_PLACEHOLDER,
