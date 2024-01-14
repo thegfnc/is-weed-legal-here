@@ -21,10 +21,6 @@ export type GetLegalityDataForLocationReturn = {
 const getLegalityDataForLocation = (
   location: CurrentLocation
 ): GetLegalityDataForLocationReturn | null => {
-  if (!location) {
-    return null
-  }
-
   const legalityData: GetLegalityDataForLocationReturn = {}
 
   ////////////////
