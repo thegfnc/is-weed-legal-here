@@ -1,6 +1,3 @@
-// https://docs.google.com/spreadsheets/d/1ToP7GRVxp6UjyE8fQwZEMB8u2IIUA0S5Swc70lNb7Vk/edit#gid=0
-// https://csvjson.com/
-
 import { LegalStatus, LegalityByCountry } from '@/app/types'
 
 const legalityByCountry: LegalityByCountry = {
@@ -46,13 +43,20 @@ const legalityByCountry: LegalityByCountry = {
   },
   Australia: {
     MEDICINAL: LegalStatus.Legal,
-    RECREATIONAL: LegalStatus.Decriminalized,
+    RECREATIONAL: LegalStatus.Illegal,
     QUANTITY: null,
+    administrativeAreaLevel1: {
+      'Australian Capital Territory': {
+        MEDICINAL: LegalStatus.Legal,
+        RECREATIONAL: LegalStatus.Legal,
+        QUANTITY: null,
+      },
+    },
   },
   Austria: {
     MEDICINAL: LegalStatus.Illegal,
     RECREATIONAL: LegalStatus.Decriminalized,
-    QUANTITY: null,
+    QUANTITY: '20 grams',
   },
   Azerbaijan: {
     MEDICINAL: LegalStatus.Illegal,
@@ -1343,8 +1347,15 @@ const legalityByCountry: LegalityByCountry = {
       },
       'North Carolina': {
         MEDICINAL: LegalStatus.Illegal,
-        RECREATIONAL: LegalStatus.Decriminalized,
+        RECREATIONAL: LegalStatus.Illegal,
         QUANTITY: null,
+        locality: {
+          Cherokee: {
+            MEDICINAL: LegalStatus.Legal,
+            RECREATIONAL: LegalStatus.Illegal,
+            QUANTITY: null,
+          },
+        },
       },
       'North Dakota': {
         MEDICINAL: LegalStatus.Legal,

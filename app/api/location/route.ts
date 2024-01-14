@@ -10,27 +10,46 @@ export function GET(request: NextRequest) {
   // use the following locations to test the different states
   if (process.env.VERCEL_ENV === 'development') {
     ////////////////////////////////////////
+    // Test lat/long
+    //
+    // return NextResponse.json(
+    //   {
+    //     city: 'Australian Capital Territory',
+    //     country: 'US',
+    //     flag: '🇺🇸',
+    //     countryRegion: 'NC',
+    //     region: 'cle1',
+    //     latitude: '-35.308056',
+    //     longitude: '149.124444',
+    //   },
+    //   {
+    //     status: 200,
+    //   }
+    // )
+    ////////////////////////////////////////
     // MEDICINAL: LegalStatus.Legal,
     // RECREATIONAL: LegalStatus.Legal,
     // QUANTITY: null,
-    return NextResponse.json(
-      {
-        city: 'San Francisco',
-        country: 'US',
-        flag: '🇺🇸',
-        countryRegion: 'CA',
-        region: 'cle1',
-        latitude: '37.7749',
-        longitude: '-122.4194',
-      },
-      {
-        status: 200,
-      }
-    )
+    //
+    // return NextResponse.json(
+    //   {
+    //     city: 'San Francisco',
+    //     country: 'US',
+    //     flag: '🇺🇸',
+    //     countryRegion: 'CA',
+    //     region: 'cle1',
+    //     latitude: '37.7749',
+    //     longitude: '-122.4194',
+    //   },
+    //   {
+    //     status: 200,
+    //   }
+    // )
     ////////////////////////////////////////
     // MEDICINAL: LegalStatus.Illegal,
     // RECREATIONAL: LegalStatus.Decriminalized,
     // QUANTITY: '2 ounces',
+    //
     // return NextResponse.json(
     //   {
     //     city: 'Austin',
@@ -49,6 +68,7 @@ export function GET(request: NextRequest) {
     // MEDICINAL: LegalStatus.Illegal,
     // RECREATIONAL: LegalStatus.Illegal,
     // QUANTITY: null,
+    //
     // return NextResponse.json(
     //   {
     //     city: 'Nashville',
