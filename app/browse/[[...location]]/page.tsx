@@ -1,16 +1,14 @@
 'use client'
 
 import { useContext, useEffect } from 'react'
+import Link from 'next/link'
 import {
   BackgroundColor,
   SetBackgroundColorContext,
 } from '@/app/contexts/backgroundColorContext'
-import { CurrentLocation } from '@/app/types'
 import getChildLocationsFromLocation from '@/app/helpers/getChildLocationGroupsFromLocation'
-import Link from 'next/link'
-import getUrlFromCurrentLocation, {
-  DASH_PLACEHOLDER,
-} from '@/app/helpers/getUrlFromCurrentLocation'
+import getUrlFromCurrentLocation from '@/app/helpers/getUrlFromCurrentLocation'
+import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 
 type BrowseProps = {
   params: {
@@ -21,21 +19,8 @@ type BrowseProps = {
 export default function Browse({ params: { location = [] } }: BrowseProps) {
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
-  const partialCurrentLocation: CurrentLocation = {
-    country: decodeURIComponent(location[0] || DASH_PLACEHOLDER),
-    administrativeAreaLevel1: decodeURIComponent(
-      location[1] || DASH_PLACEHOLDER
-    ),
-    administrativeAreaLevel2: decodeURIComponent(
-      location[2] || DASH_PLACEHOLDER
-    ),
-    locality: decodeURIComponent(location[3] || DASH_PLACEHOLDER),
-    postalCode: decodeURIComponent(location[4] || DASH_PLACEHOLDER),
-  }
-
-  const childLocationGroups = getChildLocationsFromLocation(
-    partialCurrentLocation
-  )
+  const currentLocation = getCurrentLocationFromUrlParams(location)
+  const childLocationGroups = getChildLocationsFromLocation(currentLocation)
 
   useEffect(() => {
     setBackgroundColor(BackgroundColor.YELLOW)
@@ -48,7 +33,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
         childLocationGroups.map(childLocations =>
           Object.keys(childLocations.data).map(childLocation => {
             const location = {
-              ...partialCurrentLocation,
+              ...currentLocation,
             }
 
             if (childLocations.key) {

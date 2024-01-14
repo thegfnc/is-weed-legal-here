@@ -16,7 +16,7 @@ type StringsData = {
 
 const getStringsForLegalityData = (
   legalityData: GetLegalityDataForLocationReturn | null,
-  currentLocation: CurrentLocation | null
+  currentLocation: CurrentLocation
 ) => {
   const data: StringsData = {
     backgroundColor: BackgroundColor.YELLOW,
