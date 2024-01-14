@@ -7,15 +7,11 @@ export default function getUrlFromCurrentLocation(
   prefix?: string
 ) {
   const urlParts = [
-    encodeURIComponent(currentLocation.country) || DASH_PLACEHOLDER,
-    encodeURIComponent(
-      currentLocation.administrativeAreaLevel1 || DASH_PLACEHOLDER
-    ),
-    encodeURIComponent(
-      currentLocation.administrativeAreaLevel2 || DASH_PLACEHOLDER
-    ),
-    encodeURIComponent(currentLocation.locality || DASH_PLACEHOLDER),
-    encodeURIComponent(currentLocation.postalCode || DASH_PLACEHOLDER),
+    encodeURIComponent(currentLocation.country),
+    encodeURIComponent(currentLocation.administrativeAreaLevel1),
+    encodeURIComponent(currentLocation.administrativeAreaLevel2),
+    encodeURIComponent(currentLocation.locality),
+    encodeURIComponent(currentLocation.postalCode),
   ]
 
   if (prefix) {

@@ -45,11 +45,7 @@ export default function getChildLocationsFromLocation(
     location.locality &&
     administrativeAreaLevel1Match.locality[location.locality]
 
-  if (localityMatch) {
-    return []
-  }
-
-  if (administrativeAreaLevel2Match) {
+  if (localityMatch || administrativeAreaLevel2Match) {
     return []
   }
 

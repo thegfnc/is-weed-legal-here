@@ -60,9 +60,7 @@ export default function IPGeolocation() {
 
   return (
     <>
-      <div
-        className={`mt-14 flex max-w-md flex-col items-center rounded-lg bg-black/5 p-6 text-[12px] leading-4 transition-opacity`}
-      >
+      <div className='mt-14 flex max-w-md flex-col items-center rounded-lg bg-black/5 p-6 text-[12px] leading-4 transition-opacity'>
         {error ? (
           <div className='text-red-500'>{error.message}</div>
         ) : (

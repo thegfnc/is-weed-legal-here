@@ -9,6 +9,8 @@ import {
 import getChildLocationsFromLocation from '@/app/helpers/getChildLocationGroupsFromLocation'
 import getUrlFromCurrentLocation from '@/app/helpers/getUrlFromCurrentLocation'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
+import Breadcrumbs from '@/app/components/Breadcrumbs'
+import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
 
 type BrowseProps = {
   params: {
@@ -21,6 +23,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
 
   const currentLocation = getCurrentLocationFromUrlParams(location)
   const childLocationGroups = getChildLocationsFromLocation(currentLocation)
+  const legalityData = getLegalityDataForLocation(currentLocation)
 
   useEffect(() => {
     setBackgroundColor(BackgroundColor.YELLOW)
@@ -28,28 +31,47 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
 
   return (
     <main className='flex flex-col items-center py-24 text-center'>
-      {location.map(locationPart => locationPart + ' / ')}
-      {childLocationGroups.length &&
-        childLocationGroups.map(childLocations =>
-          Object.keys(childLocations.data).map(childLocation => {
-            const location = {
-              ...currentLocation,
-            }
+      <Breadcrumbs currentLocation={currentLocation} />
+      {legalityData && legalityData.closestMatchKey && (
+        <pre className='mt-14 flex max-w-md flex-col items-center rounded-lg bg-black/5 p-6 text-left text-[12px] leading-4 transition-opacity'>
+          {JSON.stringify(legalityData[legalityData.closestMatchKey], null, 2)}
+        </pre>
+      )}
+      {childLocationGroups.map(childLocationGroup => {
+        const childLocationNames = Object.keys(childLocationGroup.data)
 
-            if (childLocations.key) {
-              location[childLocations.key] = childLocation
-            }
+        return (
+          <div
+            key={childLocationGroup.key}
+            className='mt-16 grid w-full grid-flow-col grid-cols-5'
+            style={{
+              gridTemplateRows: `repeat(${Math.ceil(
+                childLocationNames.length / 5
+              )}, minmax(0, 1fr))`,
+            }}
+          >
+            {childLocationNames.map(childLocationName => {
+              const childLocation = {
+                ...currentLocation,
+              }
 
-            return (
-              <Link
-                key={childLocation}
-                href={getUrlFromCurrentLocation(location, '/browse')}
-              >
-                {childLocation}
-              </Link>
-            )
-          })
-        )}
+              if (childLocationGroup.key) {
+                childLocation[childLocationGroup.key] = childLocationName
+              }
+
+              return (
+                <Link
+                  key={childLocationName}
+                  href={getUrlFromCurrentLocation(childLocation, '/browse')}
+                  className='underline-offset-2 hover:underline'
+                >
+                  {childLocationName}
+                </Link>
+              )
+            })}
+          </div>
+        )
+      })}
     </main>
   )
 }
