@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import geocoding from '@/app/data/geocoding'
+import { geocoding } from '@/app/data/maps'
 import IPGeolocation from './IPGeolocation'
 import { useRouter } from 'next/navigation'
 import getCurrentLocationFromGeocoderResponse from '@/app/helpers/getCurrentLocationFromGeocoderResponse'

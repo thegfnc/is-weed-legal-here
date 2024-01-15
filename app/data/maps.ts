@@ -9,8 +9,10 @@ const loader = new Loader({
   version: 'weekly',
 })
 
-const geocoding = globalThis.navigator
+export const geocoding = globalThis.navigator
   ? loader.importLibrary('geocoding')
   : Promise.resolve(null)
 
-export default geocoding
+export const places = globalThis.navigator
+  ? loader.importLibrary('places')
+  : Promise.resolve(null)

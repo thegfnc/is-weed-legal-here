@@ -1,5 +1,5 @@
 import { MdClose } from 'react-icons/md'
-import modalContent from '@/app/data/modalContent'
+import modalContent from '@/app/data/modals'
 
 export enum ModalType {
   DISCLAIMER = 'DISCLAIMER',

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { MdOutlineMyLocation } from 'react-icons/md'
 
-import geocoding from '@/app//data/geocoding'
+import { geocoding } from '@/app/data/maps'
 import { useRouter } from 'next/navigation'
 import getCurrentLocationFromGeocoderResponse from '@/app//helpers/getCurrentLocationFromGeocoderResponse'
 import getUrlFromCurrentLocation, {
