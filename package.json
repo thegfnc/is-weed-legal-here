@@ -11,7 +11,7 @@
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.2",
     "@sentry/nextjs": "^7.92.0",
-    "@types/node": "^20.10.6",
+    "@types/node": "^20.11.2",
     "@types/react": "^18.2.46",
     "@types/react-dom": "^18.2.18",
     "@vercel/analytics": "^1.1.1",
