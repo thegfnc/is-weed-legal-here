@@ -3,6 +3,7 @@ import getUrlFromCurrentLocation, {
   DASH_PLACEHOLDER,
 } from '../helpers/getUrlFromCurrentLocation'
 import { CurrentLocation } from '../types'
+import { Fragment } from 'react'
 
 type BreadrumbsProps = {
   currentLocation: CurrentLocation
@@ -60,18 +61,14 @@ export default function Breadcrumbs({ currentLocation }: BreadrumbsProps) {
   return (
     <div>
       {breadcrumbParts.map((part, index) => (
-        <>
-          <Link
-            key={part.href}
-            href={part.href}
-            className='underline-offset-2 hover:underline'
-          >
+        <Fragment key={part.href}>
+          <Link href={part.href} className='underline-offset-2 hover:underline'>
             {part.title}
           </Link>
           {index !== breadcrumbParts.length - 1 && (
             <span className='mx-2'>/</span>
           )}
-        </>
+        </Fragment>
       ))}
     </div>
   )
