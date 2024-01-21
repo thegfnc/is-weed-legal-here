@@ -74,6 +74,7 @@ const getStringsForLegalityData = (
       data.heading = `Sort of! Weed is partially legal in ${closestMatchLocation}.`
       data.ctaLinkUrl = 'https://norml.org/act/'
       data.ctaButtonText = 'Find out how to take action'
+      data.imageType = MainImageType.SortOf
 
       if (closestMatchLegalityData.MEDICINAL === 'Legal') {
         data.subHeading = 'Medical marijuana is legal but'
