@@ -43,12 +43,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
         return (
           <div
             key={childLocationGroup.key}
-            className='mt-16 grid w-full grid-flow-col grid-cols-5'
-            style={{
-              gridTemplateRows: `repeat(${Math.ceil(
-                childLocationNames.length / 5
-              )}, minmax(0, 1fr))`,
-            }}
+            className='mt-16 grid w-full grid-cols-5 gap-x-4 gap-y-[10px]'
           >
             {childLocationNames.map(childLocationName => {
               const childLocation = {
@@ -63,7 +58,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
                 <Link
                   key={childLocationName}
                   href={getUrlFromCurrentLocation(childLocation, '/browse')}
-                  className='underline-offset-2 hover:underline'
+                  className='flex min-h-24 items-center justify-center rounded-2xl border-2 border-brand-purple p-4 text-lg font-bold leading-tight text-brand-purple transition-colors hover:bg-white'
                 >
                   {childLocationName}
                 </Link>
