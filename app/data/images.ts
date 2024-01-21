@@ -1,6 +1,7 @@
 export enum MainImageType {
   Legal = 'Legal',
   Illegal = 'Illegal',
+  SortOf = 'SortOf',
 }
 
 export type MainImageData = {
@@ -12,16 +13,22 @@ export type MainImageData = {
 
 const imageData: { [key in MainImageType]: MainImageData } = {
   [MainImageType.Legal]: {
-    url: '/weed.png',
+    url: '/legal.gif',
     height: 240,
     width: 240,
-    alt: 'Stoned marijuana leaf cartoon',
+    alt: 'Dancing stoned marijuana leaf cartoon',
   },
   [MainImageType.Illegal]: {
-    url: '/police.png',
+    url: '/illegal.webp',
     height: 240,
     width: 321,
-    alt: 'Police car seen from rearview mirror',
+    alt: 'Police cars seen from rearview mirror',
+  },
+  [MainImageType.SortOf]: {
+    url: '/sort-of.gif',
+    height: 240,
+    width: 321,
+    alt: 'Little kid saying "I know you\'re talking about smoking weed"',
   },
 }
 
