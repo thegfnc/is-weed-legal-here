@@ -33,9 +33,9 @@ export default function SearchInput() {
     <>
       <input
         type='text'
-        placeholder='Search...'
+        placeholder='Search address, city, state, or zip'
         ref={inputRef}
-        className='w-1/4'
+        className='w-full max-w-96 rounded-full border-2 border-brand-purple bg-transparent px-8 py-4 text-lg leading-none transition-colors placeholder:text-brand-purple focus:bg-white'
       />
     </>
   )

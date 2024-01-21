@@ -30,7 +30,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   }, [setBackgroundColor])
 
   return (
-    <main className='flex flex-col items-center py-24 text-center'>
+    <main className='mx-auto flex max-w-screen-xl flex-col items-center py-24 text-center'>
       <Breadcrumbs currentLocation={currentLocation} />
       {legalityData && legalityData.closestMatchKey && (
         <pre className='mt-14 flex max-w-md flex-col items-center rounded-lg bg-black/5 p-6 text-left text-[12px] leading-4 transition-opacity'>
@@ -58,7 +58,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
                 <Link
                   key={childLocationName}
                   href={getUrlFromCurrentLocation(childLocation, '/browse')}
-                  className='flex min-h-24 items-center justify-center rounded-2xl border-2 border-brand-purple p-4 text-lg font-bold leading-tight text-brand-purple transition-colors hover:bg-white'
+                  className='flex min-h-[92px] items-center justify-center rounded-2xl border-2 border-brand-purple p-4 text-lg font-bold leading-tight text-brand-purple transition-colors hover:bg-white'
                 >
                   {childLocationName}
                 </Link>

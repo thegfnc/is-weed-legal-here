@@ -7,7 +7,11 @@ import getCurrentLocationFromGeocoderResponse from '@/app/helpers/getCurrentLoca
 import getUrlFromCurrentLocation, {
   DASH_PLACEHOLDER,
 } from '@/app/helpers/getUrlFromCurrentLocation'
-import { MdOutlineMyLocation } from 'react-icons/md'
+import {
+  MdOutlineLocationOn,
+  MdOutlineMap,
+  MdOutlineMyLocation,
+} from 'react-icons/md'
 
 enum LoadingState {
   ASKING_FOR_PERMISSION = "Don't hold out on us. Allow your location to find out if you can legally light one up!",
@@ -136,15 +140,15 @@ export default function BrowserLocation() {
       ) : (
         <button
           onClick={geolocationPermissionListener}
-          className='mt-4 flex items-center rounded-full bg-brand-purple px-4 py-2 text-brand-yellow transition-opacity hover:opacity-90 active:opacity-100'
+          className='flex items-center px-4 py-2 text-lg underline-offset-4 hover:underline'
         >
-          <MdOutlineMyLocation className='mr-2' />
-          Use my location
+          <MdOutlineLocationOn size='28px' className='mr-1' />
+          Use current location
         </button>
       )}
       {!loadingState && error && (
         <>
-          <div className='mt-6 leading-6 text-red-500'>{error.message}</div>
+          <div className='leading-6 text-red-500'>{error.message}</div>
           <IPGeolocation />
         </>
       )}

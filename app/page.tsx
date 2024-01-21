@@ -25,10 +25,14 @@ export default function Home() {
   }, [setBackgroundColor])
 
   return (
-    <main className='flex flex-col items-center py-24 text-center'>
+    <main className='flex flex-col py-24 text-center'>
       <Heading text={'Is weed legal here?'} />
-      <SearchInput />
-      <BrowserLocation />
+      <div className='mt-8 flex justify-center'>
+        <SearchInput />
+      </div>
+      <div className='mt-6 flex justify-center'>
+        <BrowserLocation />
+      </div>
     </main>
   )
 }
