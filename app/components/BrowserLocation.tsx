@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { geocoding } from '@/app/data/maps'
 import IPGeolocation from './IPGeolocation'
 import { useRouter } from 'next/navigation'
@@ -7,6 +7,7 @@ import getCurrentLocationFromGeocoderResponse from '@/app/helpers/getCurrentLoca
 import getUrlFromCurrentLocation, {
   DASH_PLACEHOLDER,
 } from '@/app/helpers/getUrlFromCurrentLocation'
+import { MdOutlineMyLocation } from 'react-icons/md'
 
 enum LoadingState {
   ASKING_FOR_PERMISSION = "Don't hold out on us. Allow your location to find out if you can legally light one up!",
@@ -25,9 +26,7 @@ enum ErrorMessages {
 
 export default function BrowserLocation() {
   const router = useRouter()
-  const [loadingState, setLoadingState] = useState<LoadingState | null>(
-    LoadingState.ASKING_FOR_PERMISSION
-  )
+  const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
   const handleGeocode = () => {
@@ -35,12 +34,12 @@ export default function BrowserLocation() {
       position => {
         setLoadingState(LoadingState.SEARCHING_FOR_DATA)
 
-        geocoding.then(async geocoder => {
-          if (!geocoder) {
+        geocoding.then(async geocodingLib => {
+          if (!geocodingLib) {
             throw new Error(ErrorMessages.LIBRARY_NOT_LOADED)
           }
 
-          new geocoder.Geocoder()
+          new geocodingLib.Geocoder()
             .geocode({
               language: 'en',
               location: {
@@ -118,13 +117,9 @@ export default function BrowserLocation() {
       })
   }
 
-  useEffect(() => {
-    geolocationPermissionListener()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <div className='mb-6 flex max-w-xl flex-col items-center text-balance text-[18px]'>
-      {loadingState && (
+      {loadingState ? (
         <>
           <div className='mt-10'>
             {loadingState && (
@@ -138,6 +133,14 @@ export default function BrowserLocation() {
           </div>
           <div className='mt-10 min-h-[48px] leading-6'>{loadingState}</div>
         </>
+      ) : (
+        <button
+          onClick={geolocationPermissionListener}
+          className='mt-4 flex items-center rounded-full bg-brand-purple px-4 py-2 text-brand-yellow transition-opacity hover:opacity-90 active:opacity-100'
+        >
+          <MdOutlineMyLocation className='mr-2' />
+          Use my location
+        </button>
       )}
       {!loadingState && error && (
         <>
