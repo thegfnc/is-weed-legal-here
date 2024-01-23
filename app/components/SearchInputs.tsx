@@ -1,17 +1,12 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-
 import { useContext, useEffect } from 'react'
 import {
   BackgroundColor,
   SetBackgroundColorContext,
 } from '@/app/contexts/backgroundColorContext'
-import Heading from './components/Heading'
-
-const SearchInputs = dynamic(() => import('./components/SearchInputs'), {
-  ssr: false,
-})
+import PlacesSearchInput from './PlacesSearchInput'
+import BrowserLocationButton from './BrowserLocationButton'
 
 export default function Home() {
   const setBackgroundColor = useContext(SetBackgroundColorContext)
@@ -21,9 +16,13 @@ export default function Home() {
   }, [setBackgroundColor])
 
   return (
-    <main className='flex flex-col py-24 text-center'>
-      <Heading text={'Is weed legal here?'} />
-      <SearchInputs />
-    </main>
+    <>
+      <div className='mt-8 flex justify-center'>
+        <PlacesSearchInput />
+      </div>
+      <div className='mt-6 flex justify-center'>
+        <BrowserLocationButton />
+      </div>
+    </>
   )
 }

@@ -47,14 +47,14 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
         />
       </div>
       {legalityData && legalityData.closestMatchKey && (
-        <>
-          <div className='mt-32 max-w-6xl'>
+        <div className='max-w-2xl'>
+          <div className='mt-32'>
             <Heading text={heading} size={HeadingSizes.SMALL} />
           </div>
           <div className='mb-20 mt-2'>
             {subHeading && <SubHeading text={subHeading} />}
           </div>
-        </>
+        </div>
       )}
       {childLocationGroups.map(childLocationGroup => {
         const childLocationNames = Object.keys(childLocationGroup.data)

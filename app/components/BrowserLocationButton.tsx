@@ -7,11 +7,7 @@ import getCurrentLocationFromGeocoderResponse from '@/app/helpers/getCurrentLoca
 import getUrlFromCurrentLocation, {
   DASH_PLACEHOLDER,
 } from '@/app/helpers/getUrlFromCurrentLocation'
-import {
-  MdOutlineLocationOn,
-  MdOutlineMap,
-  MdOutlineMyLocation,
-} from 'react-icons/md'
+import { MdOutlineLocationOn } from 'react-icons/md'
 
 enum LoadingState {
   ASKING_FOR_PERMISSION = "Don't hold out on us. Allow your location to find out if you can legally light one up!",
@@ -28,7 +24,7 @@ enum ErrorMessages {
   BAD_LAT_LONG = 'Could not interpret your location based on provided lattitude and longitude coordinates.',
 }
 
-export default function BrowserLocation() {
+export default function BrowserLocationButton() {
   const router = useRouter()
   const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
   const [error, setError] = useState<Error | null>(null)

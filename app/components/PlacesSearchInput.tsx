@@ -9,7 +9,7 @@ const options: google.maps.places.AutocompleteOptions = {
   fields: ['address_components', 'types'],
 }
 
-export default function SearchInput() {
+export default function PlacesSearchInput() {
   const inputRef = useRef(null)
 
   useEffect(() => {
