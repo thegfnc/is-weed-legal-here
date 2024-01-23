@@ -11,6 +11,7 @@ import getUrlFromCurrentLocation from '@/app/helpers/getUrlFromCurrentLocation'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
+import Heading, { HeadingSizes } from '@/app/components/Heading'
 
 type BrowseProps = {
   params: {
@@ -30,8 +31,14 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   }, [setBackgroundColor])
 
   return (
-    <main className='mx-auto flex max-w-screen-xl flex-col items-center py-24 text-center'>
+    <main className='mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-14 text-center'>
       <Breadcrumbs currentLocation={currentLocation} />
+      <div className='mt-4'>
+        <Heading
+          text={`Browse around ${(legalityData?.closestMatchKey && currentLocation[legalityData.closestMatchKey]) || 'the world'}.`}
+          size={HeadingSizes.MEDIUM}
+        />
+      </div>
       {legalityData && legalityData.closestMatchKey && (
         <pre className='mt-14 flex max-w-md flex-col items-center rounded-lg bg-black/5 p-6 text-left text-[12px] leading-4 transition-opacity'>
           {JSON.stringify(legalityData[legalityData.closestMatchKey], null, 2)}
@@ -43,7 +50,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
         return (
           <div
             key={childLocationGroup.key}
-            className='mt-16 grid w-full grid-cols-5 gap-x-4 gap-y-[10px]'
+            className='mt-20 grid w-full grid-cols-5 gap-x-4 gap-y-[10px]'
           >
             {childLocationNames.map(childLocationName => {
               const childLocation = {

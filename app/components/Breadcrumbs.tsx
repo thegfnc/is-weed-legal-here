@@ -4,13 +4,18 @@ import getUrlFromCurrentLocation, {
 } from '../helpers/getUrlFromCurrentLocation'
 import { CurrentLocation } from '../types'
 import { Fragment } from 'react'
+import { MdChevronRight } from 'react-icons/md'
 
 type BreadrumbsProps = {
   currentLocation: CurrentLocation
 }
 
 export default function Breadcrumbs({ currentLocation }: BreadrumbsProps) {
-  const breadcrumbParts = [{ title: 'Browse', href: '/browse' }]
+  if (currentLocation.country === DASH_PLACEHOLDER) {
+    return null
+  }
+
+  const breadcrumbParts = [{ title: 'World', href: '/browse' }]
 
   const builtCurrentLocation = {
     country: DASH_PLACEHOLDER,
@@ -59,14 +64,17 @@ export default function Breadcrumbs({ currentLocation }: BreadrumbsProps) {
   }
 
   return (
-    <div>
+    <div className='flex items-center'>
       {breadcrumbParts.map((part, index) => (
         <Fragment key={part.href}>
-          <Link href={part.href} className='underline-offset-2 hover:underline'>
+          <Link
+            href={part.href}
+            className='text-xs font-bold uppercase leading-loose tracking-wider underline-offset-2 hover:underline'
+          >
             {part.title}
           </Link>
           {index !== breadcrumbParts.length - 1 && (
-            <span className='mx-2'>/</span>
+            <MdChevronRight size='20px' className='mx-1' />
           )}
         </Fragment>
       ))}
