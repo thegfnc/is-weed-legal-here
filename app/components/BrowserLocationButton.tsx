@@ -1,7 +1,4 @@
-import Image from 'next/image'
-import { useState } from 'react'
 import { geocoding } from '@/app/data/maps'
-import IPGeolocation from './IPGeolocationButton'
 import { useRouter } from 'next/navigation'
 import getCurrentLocationFromGeocoderResponse from '@/app/helpers/getCurrentLocationFromGeocoderResponse'
 import getUrlFromCurrentLocation, {
@@ -11,10 +8,16 @@ import { MdOutlineLocationOn } from 'react-icons/md'
 import LoadingStates from '../data/loadingStates'
 import ErrorMessages from '../data/errorMessages'
 
-export default function BrowserLocationButton() {
+type BrowserLocationButtonProps = {
+  setLoadingState: (loadingState: LoadingStates | null) => void
+  setErrorMessage: (errorMessage: ErrorMessages | null) => void
+}
+
+export default function BrowserLocationButton({
+  setLoadingState,
+  setErrorMessage,
+}: BrowserLocationButtonProps) {
   const router = useRouter()
-  const [loadingState, setLoadingState] = useState<LoadingStates | null>(null)
-  const [errorMessage, setErrorMessage] = useState<ErrorMessages | null>(null)
 
   const handleGeocode = () => {
     globalThis.navigator.geolocation.getCurrentPosition(
@@ -48,13 +51,10 @@ export default function BrowserLocationButton() {
           const url = getUrlFromCurrentLocation(currentLocation, '/result')
           router.push(url)
         } catch {
-          setLoadingState(null)
           setErrorMessage(ErrorMessages.UNKNOWN)
         }
       },
       error => {
-        setLoadingState(null)
-
         if (error.code === error.PERMISSION_DENIED) {
           setErrorMessage(ErrorMessages.PERMISSION_DENIED)
         } else if (error.code === error.POSITION_UNAVAILABLE) {
@@ -80,7 +80,6 @@ export default function BrowserLocationButton() {
     })
 
     if (permissionStatus.state === 'denied') {
-      setLoadingState(null)
       setErrorMessage(ErrorMessages.PERMISSION_DENIED)
       return
     }
@@ -106,36 +105,14 @@ export default function BrowserLocationButton() {
   }
 
   return (
-    <div className='mb-6 flex max-w-xl flex-col items-center text-balance text-[18px]'>
-      {loadingState ? (
-        <>
-          <div className='mt-10'>
-            {loadingState && (
-              <Image
-                src='/loading-spinner-dark.svg'
-                width='42'
-                height='42'
-                alt='Loading spinner'
-              />
-            )}
-          </div>
-          <div className='mt-10 min-h-[48px] leading-6'>{loadingState}</div>
-        </>
-      ) : (
-        <button
-          onClick={geolocationPermissionListener}
-          className='flex items-center px-4 py-2 text-lg underline-offset-4 hover:underline'
-        >
-          <MdOutlineLocationOn size='28px' className='mr-1' />
-          Use current location
-        </button>
-      )}
-      {!loadingState && errorMessage && (
-        <>
-          <div className='leading-6 text-red-500'>{errorMessage}</div>
-          <IPGeolocation />
-        </>
-      )}
+    <div className='flex max-w-xl flex-col items-center text-balance text-[18px]'>
+      <button
+        onClick={geolocationPermissionListener}
+        className='flex items-center px-4 py-2 text-lg underline-offset-4 hover:underline'
+      >
+        <MdOutlineLocationOn size='28px' className='mr-1' />
+        Use current location
+      </button>
     </div>
   )
 }

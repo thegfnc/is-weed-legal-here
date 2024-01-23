@@ -7,12 +7,21 @@ import { MdSearch } from 'react-icons/md'
 import getCurrentLocationFromPlaceResult from '../helpers/getCurrentLocationFromPlaceResult'
 import getUrlFromCurrentLocation from '../helpers/getUrlFromCurrentLocation'
 import ErrorMessages from '../data/errorMessages'
+import LoadingStates from '../data/loadingStates'
 
 const options: google.maps.places.AutocompleteOptions = {
   fields: ['address_components', 'types'],
 }
 
-export default function PlacesSearchInput() {
+type PlacesSearchInputProps = {
+  setLoadingState: (loadingState: LoadingStates | null) => void
+  setErrorMessage: (errorMessage: ErrorMessages | null) => void
+}
+
+export default function PlacesSearchInput({
+  setLoadingState,
+  setErrorMessage,
+}: PlacesSearchInputProps) {
   const router = useRouter()
   const [isFocused, setIsFocused] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -25,20 +34,29 @@ export default function PlacesSearchInput() {
     const placesLib = await places
 
     if (!placesLib) {
-      throw new Error(ErrorMessages.LIBRARY_NOT_LOADED)
+      setErrorMessage(ErrorMessages.LIBRARY_NOT_LOADED)
+      return
     }
 
     if (inputRef.current) {
       const instance = new placesLib.Autocomplete(inputRef.current, options)
 
-      instance.addListener('place_changed', () => {
+      instance.addListener('place_changed', async () => {
+        setLoadingState(LoadingStates.SEARCHING_FOR_DATA)
+
         const place = instance.getPlace()
         const currentLocation = getCurrentLocationFromPlaceResult(place)
+
+        if (currentLocation.country === '-') {
+          setErrorMessage(ErrorMessages.SELECT_FROM_LIST)
+          return
+        }
+
         const url = getUrlFromCurrentLocation(currentLocation, '/result')
         router.push(url)
       })
     }
-  }, [inputRef, router])
+  }, [inputRef, router, setErrorMessage, setLoadingState])
 
   useEffect(() => {
     attachAutocomplete()

@@ -39,7 +39,7 @@ export default function Result({ params: { location } }: ResultProps) {
   return (
     <main className='flex flex-col items-center py-24 text-center'>
       <div className='max-w-6xl'>
-        <Heading text={heading} size={HeadingSizes.MEDIUM} />
+        <Heading text={heading} size={HeadingSizes.LARGE} />
       </div>
       <div className='mt-12'>
         {subHeading && <SubHeading text={subHeading} />}

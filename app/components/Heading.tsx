@@ -11,7 +11,7 @@ type HeadingProps = {
 
 const Heading = ({ text, size = HeadingSizes.LARGE }: HeadingProps) => {
   return (
-    <h1 className={'text-balance font-bold leading-tight ' + size}>{text}</h1>
+    <h1 className={'text-balance font-bold leading-[1.1] ' + size}>{text}</h1>
   )
 }
 
