@@ -34,7 +34,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   )
 
   useEffect(() => {
-    setBackgroundColor(backgroundColor || BackgroundColor.YELLOW)
+    setBackgroundColor(backgroundColor)
   }, [setBackgroundColor, backgroundColor])
 
   return (
@@ -42,15 +42,12 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
       <Breadcrumbs currentLocation={currentLocation} />
       <div className='mt-4'>
         <Heading
-          text={`Browse around ${(legalityData?.closestMatchKey && currentLocation[legalityData.closestMatchKey]) || 'the world'}.`}
+          text={location.length === 0 ? 'Browse around the world.' : heading}
           size={HeadingSizes.MEDIUM}
         />
       </div>
       {legalityData && legalityData.closestMatchKey && (
         <div className='max-w-2xl'>
-          <div className='mt-32'>
-            <Heading text={heading} size={HeadingSizes.SMALL} />
-          </div>
           <div className='mb-20 mt-2'>
             {subHeading && <SubHeading text={subHeading} />}
           </div>
@@ -77,7 +74,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
                 <Link
                   key={childLocationName}
                   href={getUrlFromCurrentLocation(childLocation, '/browse')}
-                  className='flex min-h-[92px] items-center justify-center rounded-2xl border-2 border-brand-purple p-4 text-lg font-bold leading-tight text-brand-purple transition-colors hover:bg-white'
+                  className='flex min-h-[92px] items-center justify-center rounded-2xl border-2 border-brand-purple p-4 text-lg font-bold leading-tight text-brand-purple transition-colors hover:bg-white active:bg-gray-50'
                 >
                   {childLocationName}
                 </Link>
