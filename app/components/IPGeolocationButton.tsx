@@ -8,61 +8,56 @@ import getCurrentLocationFromGeocoderResponse from '@/app//helpers/getCurrentLoc
 import getUrlFromCurrentLocation, {
   DASH_PLACEHOLDER,
 } from '@/app/helpers/getUrlFromCurrentLocation'
+import LoadingStates from '../data/loadingStates'
+import ErrorMessages from '../data/errorMessages'
 
-enum LoadingState {
-  SEARCHING_FOR_DATA = "Just a moment while we hit up Google Maps like we're at the bottom of the bag.",
-}
-
-enum ErrorMessages {
-  LIBRARY_NOT_LOADED = 'Geocoding library could not be loaded.',
-  BAD_LAT_LONG = 'Could not interpret your location based on provided lattitude and longitude coordinates.',
-}
-
-export default function IPGeolocation() {
+export default function IPGeolocationButton() {
   const router = useRouter()
-  const [loadingState, setLoadingState] = useState<LoadingState | null>(null)
-  const [error, setError] = useState<Error | null>(null)
+  const [loadingState, setLoadingState] = useState<LoadingStates | null>(null)
+  const [errorMessage, setErrorMessage] = useState<ErrorMessages | null>(null)
 
   const handleIPGeolocation = async () => {
-    setLoadingState(LoadingState.SEARCHING_FOR_DATA)
+    setLoadingState(LoadingStates.SEARCHING_FOR_DATA)
 
-    const response = await fetch('/api/location')
-    const location = await response.json()
+    const locationResponse = await fetch('/api/location')
+    const location = await locationResponse.json()
     const geocoder = await geocoding
 
     if (!geocoder) {
-      throw new Error(ErrorMessages.LIBRARY_NOT_LOADED)
+      setErrorMessage(ErrorMessages.LIBRARY_NOT_LOADED)
+      return
     }
 
-    new geocoder.Geocoder()
-      .geocode({
+    try {
+      const geocodeResponse = await new geocoder.Geocoder().geocode({
         language: 'en',
         location: {
           lat: Number(location.latitude),
           lng: Number(location.longitude),
         },
       })
-      .then((response: google.maps.GeocoderResponse) => {
-        const currentLocation = getCurrentLocationFromGeocoderResponse(response)
 
-        if (currentLocation.country === DASH_PLACEHOLDER) {
-          throw new Error(ErrorMessages.BAD_LAT_LONG)
-        }
+      const currentLocation =
+        getCurrentLocationFromGeocoderResponse(geocodeResponse)
 
-        const url = getUrlFromCurrentLocation(currentLocation, '/result')
-        router.push(url)
-      })
-      .catch(error => {
-        setLoadingState(null)
-        setError(error)
-      })
+      if (currentLocation.country === DASH_PLACEHOLDER) {
+        setErrorMessage(ErrorMessages.BAD_LAT_LONG)
+        return
+      }
+
+      const url = getUrlFromCurrentLocation(currentLocation, '/result')
+      router.push(url)
+    } catch {
+      setLoadingState(null)
+      setErrorMessage(ErrorMessages.UNKNOWN)
+    }
   }
 
   return (
     <>
       <div className='mt-14 flex max-w-md flex-col items-center rounded-lg bg-black/5 p-6 text-[12px] leading-4 transition-opacity'>
-        {error ? (
-          <div className='text-red-500'>{error.message}</div>
+        {errorMessage ? (
+          <div className='text-red-500'>{errorMessage}</div>
         ) : (
           <div>
             {loadingState ||

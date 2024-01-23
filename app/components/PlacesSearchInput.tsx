@@ -1,42 +1,63 @@
-import { useRef, useEffect } from 'react'
-import { places } from '../data/maps'
+'use client'
 
-enum ErrorMessages {
-  LIBRARY_NOT_LOADED = 'Places library could not be loaded.',
-}
+import { useRef, useEffect, useState, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
+import { places } from '../data/maps'
+import { MdSearch } from 'react-icons/md'
+import getCurrentLocationFromPlaceResult from '../helpers/getCurrentLocationFromPlaceResult'
+import getUrlFromCurrentLocation from '../helpers/getUrlFromCurrentLocation'
+import ErrorMessages from '../data/errorMessages'
 
 const options: google.maps.places.AutocompleteOptions = {
   fields: ['address_components', 'types'],
 }
 
 export default function PlacesSearchInput() {
-  const inputRef = useRef(null)
+  const router = useRouter()
+  const [isFocused, setIsFocused] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleFocusInput = () => {
+    inputRef.current?.focus()
+  }
+
+  const attachAutocomplete = useCallback(async () => {
+    const placesLib = await places
+
+    if (!placesLib) {
+      throw new Error(ErrorMessages.LIBRARY_NOT_LOADED)
+    }
+
+    if (inputRef.current) {
+      const instance = new placesLib.Autocomplete(inputRef.current, options)
+
+      instance.addListener('place_changed', () => {
+        const place = instance.getPlace()
+        const currentLocation = getCurrentLocationFromPlaceResult(place)
+        const url = getUrlFromCurrentLocation(currentLocation, '/result')
+        router.push(url)
+      })
+    }
+  }, [inputRef, router])
 
   useEffect(() => {
-    places.then(async placesLib => {
-      if (!placesLib) {
-        throw new Error(ErrorMessages.LIBRARY_NOT_LOADED)
-      }
-
-      if (inputRef.current) {
-        const instance = new placesLib.Autocomplete(inputRef.current, options)
-
-        instance.addListener('place_changed', () => {
-          const place = instance.getPlace()
-          console.log(place)
-        })
-      }
-    })
-  }, [])
+    attachAutocomplete()
+  }, [attachAutocomplete])
 
   return (
-    <>
+    <div
+      className={`relative flex max-w-96 items-center overflow-hidden rounded-full border-2 border-brand-purple py-4 pl-11 pr-8 ${isFocused ? 'bg-white' : 'bg-transparent'}`}
+      onClick={handleFocusInput}
+    >
+      <MdSearch size='24px' className='pointer-events-none absolute left-4' />
       <input
         type='text'
         placeholder='Search address, city, state, or zip'
         ref={inputRef}
-        className='w-full max-w-96 rounded-full border-2 border-brand-purple bg-transparent px-8 py-4 text-lg leading-none transition-colors placeholder:text-brand-purple focus:bg-white'
+        className='w-[367px] max-w-full bg-transparent text-lg leading-none transition-colors placeholder:text-brand-purple focus:outline-none'
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
-    </>
+    </div>
   )
 }

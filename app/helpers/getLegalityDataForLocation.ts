@@ -1,7 +1,7 @@
 import pick from 'lodash.pick'
 
 import { CommonLegalityData } from '@/app/types'
-import legailtyByCountry from '@/app/data/legality-by-country'
+import legailtyByCountry from '@/app/data/legalityByCountry'
 import { CurrentLocation } from '@/app/types'
 
 export type ClosestMatchKey =
