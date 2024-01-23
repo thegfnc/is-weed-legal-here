@@ -12,6 +12,8 @@ import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFro
 import Breadcrumbs from '@/app/components/Breadcrumbs'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
 import Heading, { HeadingSizes } from '@/app/components/Heading'
+import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
+import SubHeading from '@/app/components/SubHeading'
 
 type BrowseProps = {
   params: {
@@ -26,9 +28,14 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   const childLocationGroups = getChildLocationsFromLocation(currentLocation)
   const legalityData = getLegalityDataForLocation(currentLocation)
 
+  const { heading, subHeading, backgroundColor } = getStringsForLegalityData(
+    legalityData,
+    currentLocation
+  )
+
   useEffect(() => {
-    setBackgroundColor(BackgroundColor.YELLOW)
-  }, [setBackgroundColor])
+    setBackgroundColor(backgroundColor || BackgroundColor.YELLOW)
+  }, [setBackgroundColor, backgroundColor])
 
   return (
     <main className='mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-14 text-center'>
@@ -40,9 +47,14 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
         />
       </div>
       {legalityData && legalityData.closestMatchKey && (
-        <pre className='mt-14 flex max-w-md flex-col items-center rounded-lg bg-black/5 p-6 text-left text-[12px] leading-4 transition-opacity'>
-          {JSON.stringify(legalityData[legalityData.closestMatchKey], null, 2)}
-        </pre>
+        <>
+          <div className='mt-32 max-w-6xl'>
+            <Heading text={heading} size={HeadingSizes.SMALL} />
+          </div>
+          <div className='mb-20 mt-2'>
+            {subHeading && <SubHeading text={subHeading} />}
+          </div>
+        </>
       )}
       {childLocationGroups.map(childLocationGroup => {
         const childLocationNames = Object.keys(childLocationGroup.data)
@@ -50,7 +62,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
         return (
           <div
             key={childLocationGroup.key}
-            className='mt-20 grid w-full grid-cols-5 gap-x-4 gap-y-[10px]'
+            className='mt-20 grid w-full grid-cols-2 gap-x-4 gap-y-[10px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
           >
             {childLocationNames.map(childLocationName => {
               const childLocation = {

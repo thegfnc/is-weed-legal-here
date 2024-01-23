@@ -1,4 +1,4 @@
-import { track } from '@vercel/analytics/server'
+import { track } from '@vercel/analytics'
 
 import { MainImageType } from '@/app/data/images'
 import { GetLegalityDataForLocationReturn } from './getLegalityDataForLocation'

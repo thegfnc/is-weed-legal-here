@@ -2,7 +2,7 @@
 
 import MainImage from '@/app/components/MainImage'
 import SubHeading from '@/app/components/SubHeading'
-import Heading from '@/app/components/Heading'
+import Heading, { HeadingSizes } from '@/app/components/Heading'
 import CallToActionButton from '@/app/components/CallToActionButton'
 
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
@@ -39,9 +39,11 @@ export default function Result({ params: { location } }: ResultProps) {
   return (
     <main className='flex flex-col items-center py-24 text-center'>
       <div className='max-w-6xl'>
-        <Heading text={heading} />
+        <Heading text={heading} size={HeadingSizes.MEDIUM} />
       </div>
-      {subHeading && <SubHeading text={subHeading} />}
+      <div className='mt-12'>
+        {subHeading && <SubHeading text={subHeading} />}
+      </div>
       {imageType && <MainImage type={imageType} />}
       {ctaLinkUrl && (
         <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />

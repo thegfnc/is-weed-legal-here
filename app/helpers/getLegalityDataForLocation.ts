@@ -1,6 +1,6 @@
 import pick from 'lodash.pick'
 
-import { CommonLegalityData, LegalStatus } from '@/app/types'
+import { CommonLegalityData } from '@/app/types'
 import legailtyByCountry from '@/app/data/legality-by-country'
 import { CurrentLocation } from '@/app/types'
 
