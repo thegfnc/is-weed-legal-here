@@ -25,7 +25,7 @@ const Header = () => {
       <div className='absolute right-0 top-0'>
         <Link
           href='/browse'
-          className='flex max-w-10 items-center overflow-hidden whitespace-nowrap rounded-full p-2 transition-all duration-1000 will-change-[max-width] hover:max-w-96 hover:bg-gray-800/5'
+          className='flex max-w-10 items-center overflow-hidden whitespace-nowrap rounded-full p-2 transition-all duration-1000 ease-in-out will-change-[max-width] hover:max-w-96 hover:bg-gray-800/5'
         >
           <div>
             <MdLanguage size='24px' title='Browse the world' />
