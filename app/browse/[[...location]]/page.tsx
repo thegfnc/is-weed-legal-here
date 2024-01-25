@@ -40,7 +40,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   return (
     <main className='mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-14 text-center'>
       <Breadcrumbs currentLocation={currentLocation} />
-      <div className='mt-4'>
+      <div className='mt-12'>
         <Heading
           text={location.length === 0 ? 'Browse around the world.' : heading}
           size={HeadingSizes.MEDIUM}

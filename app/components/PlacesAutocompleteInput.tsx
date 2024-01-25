@@ -177,14 +177,14 @@ export default function PlacesAutocompleteInput({
             className='w-full bg-transparent text-lg leading-none transition-colors placeholder:text-brand-purple focus:outline-none'
             onFocus={() => {
               clearTimeout(isFocusedTimeoutRef.current)
+              setSelectedSuggestionIndex(0)
               setIsFocused(true)
             }}
             onBlur={() => {
               // setTimeout to allow clicking on item before hiding suggestions
-              isFocusedTimeoutRef.current = setTimeout(
-                () => setIsFocused(false),
-                200
-              )
+              isFocusedTimeoutRef.current = setTimeout(() => {
+                setIsFocused(false)
+              }, 200)
             }}
           />
         </div>
