@@ -2,35 +2,26 @@
 
 import MainImage from '@/app/components/MainImage'
 import SubHeading from '@/app/components/SubHeading'
-import Heading from '@/app/components/Heading'
+import Heading, { HeadingSizes } from '@/app/components/Heading'
 import CallToActionButton from '@/app/components/CallToActionButton'
 
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
 import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
 import { useContext, useEffect } from 'react'
 import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
-import { CurrentLocation } from '@/app/types'
+import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 
 type ResultProps = {
   params: {
-    currentLocation: string[]
+    location: string[]
   }
 }
 
-export default function Result({ params: { currentLocation } }: ResultProps) {
+export default function Result({ params: { location } }: ResultProps) {
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
-  const partialCurrentLocation: CurrentLocation = {
-    country: decodeURIComponent(currentLocation[0]),
-    administrativeAreaLevel1:
-      currentLocation[1] && decodeURIComponent(currentLocation[1]),
-    administrativeAreaLevel2:
-      currentLocation[2] && decodeURIComponent(currentLocation[2]),
-    locality: currentLocation[3] && decodeURIComponent(currentLocation[3]),
-    postalCode: currentLocation[4] && decodeURIComponent(currentLocation[4]),
-  }
-
-  const legalityData = getLegalityDataForLocation(partialCurrentLocation)
+  const currentLocation = getCurrentLocationFromUrlParams(location)
+  const legalityData = getLegalityDataForLocation(currentLocation)
 
   const {
     backgroundColor,
@@ -39,7 +30,7 @@ export default function Result({ params: { currentLocation } }: ResultProps) {
     imageType,
     ctaLinkUrl,
     ctaButtonText,
-  } = getStringsForLegalityData(legalityData, partialCurrentLocation)
+  } = getStringsForLegalityData(legalityData, currentLocation)
 
   useEffect(() => {
     setBackgroundColor(backgroundColor)
@@ -48,9 +39,11 @@ export default function Result({ params: { currentLocation } }: ResultProps) {
   return (
     <main className='flex flex-col items-center py-24 text-center'>
       <div className='max-w-6xl'>
-        <Heading text={heading} />
+        <Heading text={heading} size={HeadingSizes.LARGE} />
       </div>
-      {subHeading && <SubHeading text={subHeading} />}
+      <div className='mt-12'>
+        {subHeading && <SubHeading text={subHeading} />}
+      </div>
       {imageType && <MainImage type={imageType} />}
       {ctaLinkUrl && (
         <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />

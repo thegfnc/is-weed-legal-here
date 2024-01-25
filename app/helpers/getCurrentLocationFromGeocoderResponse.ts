@@ -1,4 +1,5 @@
 import { CurrentLocation } from '@/app/types'
+import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
 export default function getCurrentLocationFromGeocoderResponse(
   response: google.maps.GeocoderResponse
@@ -27,10 +28,10 @@ export default function getCurrentLocationFromGeocoderResponse(
   )?.address_components[0].long_name
 
   return {
-    country: country || '-',
-    administrativeAreaLevel1: administrativeAreaLevel1,
-    administrativeAreaLevel2: administrativeAreaLevel2,
-    locality: locality,
-    postalCode: postalCode,
+    country: country || DASH_PLACEHOLDER,
+    administrativeAreaLevel1: administrativeAreaLevel1 || DASH_PLACEHOLDER,
+    administrativeAreaLevel2: administrativeAreaLevel2 || DASH_PLACEHOLDER,
+    locality: locality || DASH_PLACEHOLDER,
+    postalCode: postalCode || DASH_PLACEHOLDER,
   }
 }

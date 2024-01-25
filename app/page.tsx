@@ -8,9 +8,16 @@ import {
   SetBackgroundColorContext,
 } from '@/app/contexts/backgroundColorContext'
 import Heading from './components/Heading'
+import LoadingSpinner from './components/LoadingSpinner'
 
-const BrowserLocation = dynamic(() => import('./components/BrowserLocation'), {
+const SearchInputs = dynamic(() => import('./components/SearchInputs'), {
   ssr: false,
+  loading: ({ pastDelay }) =>
+    pastDelay ? (
+      <div className='h-[135px]'>
+        <LoadingSpinner />
+      </div>
+    ) : null,
 })
 
 export default function Home() {
@@ -21,9 +28,9 @@ export default function Home() {
   }, [setBackgroundColor])
 
   return (
-    <main className='flex flex-col items-center py-24 text-center'>
+    <main className='flex flex-col gap-8 py-24 text-center'>
       <Heading text={'Is weed legal here?'} />
-      <BrowserLocation />
+      <SearchInputs />
     </main>
   )
 }

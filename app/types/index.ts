@@ -1,9 +1,9 @@
 export type CurrentLocation = {
   country: string
-  administrativeAreaLevel1?: string
-  administrativeAreaLevel2?: string
-  locality?: string
-  postalCode?: string
+  administrativeAreaLevel1: string
+  administrativeAreaLevel2: string
+  locality: string
+  postalCode: string
 }
 
 export enum LegalStatus {
@@ -19,7 +19,7 @@ export type CommonLegalityData = {
   QUANTITY: string | null
 }
 
-type LegalityByAdministrativeAreaLevel1 = CommonLegalityData & {
+export type LegalityByAdministrativeAreaLevel1 = CommonLegalityData & {
   administrativeAreaLevel2?: {
     [key: string]: CommonLegalityData
   }

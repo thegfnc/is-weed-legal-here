@@ -1,12 +1,17 @@
-type HeadingProps = {
-  text: string
+export enum HeadingSizes {
+  SMALL = 'text-[24px] md:text-[36px]',
+  MEDIUM = 'text-[36px] md:text-[48px]',
+  LARGE = 'text-[48px] md:text-[72px]',
 }
 
-const Heading = ({ text }: HeadingProps) => {
+type HeadingProps = {
+  text: string
+  size?: HeadingSizes
+}
+
+const Heading = ({ text, size = HeadingSizes.LARGE }: HeadingProps) => {
   return (
-    <h1 className='text-balance text-[48px] font-bold leading-none md:text-[64px]'>
-      {text}
-    </h1>
+    <h1 className={'text-balance font-bold leading-[1.1] ' + size}>{text}</h1>
   )
 }
 

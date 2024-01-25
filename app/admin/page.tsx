@@ -1,5 +1,5 @@
 import Heading from '../components/Heading'
-import legalityByCountry from '../data/legality-by-country'
+import legalityByCountry from '../data/legalityByCountry'
 import { LegalStatus, LegalityByCountry } from '../types'
 
 type TableRow = {

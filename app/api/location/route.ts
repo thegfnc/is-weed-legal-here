@@ -31,20 +31,20 @@ export function GET(request: NextRequest) {
     // RECREATIONAL: LegalStatus.Legal,
     // QUANTITY: null,
     //
-    // return NextResponse.json(
-    //   {
-    //     city: 'San Francisco',
-    //     country: 'US',
-    //     flag: '🇺🇸',
-    //     countryRegion: 'CA',
-    //     region: 'cle1',
-    //     latitude: '37.7749',
-    //     longitude: '-122.4194',
-    //   },
-    //   {
-    //     status: 200,
-    //   }
-    // )
+    return NextResponse.json(
+      {
+        city: 'San Francisco',
+        country: 'US',
+        flag: '🇺🇸',
+        countryRegion: 'CA',
+        region: 'cle1',
+        latitude: '37.7749',
+        longitude: '-122.4194',
+      },
+      {
+        status: 200,
+      }
+    )
     ////////////////////////////////////////
     // MEDICINAL: LegalStatus.Illegal,
     // RECREATIONAL: LegalStatus.Decriminalized,
