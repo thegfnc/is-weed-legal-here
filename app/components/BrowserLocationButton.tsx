@@ -1,4 +1,4 @@
-import { geocoding } from '@/app/data/maps'
+import { getGeocodingClient } from '@/app/data/mapsClient'
 import { useRouter } from 'next/navigation'
 import getCurrentLocationFromGeocoderResponse from '@/app/helpers/getCurrentLocationFromGeocoderResponse'
 import getUrlFromCurrentLocation, {
@@ -24,7 +24,7 @@ export default function BrowserLocationButton({
       async position => {
         setLoadingState(LoadingStates.SEARCHING_FOR_DATA)
 
-        const geocodingLib = await geocoding
+        const geocodingLib = await getGeocodingClient()
 
         if (!geocodingLib) {
           setErrorMessage(ErrorMessages.LIBRARY_NOT_LOADED)
@@ -105,7 +105,7 @@ export default function BrowserLocationButton({
   }
 
   return (
-    <div className='flex max-w-xl flex-col items-center text-balance text-[18px]'>
+    <div className='flex flex-col items-center justify-center text-balance text-[18px]'>
       <button
         onClick={geolocationPermissionListener}
         className='flex items-center px-4 py-2 text-lg underline-offset-4 hover:underline'

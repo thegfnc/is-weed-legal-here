@@ -1,6 +1,6 @@
 import { MdOutlineMyLocation } from 'react-icons/md'
 
-import { geocoding } from '@/app/data/maps'
+import { getGeocodingClient } from '@/app/data/mapsClient'
 import { useRouter } from 'next/navigation'
 import getCurrentLocationFromGeocoderResponse from '@/app//helpers/getCurrentLocationFromGeocoderResponse'
 import getUrlFromCurrentLocation, {
@@ -25,7 +25,7 @@ export default function IPGeolocationButton({
 
     const locationResponse = await fetch('/api/location')
     const location = await locationResponse.json()
-    const geocoder = await geocoding
+    const geocoder = await getGeocodingClient()
 
     if (!geocoder) {
       setErrorMessage(ErrorMessages.LIBRARY_NOT_LOADED)

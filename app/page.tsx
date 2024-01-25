@@ -8,9 +8,16 @@ import {
   SetBackgroundColorContext,
 } from '@/app/contexts/backgroundColorContext'
 import Heading from './components/Heading'
+import LoadingSpinner from './components/LoadingSpinner'
 
 const SearchInputs = dynamic(() => import('./components/SearchInputs'), {
   ssr: false,
+  loading: ({ pastDelay }) =>
+    pastDelay ? (
+      <div className='h-[135px]'>
+        <LoadingSpinner />
+      </div>
+    ) : null,
 })
 
 export default function Home() {

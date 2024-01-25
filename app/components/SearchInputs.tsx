@@ -5,12 +5,12 @@ import {
   BackgroundColor,
   SetBackgroundColorContext,
 } from '@/app/contexts/backgroundColorContext'
-import PlacesSearchInput from './PlacesSearchInput'
 import BrowserLocationButton from './BrowserLocationButton'
 import LoadingStates from '../data/loadingStates'
 import ErrorMessages from '../data/errorMessages'
-import Image from 'next/image'
 import IPGeolocationButton from './IPGeolocationButton'
+import PlacesAutocompleteInput from './PlacesAutocompleteInput'
+import LoadingSpinner from './LoadingSpinner'
 
 export default function Home() {
   const setBackgroundColor = useContext(SetBackgroundColorContext)
@@ -36,34 +36,22 @@ export default function Home() {
       {errorMessage && (
         <div className='leading-6 text-red-500'>{errorMessage}</div>
       )}
+
       {loadingState ? (
         <div className='mx-auto flex max-w-xl flex-col items-center gap-8 text-balance text-[18px]'>
-          <div>
-            {loadingState && (
-              <Image
-                src='/loading-spinner-dark.svg'
-                width='42'
-                height='42'
-                alt='Loading spinner'
-              />
-            )}
-          </div>
+          <div>{loadingState && <LoadingSpinner />}</div>
           <div className='min-h-[48px] leading-6'>{loadingState}</div>
         </div>
       ) : (
         <>
-          <div className=' flex justify-center'>
-            <PlacesSearchInput
-              setLoadingState={handleSetLoadingState}
-              setErrorMessage={handleSetErrorMessage}
-            />
-          </div>
-          <div className=' flex justify-center'>
-            <BrowserLocationButton
-              setLoadingState={handleSetLoadingState}
-              setErrorMessage={handleSetErrorMessage}
-            />
-          </div>
+          <PlacesAutocompleteInput
+            setLoadingState={handleSetLoadingState}
+            setErrorMessage={handleSetErrorMessage}
+          />
+          <BrowserLocationButton
+            setLoadingState={handleSetLoadingState}
+            setErrorMessage={handleSetErrorMessage}
+          />
         </>
       )}
 
