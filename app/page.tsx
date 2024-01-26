@@ -28,7 +28,7 @@ export default function Home() {
   }, [setBackgroundColor])
 
   return (
-    <main className='flex flex-col gap-8 py-24 text-center'>
+    <main className='flex flex-col gap-10 py-24 text-center'>
       <Heading text={'Is weed legal here?'} />
       <div className='flex flex-col gap-6'>
         <SearchInputs />
