@@ -162,7 +162,7 @@ export default function PlacesAutocompleteInput({
     <div className='flex justify-center'>
       <div className='relative w-full max-w-96'>
         <div
-          className={`relative flex items-center overflow-hidden rounded-full border-2 border-brand-purple py-4 pl-11 pr-8 ${isFocused ? 'bg-white' : 'bg-transparent'}`}
+          className={`relative flex cursor-text items-center overflow-hidden rounded-full border-2 border-brand-purple py-4 pl-11 pr-8 ${isFocused ? 'bg-white' : 'bg-transparent'}`}
           onClick={handleFocusInput}
         >
           <MdSearch
