@@ -2,18 +2,21 @@ import { MetadataRoute } from 'next'
 import getCurrentLocationFromUrlParams from './helpers/getCurrentLocationFromUrlParams'
 import getChildLocationsFromLocation from './helpers/getChildLocationGroupsFromLocation'
 import getUrlFromCurrentLocation from './helpers/getUrlFromCurrentLocation'
+import { CurrentLocation } from './types'
 
-const enumerateBrowseLocations = () => {
-  const sitemapPages: MetadataRoute.Sitemap = []
+const defaultPage: MetadataRoute.Sitemap[0] = {
+  url: 'https://www.isweedlegalhere.com',
+  lastModified: new Date(),
+  changeFrequency: 'monthly',
+  priority: 1,
+}
 
-  const location: string[] = []
-  const currentLocation = getCurrentLocationFromUrlParams(location)
-  const childLocationGroups = getChildLocationsFromLocation(currentLocation)
-
-  childLocationGroups.forEach(childLocationGroup => {
-    const childLocationNames = Object.keys(childLocationGroup.data)
-
-    return childLocationNames.forEach(childLocationName => {
+const enumerateBrowseLocations = (
+  currentLocation: CurrentLocation,
+  pageCollector: MetadataRoute.Sitemap = []
+) => {
+  getChildLocationsFromLocation(currentLocation).forEach(childLocationGroup => {
+    Object.keys(childLocationGroup.data).forEach(childLocationName => {
       const childLocation = {
         ...currentLocation,
       }
@@ -22,31 +25,27 @@ const enumerateBrowseLocations = () => {
         childLocation[childLocationGroup.key] = childLocationName
       }
 
-      const url = getUrlFromCurrentLocation(
-        childLocation,
-        'https://www.isweedlegalhere.com/browse'
-      )
-
-      sitemapPages.push({
-        url,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
+      pageCollector.push({
+        ...defaultPage,
+        url: getUrlFromCurrentLocation(
+          childLocation,
+          'https://www.isweedlegalhere.com/browse'
+        ),
         priority: 0.9,
       })
+
+      if (childLocationGroup.key) {
+        enumerateBrowseLocations(childLocation, pageCollector)
+      }
     })
   })
-
-  return sitemapPages
 }
 
+const emptyCurrentLocation = getCurrentLocationFromUrlParams([])
+const browsePages: MetadataRoute.Sitemap = []
+
+enumerateBrowseLocations(emptyCurrentLocation, browsePages)
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: 'https://www.isweedlegalhere.com',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    ...enumerateBrowseLocations(),
-  ]
+  return [defaultPage, ...browsePages]
 }

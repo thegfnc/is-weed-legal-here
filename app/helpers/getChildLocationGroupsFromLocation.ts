@@ -52,14 +52,14 @@ export default function getChildLocationsFromLocation(
   if (administrativeAreaLevel1Match) {
     return [
       {
-        key: 'locality',
-        data: { ...administrativeAreaLevel1Match.locality },
-      },
-      {
         key: 'administrativeAreaLevel2',
         data: {
           ...administrativeAreaLevel1Match.administrativeAreaLevel2,
         },
+      },
+      {
+        key: 'locality',
+        data: { ...administrativeAreaLevel1Match.locality },
       },
     ]
   }
