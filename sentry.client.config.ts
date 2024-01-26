@@ -4,8 +4,6 @@
 
 import * as Sentry from '@sentry/nextjs'
 
-console.log('NEXT_PUBLIC_VERCEL_ENV', process.env.NEXT_PUBLIC_VERCEL_ENV)
-
 Sentry.init({
   enabled: process.env.NEXT_PUBLIC_VERCEL_ENV !== 'development',
 
