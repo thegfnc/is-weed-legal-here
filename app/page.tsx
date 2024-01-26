@@ -14,7 +14,7 @@ const SearchInputs = dynamic(() => import('./components/SearchInputs'), {
   ssr: false,
   loading: ({ pastDelay }) =>
     pastDelay ? (
-      <div className='h-[135px]'>
+      <div className='h-[132px]'>
         <LoadingSpinner />
       </div>
     ) : null,
