@@ -2,10 +2,7 @@
 
 import { useContext, useEffect } from 'react'
 import Link from 'next/link'
-import {
-  BackgroundColor,
-  SetBackgroundColorContext,
-} from '@/app/contexts/backgroundColorContext'
+import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
 import getChildLocationsFromLocation from '@/app/helpers/getChildLocationGroupsFromLocation'
 import getUrlFromCurrentLocation from '@/app/helpers/getUrlFromCurrentLocation'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'

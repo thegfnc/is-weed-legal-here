@@ -30,7 +30,9 @@ export default function Home() {
   return (
     <main className='flex flex-col gap-8 py-24 text-center'>
       <Heading text={'Is weed legal here?'} />
-      <SearchInputs />
+      <div className='flex flex-col gap-6'>
+        <SearchInputs />
+      </div>
     </main>
   )
 }
