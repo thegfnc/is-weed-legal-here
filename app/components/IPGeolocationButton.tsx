@@ -49,7 +49,7 @@ export default function IPGeolocationButton({
         return
       }
 
-      const url = getUrlFromCurrentLocation(currentLocation, '/result')
+      const url = getUrlFromCurrentLocation(currentLocation, '/search')
       router.push(url)
     } catch {
       setErrorMessage(ErrorMessages.UNKNOWN)
