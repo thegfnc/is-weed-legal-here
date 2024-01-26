@@ -51,7 +51,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
           return (
             <div
               key={childLocationGroup.key}
-              className='grid grid-cols-2 gap-x-4 gap-y-[10px]  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
+              className='grid grid-cols-2 gap-x-4 gap-y-[10px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
             >
               {childLocationNames.map(childLocationName => {
                 const childLocation = {
