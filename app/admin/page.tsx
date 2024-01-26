@@ -1,3 +1,5 @@
+'use client'
+
 import Heading from '../components/Heading'
 import legalityByCountry from '../data/legalityByCountry'
 import { LegalStatus, LegalityByCountry } from '../types'
@@ -91,6 +93,10 @@ const getAdditionalCellStyles = (legalStatus: LegalStatus) => {
   }
 }
 
+const throwMeAnError = () => {
+  throw new Error('test error')
+}
+
 const TH_CLASS_NAME =
   'px-6 py-6 text-s font-medium text-gray-500 uppercase tracking-wider'
 
@@ -102,6 +108,7 @@ export default function Admin() {
   return (
     <div className='my-10 w-full'>
       <Heading text='Legality Data' />
+      <button onClick={() => throwMeAnError()}>Throw me an error</button>
       <div className='mt-10 w-full overflow-scroll bg-black p-4'>
         <table className='w-full min-w-[1200px] table-fixed border-collapse border-inherit text-center indent-0 text-gray-100'>
           <thead className='sticky top-0 bg-white align-top'>
