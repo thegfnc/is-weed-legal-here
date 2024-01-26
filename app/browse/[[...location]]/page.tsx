@@ -48,7 +48,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
       </div>
       {legalityData && legalityData.closestMatchKey && (
         <div className='max-w-2xl'>
-          <div className='mb-20 mt-2'>
+          <div className='mb-12 mt-6 md:mb-20'>
             {subHeading && <SubHeading text={subHeading} />}
           </div>
         </div>
@@ -74,7 +74,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
                 <Link
                   key={childLocationName}
                   href={getUrlFromCurrentLocation(childLocation, '/browse')}
-                  className='flex min-h-[92px] items-center justify-center rounded-2xl border-2 border-brand-purple p-4 text-lg font-bold leading-tight text-brand-purple transition-colors hover:bg-white active:bg-gray-50'
+                  className='flex min-h-[76px] items-center justify-center rounded-2xl border-2 border-brand-purple p-4 text-sm font-bold leading-tight text-brand-purple transition-colors hover:bg-white active:bg-gray-50 md:min-h-[92px] md:text-lg'
                 >
                   {childLocationName}
                 </Link>

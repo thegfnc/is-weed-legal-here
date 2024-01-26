@@ -64,12 +64,12 @@ export default function Breadcrumbs({ currentLocation }: BreadrumbsProps) {
   }
 
   return (
-    <div className='flex items-center'>
+    <div className='flex flex-wrap items-center justify-center'>
       {breadcrumbParts.map((part, index) => (
         <Fragment key={part.href}>
           <Link
             href={part.href}
-            className='text-xs font-bold uppercase leading-loose tracking-wider underline-offset-2 hover:underline'
+            className='whitespace-nowrap text-xs font-bold uppercase leading-loose tracking-wider underline-offset-2 hover:underline'
           >
             {part.title}
           </Link>
