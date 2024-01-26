@@ -33,7 +33,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   }, [setBackgroundColor, backgroundColor])
 
   return (
-    <main className='mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-14 text-center'>
+    <main className='mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-8 text-center md:py-14'>
       <Breadcrumbs currentLocation={currentLocation} />
       <div className='flex flex-col items-center gap-6 py-24 text-center'>
         <Result
@@ -50,7 +50,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
         return (
           <div
             key={childLocationGroup.key}
-            className='mt-16 grid w-full grid-cols-2 gap-x-4 gap-y-[10px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
+            className='mt-8 grid w-full grid-cols-2 gap-x-4 gap-y-[10px] md:mt-16 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
           >
             {childLocationNames.map(childLocationName => {
               const childLocation = {
