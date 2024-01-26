@@ -1,15 +1,11 @@
 'use client'
 
-import MainImage from '@/app/components/MainImage'
-import SubHeading from '@/app/components/SubHeading'
-import Heading, { HeadingSizes } from '@/app/components/Heading'
-import CallToActionButton from '@/app/components/CallToActionButton'
-
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
 import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
 import { useContext, useEffect } from 'react'
 import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
+import Result from '@/app/components/Result'
 
 type ResultProps = {
   params: {
@@ -17,7 +13,7 @@ type ResultProps = {
   }
 }
 
-export default function Result({ params: { location } }: ResultProps) {
+export default function SearchResult({ params: { location } }: ResultProps) {
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
   const currentLocation = getCurrentLocationFromUrlParams(location)
@@ -37,17 +33,14 @@ export default function Result({ params: { location } }: ResultProps) {
   }, [setBackgroundColor, backgroundColor])
 
   return (
-    <main className='flex flex-col items-center py-24 text-center'>
-      <div className='max-w-6xl'>
-        <Heading text={heading} size={HeadingSizes.LARGE} />
-      </div>
-      <div className='mt-12'>
-        {subHeading && <SubHeading text={subHeading} />}
-      </div>
-      {imageType && <MainImage type={imageType} />}
-      {ctaLinkUrl && (
-        <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />
-      )}
+    <main className='flex flex-col items-center gap-12 py-24 text-center'>
+      <Result
+        heading={heading}
+        subHeading={subHeading}
+        imageType={imageType}
+        ctaButtonText={ctaButtonText}
+        ctaLinkUrl={ctaLinkUrl}
+      />
     </main>
   )
 }

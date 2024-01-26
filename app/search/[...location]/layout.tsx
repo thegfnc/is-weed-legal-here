@@ -23,7 +23,7 @@ export async function generateMetadata({
   }
 }
 
-export default function ResultLayout({
+export default function SearchResultLayout({
   children,
 }: {
   children: React.ReactNode

@@ -11,6 +11,7 @@ import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation
 import Heading, { HeadingSizes } from '@/app/components/Heading'
 import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
 import SubHeading from '@/app/components/SubHeading'
+import Result from '@/app/components/Result'
 
 type BrowseProps = {
   params: {
@@ -25,10 +26,8 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   const childLocationGroups = getChildLocationsFromLocation(currentLocation)
   const legalityData = getLegalityDataForLocation(currentLocation)
 
-  const { heading, subHeading, backgroundColor } = getStringsForLegalityData(
-    legalityData,
-    currentLocation
-  )
+  const { heading, subHeading, ctaButtonText, ctaLinkUrl, backgroundColor } =
+    getStringsForLegalityData(legalityData, currentLocation)
 
   useEffect(() => {
     setBackgroundColor(backgroundColor)
@@ -37,26 +36,21 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   return (
     <main className='mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-14 text-center'>
       <Breadcrumbs currentLocation={currentLocation} />
-      <div className='mt-12'>
-        <Heading
-          text={location.length === 0 ? 'Browse around the world.' : heading}
-          size={HeadingSizes.MEDIUM}
+      <div className='flex flex-col items-center gap-8 py-24 text-center'>
+        <Result
+          heading={location.length === 0 ? 'Browse around the world.' : heading}
+          subHeading={subHeading}
+          ctaButtonText={ctaButtonText}
+          ctaLinkUrl={ctaLinkUrl}
         />
       </div>
-      {legalityData && legalityData.closestMatchKey && (
-        <div className='max-w-2xl'>
-          <div className='mb-12 mt-6 md:mb-20'>
-            {subHeading && <SubHeading text={subHeading} />}
-          </div>
-        </div>
-      )}
       {childLocationGroups.map(childLocationGroup => {
         const childLocationNames = Object.keys(childLocationGroup.data)
 
         return (
           <div
             key={childLocationGroup.key}
-            className='mt-20 grid w-full grid-cols-2 gap-x-4 gap-y-[10px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
+            className='mt-16 grid w-full grid-cols-2 gap-x-4 gap-y-[10px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
           >
             {childLocationNames.map(childLocationName => {
               const childLocation = {
