@@ -174,7 +174,7 @@ export default function PlacesAutocompleteInput({
             placeholder='Search address, city, state, or zip'
             onChange={event => loadSuggestions(event.target.value)}
             ref={inputRef}
-            className='w-full bg-transparent text-lg leading-none transition-colors placeholder:text-brand-purple focus:outline-none'
+            className='text-md w-full bg-transparent leading-none transition-colors placeholder:text-brand-purple focus:outline-none md:text-lg'
             onFocus={() => {
               clearTimeout(isFocusedTimeoutRef.current)
               setSelectedSuggestionIndex(0)
