@@ -6,6 +6,7 @@ import { MainImageType } from '../data/images'
 
 type ResultProps = {
   heading: string
+  headingSize?: HeadingSizes
   subHeading?: string
   imageType?: MainImageType | null
   ctaLinkUrl?: string | null
@@ -14,6 +15,7 @@ type ResultProps = {
 
 export default function Result({
   heading,
+  headingSize = HeadingSizes.LARGE,
   subHeading,
   imageType,
   ctaLinkUrl,
@@ -22,7 +24,7 @@ export default function Result({
   return (
     <>
       <div className='max-w-6xl'>
-        <Heading text={heading} size={HeadingSizes.LARGE} />
+        <Heading text={heading} size={headingSize} />
       </div>
       {subHeading && (
         <div>

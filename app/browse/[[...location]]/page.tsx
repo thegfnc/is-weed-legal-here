@@ -8,9 +8,8 @@ import getUrlFromCurrentLocation from '@/app/helpers/getUrlFromCurrentLocation'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
-import Heading, { HeadingSizes } from '@/app/components/Heading'
+import { HeadingSizes } from '@/app/components/Heading'
 import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
-import SubHeading from '@/app/components/SubHeading'
 import Result from '@/app/components/Result'
 
 type BrowseProps = {
@@ -36,9 +35,10 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   return (
     <main className='mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-14 text-center'>
       <Breadcrumbs currentLocation={currentLocation} />
-      <div className='flex flex-col items-center gap-8 py-24 text-center'>
+      <div className='flex flex-col items-center gap-6 py-24 text-center'>
         <Result
           heading={location.length === 0 ? 'Browse around the world.' : heading}
+          headingSize={HeadingSizes.MEDIUM}
           subHeading={subHeading}
           ctaButtonText={ctaButtonText}
           ctaLinkUrl={ctaLinkUrl}
