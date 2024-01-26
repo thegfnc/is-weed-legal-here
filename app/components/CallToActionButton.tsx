@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { MdSearch } from 'react-icons/md'
+import { MdKeyboardArrowRight } from 'react-icons/md'
 import {
   BackgroundColor,
   BackgroundColorContext,
@@ -27,11 +27,11 @@ const CallToActionButton = ({ text, linkUrl }: CallToActionButtonProps) => {
 
   return (
     <a
-      className={`flex items-center rounded-full border-2 border-brand-purple py-2 pl-4 pr-5 text-[16px] transition-colors hover:bg-brand-purple ${hoverTextColor} md:text-[18px]`}
+      className={`flex items-center rounded-full border-2 border-brand-purple py-2 pl-5 pr-2 text-[16px] transition-colors hover:bg-brand-purple ${hoverTextColor} md:text-[18px]`}
       href={linkUrl}
       target='_blank'
     >
-      <MdSearch size='24px' className='mr-3' /> {text}
+      {text} <MdKeyboardArrowRight size='24px' className='ml-2' />
     </a>
   )
 }
