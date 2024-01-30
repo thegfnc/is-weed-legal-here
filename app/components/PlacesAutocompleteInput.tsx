@@ -86,7 +86,7 @@ export default function PlacesAutocompleteInput({
           setIsLoadingSuggestions(false)
         }
       )
-    }, 250)
+    }, 200)
   }
 
   const handleSuggestionSelected = async () => {
