@@ -14,7 +14,7 @@ const Footer = () => {
   return (
     <footer className='flex flex-col items-center'>
       <div className='flex flex-col gap-2 text-[14px] sm:flex-row'>
-        <div className='flex gap-2'>
+        <div className='flex justify-center gap-2'>
           <span> &copy; {new Date().getFullYear()}</span>
           <a
             href='https://www.thegoodfornothings.club/'
@@ -39,6 +39,14 @@ const Footer = () => {
           >
             Sources
           </button>
+          <span>·</span>
+          <a
+            href='https://github.com/thegfnc/is-weed-legal-here'
+            target='_blank'
+            className='underline-offset-2 hover:underline'
+          >
+            GitHub
+          </a>
           <span>·</span>
           <button
             className='underline-offset-2 hover:underline'
