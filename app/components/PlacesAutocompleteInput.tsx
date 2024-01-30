@@ -94,9 +94,6 @@ export default function PlacesAutocompleteInput({
 
     const selectedSuggestion = suggestions[selectedSuggestionIndex]
 
-    setSuggestions(null)
-    setIsLoadingSuggestions(false)
-
     const placesLib = await getPlacesClient()
 
     if (!placesLib || attributionRef.current === null) {
