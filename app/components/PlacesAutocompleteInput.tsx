@@ -203,7 +203,7 @@ export default function PlacesAutocompleteInput({
               ))}
             </ul>
           ) : (
-            <div className='absolute left-6 right-6 top-full bg-white py-3 text-sm text-gray-400 shadow-md'>
+            <div className='absolute left-6 right-6 top-full flex min-h-24 items-center justify-center bg-white py-3 text-sm text-gray-500 shadow-md'>
               {suggestions
                 ? 'No suggestions found for this location.'
                 : 'Type at least 3 characters to search.'}
