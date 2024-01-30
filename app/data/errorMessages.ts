@@ -1,5 +1,5 @@
 enum ErrorMessages {
-  LIBRARY_NOT_LOADED = 'Maps library could not be loaded.',
+  LIBRARY_NOT_LOADED = 'Maps library could not be loaded. Please refresh to try again.',
   PERMISSION_DENIED = 'Allow location access to see if you can legally light one up!',
   POSITION_UNAVAILABLE = "Bummer! The browser won't share your current location.",
   TIMEOUT = 'Did you space out? Allow location access to see if you can legally light one up!',

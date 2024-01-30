@@ -9,6 +9,7 @@ import getUrlFromCurrentLocation from '../helpers/getUrlFromCurrentLocation'
 import ErrorMessages from '../data/errorMessages'
 import LoadingStates from '../data/loadingStates'
 import useKey from '../hooks/useKey'
+import LoadingSpinner from './LoadingSpinner'
 
 type PlaceAutocompleteInputProps = {
   setLoadingState: (loadingState: LoadingStates | null) => void
@@ -30,6 +31,7 @@ export default function PlacesAutocompleteInput({
   const inputRef = useRef<HTMLInputElement>(null)
 
   const [isFocused, setIsFocused] = useState(false)
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false)
   const [suggestions, setSuggestions] = useState<
     google.maps.places.AutocompletePrediction[] | null
   >(null)
@@ -46,8 +48,11 @@ export default function PlacesAutocompleteInput({
     // don't load suggestions if not enough characters
     if (!inputValue || inputValue.trim().length < 3) {
       setSuggestions(null)
+      setIsLoadingSuggestions(false)
       return
     }
+
+    setIsLoadingSuggestions(true)
 
     suggestionsTimeoutRef.current = setTimeout(async () => {
       const placesLib = await getPlacesClient()
@@ -67,19 +72,18 @@ export default function PlacesAutocompleteInput({
           sessionToken: sessionTokenRef.current,
         },
         (predictions, status) => {
-          if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
-            setSuggestions([])
-            return
-          }
-
           if (
+            status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS ||
             status !== google.maps.places.PlacesServiceStatus.OK ||
             !predictions
           ) {
+            setSuggestions([])
+            setIsLoadingSuggestions(false)
             return
           }
 
           setSuggestions(predictions)
+          setIsLoadingSuggestions(false)
         }
       )
     }, 300)
@@ -91,6 +95,7 @@ export default function PlacesAutocompleteInput({
     const selectedSuggestion = suggestions[selectedSuggestionIndex]
 
     setSuggestions(null)
+    setIsLoadingSuggestions(false)
 
     const placesLib = await getPlacesClient()
 
@@ -204,9 +209,13 @@ export default function PlacesAutocompleteInput({
             </ul>
           ) : (
             <div className='absolute left-6 right-6 top-full flex min-h-24 items-center justify-center bg-white py-3 text-sm text-gray-500 shadow-md'>
-              {suggestions
-                ? 'No suggestions found for this location.'
-                : 'Type at least 3 characters to search.'}
+              {isLoadingSuggestions ? (
+                <LoadingSpinner />
+              ) : suggestions ? (
+                'No suggestions found for this location.'
+              ) : (
+                'Type at least 3 characters to search.'
+              )}
             </div>
           ))}
         <div ref={attributionRef}></div>
