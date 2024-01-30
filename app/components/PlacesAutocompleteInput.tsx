@@ -188,9 +188,8 @@ export default function PlacesAutocompleteInput({
             }}
           />
         </div>
-        {suggestions &&
-          isFocused &&
-          (suggestions.length > 0 ? (
+        {isFocused &&
+          (suggestions && suggestions.length > 0 ? (
             <ul className='absolute left-6 right-6 top-full bg-white px-2 py-3 text-sm shadow-md'>
               {suggestions.map((suggestion, index) => (
                 <li
@@ -204,8 +203,10 @@ export default function PlacesAutocompleteInput({
               ))}
             </ul>
           ) : (
-            <div className='absolute left-6 right-6 top-full bg-white py-3 text-sm shadow-md'>
-              No suggestions found for this location.
+            <div className='absolute left-6 right-6 top-full bg-white py-3 text-sm text-gray-400 shadow-md'>
+              {suggestions
+                ? 'No suggestions found for this location.'
+                : 'Type at least 3 characters to search.'}
             </div>
           ))}
         <div ref={attributionRef}></div>
