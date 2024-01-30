@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.2",
-    "@sentry/nextjs": "^7.94.1",
+    "@sentry/nextjs": "^7.98.0",
     "@vercel/analytics": "^1.1.2",
     "@vercel/edge": "^1.1.1",
     "lodash.pick": "^4.4.0",
