@@ -30,6 +30,7 @@ const CallToActionButton = ({ text, linkUrl }: CallToActionButtonProps) => {
       className={`flex items-center rounded-full border-2 border-brand-purple py-2 pl-5 pr-2 text-[16px] transition-colors hover:bg-brand-purple ${hoverTextColor} md:text-[18px]`}
       href={linkUrl}
       target='_blank'
+      rel='noopener noreferrer'
     >
       {text} <MdKeyboardArrowRight size='24px' className='ml-2' />
     </a>
