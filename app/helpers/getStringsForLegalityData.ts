@@ -4,6 +4,7 @@ import { MainImageType } from '@/app/data/images'
 import { GetLegalityDataForLocationReturn } from './getLegalityDataForLocation'
 import { CurrentLocation } from '@/app/types'
 import { BackgroundColor } from '../contexts/backgroundColorContext'
+import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
 type StringsData = {
   backgroundColor: BackgroundColor
@@ -47,11 +48,11 @@ const getStringsForLegalityData = (
       data.heading = `Dude! Weed is totally legal in ${closestMatchLocation}.`
       data.subHeading = 'Enjoy it! Need to buy some bud?'
       data.ctaLinkUrl = `https://www.google.com/maps/search/?api=1&query=dispensary+near+${
-        currentLocation.postalCode ||
-        currentLocation.locality ||
-        currentLocation.administrativeAreaLevel2 ||
-        currentLocation.administrativeAreaLevel1 ||
-        currentLocation.country
+        currentLocation.postalCode !== DASH_PLACEHOLDER
+          ? currentLocation.postalCode
+          : legalityData.closestMatchKey
+            ? currentLocation[legalityData.closestMatchKey]
+            : 'me'
       }`
       data.ctaButtonText = 'Find dispensaries near you'
       data.imageType = MainImageType.Legal
