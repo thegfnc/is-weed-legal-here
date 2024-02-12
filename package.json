@@ -21,7 +21,7 @@
     "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
-    "@types/google.maps": "^3.55.1",
+    "@types/google.maps": "^3.55.3",
     "@types/lodash.pick": "^4.4.9",
     "@types/node": "^20.11.16",
     "@types/react": "^18.2.53",
