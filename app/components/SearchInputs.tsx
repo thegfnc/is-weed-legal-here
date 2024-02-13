@@ -40,7 +40,7 @@ export default function SearchInputs() {
       {loadingState ? (
         <div className='mx-auto flex max-w-xl flex-col items-center gap-8 text-balance text-[18px]'>
           <div>{loadingState && <LoadingSpinner />}</div>
-          <div className='min-h-[48px] leading-6'>{loadingState}</div>
+          <div className='min-h-[56px] leading-6'>{loadingState}</div>
         </div>
       ) : (
         <>
