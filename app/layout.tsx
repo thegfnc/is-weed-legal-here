@@ -8,6 +8,7 @@ import PageWrapper from './components/PageWrapper'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import TopLoadingBar from './components/TopLoadingBar'
+import { Suspense } from 'react'
 
 type RootLayoutProps = {
   children: React.ReactNode
@@ -49,7 +50,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang='en'>
       <body className={spaceGrotesk.className}>
-        <TopLoadingBar />
+        <Suspense fallback={null}>
+          <TopLoadingBar />
+        </Suspense>
         <PageWrapper>
           <Header />
           {children}
