@@ -50,9 +50,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang='en'>
       <body className={spaceGrotesk.className}>
-        <Suspense fallback={null}>
-          <TopLoadingBar />
-        </Suspense>
         <PageWrapper>
           <Header />
           {children}
