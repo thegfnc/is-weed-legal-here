@@ -77,12 +77,24 @@ const getStringsForLegalityData = (
       data.ctaButtonText = 'Find out how to take action'
       data.imageType = MainImageType.SortOf
 
+      // Beginning of sentence - medical marijuana
       if (closestMatchLegalityData.MEDICINAL === 'Legal') {
-        data.subHeading = 'Medical marijuana is legal but'
+        data.subHeading = 'Medical marijuana is legal'
       } else if (closestMatchLegalityData.MEDICINAL === 'Illegal') {
-        data.subHeading = 'Medical marijuana is illegal but'
+        data.subHeading = 'Medical marijuana is illegal'
       }
 
+      // Sentence connector
+      if (
+        closestMatchLegalityData.MEDICINAL === 'Legal' &&
+        closestMatchLegalityData.RECREATIONAL === 'Decriminalized'
+      ) {
+        data.subHeading += ' and '
+      } else {
+        data.subHeading += ' but '
+      }
+
+      // End of sentence - recreational usage
       if (closestMatchLegalityData.RECREATIONAL === 'Decriminalized') {
         data.subHeading += ' recreational usage is decriminalized'
 
