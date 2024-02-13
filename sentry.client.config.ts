@@ -23,19 +23,10 @@ Sentry.init({
 
   // You can remove this option if you're not planning to use the Sentry Session Replay feature:
   integrations: [
-    new Sentry.Replay({
+    Sentry.replayIntegration({
       // Additional Replay configuration goes in here, for example:
       maskAllText: true,
       blockAllMedia: true,
-    }),
-    new Sentry.Feedback({
-      // Additional SDK configuration goes in here, for example:
-      autoInject: false,
-      colorScheme: 'dark',
-      formTitle: 'Report an Error',
-      messagePlaceholder:
-        'What went wrong? Let us know if you encountered incorrect data or a bug.',
-      submitButtonLabel: 'Send Report',
     }),
   ],
 })

@@ -1,26 +1,23 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-
-import { useContext, useEffect } from 'react'
+import { Suspense, useContext, useEffect } from 'react'
 import {
   BackgroundColor,
   SetBackgroundColorContext,
 } from '@/app/contexts/backgroundColorContext'
 import Heading from './components/Heading'
 import LoadingSpinner from './components/LoadingSpinner'
+import SearchInputs from './components/SearchInputs'
+import useFadeIn from './hooks/useFadeIn'
 
-const SearchInputs = dynamic(() => import('./components/SearchInputs'), {
-  ssr: false,
-  loading: ({ pastDelay }) =>
-    pastDelay ? (
-      <div className='h-[124px] md:h-[132px]'>
-        <LoadingSpinner />
-      </div>
-    ) : null,
-})
+const SearchInputsFallback = () => (
+  <div className='h-[124px] md:h-[132px]'>
+    <LoadingSpinner />
+  </div>
+)
 
 export default function Home() {
+  const fadeInStyles = useFadeIn()
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
   useEffect(() => {
@@ -28,10 +25,12 @@ export default function Home() {
   }, [setBackgroundColor])
 
   return (
-    <main className='flex flex-col gap-10 py-24 text-center'>
+    <main className={'flex flex-col gap-10 py-24 text-center ' + fadeInStyles}>
       <Heading text={'Is weed legal here?'} />
       <div className='flex flex-col gap-6'>
-        <SearchInputs />
+        <Suspense fallback={<SearchInputsFallback />}>
+          <SearchInputs />
+        </Suspense>
       </div>
     </main>
   )

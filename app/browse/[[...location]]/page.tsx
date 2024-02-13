@@ -11,6 +11,7 @@ import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation
 import { HeadingSizes } from '@/app/components/Heading'
 import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
 import Result from '@/app/components/Result'
+import useFadeIn from '@/app/hooks/useFadeIn'
 
 type BrowseProps = {
   params: {
@@ -19,6 +20,7 @@ type BrowseProps = {
 }
 
 export default function Browse({ params: { location = [] } }: BrowseProps) {
+  const fadeInStyles = useFadeIn()
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
   const currentLocation = getCurrentLocationFromUrlParams(location)
@@ -33,7 +35,12 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   }, [setBackgroundColor, backgroundColor])
 
   return (
-    <main className='mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-8 text-center md:py-14'>
+    <main
+      className={
+        'mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-8 text-center md:py-14 ' +
+        fadeInStyles
+      }
+    >
       <Breadcrumbs currentLocation={currentLocation} />
       <div className='flex flex-col items-center gap-6 py-24 text-center'>
         <Result

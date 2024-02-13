@@ -12,7 +12,7 @@ import IPGeolocationButton from './IPGeolocationButton'
 import PlacesAutocompleteInput from './PlacesAutocompleteInput'
 import LoadingSpinner from './LoadingSpinner'
 
-export default function Home() {
+export default function SearchInputs() {
   const setBackgroundColor = useContext(SetBackgroundColorContext)
   const [loadingState, setLoadingState] = useState<LoadingStates | null>(null)
   const [errorMessage, setErrorMessage] = useState<ErrorMessages | null>(null)

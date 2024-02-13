@@ -6,6 +6,7 @@ import { useContext, useEffect } from 'react'
 import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import Result from '@/app/components/Result'
+import useFadeIn from '@/app/hooks/useFadeIn'
 
 type ResultProps = {
   params: {
@@ -14,6 +15,7 @@ type ResultProps = {
 }
 
 export default function SearchResult({ params: { location } }: ResultProps) {
+  const fadeInStyles = useFadeIn()
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
   const currentLocation = getCurrentLocationFromUrlParams(location)
@@ -33,7 +35,11 @@ export default function SearchResult({ params: { location } }: ResultProps) {
   }, [setBackgroundColor, backgroundColor])
 
   return (
-    <main className='flex flex-col items-center gap-12 py-24 text-center'>
+    <main
+      className={
+        'flex flex-col items-center gap-12 py-24 text-center ' + fadeInStyles
+      }
+    >
       <Result
         heading={heading}
         subHeading={subHeading}

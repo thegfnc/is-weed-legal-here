@@ -16,7 +16,7 @@ const Header = () => {
           className={`block text-[18px] font-bold leading-none transition-all duration-500 ease-out-expo ${
             isVisible
               ? ' visible translate-y-0 opacity-100'
-              : ' invisible translate-y-8 opacity-0'
+              : ' invisible translate-y-6 opacity-0'
           }`}
         >
           Is weed legal here?

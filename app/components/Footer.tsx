@@ -1,13 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { BrowserClient, Feedback, getCurrentHub } from '@sentry/react'
+import { feedbackIntegration } from '@sentry/react'
 
 import Modal, { ModalType } from './Modal'
 
 const Footer = () => {
-  const client = getCurrentHub().getClient<BrowserClient>()
-  const feedback = client?.getIntegration(Feedback)
+  const client = feedbackIntegration({
+    // Additional SDK configuration goes in here, for example:
+    autoInject: false,
+    colorScheme: 'dark',
+    formTitle: 'Report an Error',
+    messagePlaceholder:
+      'What went wrong? Let us know if you encountered incorrect data or a bug.',
+    submitButtonLabel: 'Send Report',
+  })
 
   const [modalType, setModalType] = useState<ModalType | null>(null)
 
@@ -50,7 +57,7 @@ const Footer = () => {
           <span>·</span>
           <button
             className='underline-offset-2 hover:underline'
-            onClick={() => feedback && feedback.openDialog()}
+            onClick={() => client && client.openDialog()}
           >
             Report Error
           </button>
