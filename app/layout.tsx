@@ -7,8 +7,6 @@ import Script from 'next/script'
 import PageWrapper from './components/PageWrapper'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import TopLoadingBar from './components/TopLoadingBar'
-import { Suspense } from 'react'
 
 type RootLayoutProps = {
   children: React.ReactNode
