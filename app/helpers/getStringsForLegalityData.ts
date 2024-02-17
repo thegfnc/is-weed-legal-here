@@ -73,8 +73,14 @@ const getStringsForLegalityData = (
       data.heading = `Sorry! We don't know if weed is legal in ${closestMatchLocation} yet.`
     } else {
       data.heading = `Sort of! Weed is partially legal in ${closestMatchLocation}.`
-      data.ctaLinkUrl = 'https://norml.org/act/'
-      data.ctaButtonText = 'Find out how to take action'
+      data.ctaLinkUrl = `https://www.google.com/maps/search/?api=1&query=dispensary+near+${
+        currentLocation.postalCode !== DASH_PLACEHOLDER
+          ? currentLocation.postalCode
+          : legalityData.closestMatchKey
+            ? currentLocation[legalityData.closestMatchKey]
+            : 'me'
+      }`
+      data.ctaButtonText = 'Find dispensaries near you'
       data.imageType = MainImageType.SortOf
 
       // Beginning of sentence - medical marijuana
