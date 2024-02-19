@@ -51,40 +51,49 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
           ctaLinkUrl={ctaLinkUrl}
         />
       </div>
-      <div className='my-8 flex w-full flex-col gap-16 md:mt-16'>
-        {childLocationGroups.map(childLocationGroup => {
-          const childLocationNames = Object.keys(childLocationGroup.data)
+      {childLocationGroups.length && (
+        <div className='my-8 flex w-full flex-col gap-16 md:mt-16'>
+          {childLocationGroups.map(childLocationGroup => {
+            const childLocationNames = Object.keys(childLocationGroup.data)
 
-          return (
-            <div key={childLocationGroup.key}>
-              <h3 className='text-left text-sm font-bold uppercase leading-6 tracking-wide'>
-                Browse by {childLocationGroup.label.singular}
-              </h3>
-              <div className='mt-4 grid grid-cols-2 gap-x-4 gap-y-[10px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-                {childLocationNames.map(childLocationName => {
-                  const childLocation = {
-                    ...currentLocation,
-                  }
+            if (childLocationNames.length === 0) return null
 
-                  if (childLocationGroup.key) {
-                    childLocation[childLocationGroup.key] = childLocationName
-                  }
+            return (
+              <div key={childLocationGroup.key}>
+                {childLocationGroup.label && (
+                  <h3 className='text-left text-sm font-bold uppercase leading-6 tracking-wide'>
+                    Browse by {childLocationGroup.label.singular}
+                  </h3>
+                )}
+                <div className='mt-4 grid grid-cols-2 gap-x-4 gap-y-[10px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+                  {childLocationNames.map(childLocationName => {
+                    const childLocation = {
+                      ...currentLocation,
+                    }
 
-                  return (
-                    <Link
-                      key={childLocationName}
-                      href={getUrlFromCurrentLocation(childLocation, '/browse')}
-                      className='flex min-h-[76px] items-center justify-center rounded-2xl border-2 border-brand-purple p-4 text-sm font-bold leading-tight text-brand-purple transition-colors hover:bg-white active:bg-gray-50 md:min-h-[92px] md:text-lg'
-                    >
-                      {childLocationName}
-                    </Link>
-                  )
-                })}
+                    if (childLocationGroup.key) {
+                      childLocation[childLocationGroup.key] = childLocationName
+                    }
+
+                    return (
+                      <Link
+                        key={childLocationName}
+                        href={getUrlFromCurrentLocation(
+                          childLocation,
+                          '/browse'
+                        )}
+                        className='flex min-h-[76px] items-center justify-center rounded-2xl border-2 border-brand-purple p-4 text-sm font-bold leading-tight text-brand-purple transition-colors hover:bg-white active:bg-gray-50 md:min-h-[92px] md:text-lg'
+                      >
+                        {childLocationName}
+                      </Link>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
-          )
-        })}
-      </div>
+            )
+          })}
+        </div>
+      )}
     </main>
   )
 }

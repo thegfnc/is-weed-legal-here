@@ -8,7 +8,7 @@ import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
 type ChildLocations = {
   key: keyof CurrentLocation
-  label: {
+  label?: {
     singular: string | undefined
     plural: string | undefined
   }
@@ -22,10 +22,6 @@ export default function getChildLocationsFromLocation(
     return [
       {
         key: 'country',
-        label: {
-          singular: 'Country',
-          plural: 'Countries',
-        },
         data: legailtyByCountry,
       },
     ]
