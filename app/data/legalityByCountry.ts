@@ -45,6 +45,12 @@ const legalityByCountry: LegalityByCountry = {
     MEDICINAL: LegalStatus.Legal,
     RECREATIONAL: LegalStatus.Illegal,
     QUANTITY: null,
+    labels: {
+      administrativeAreaLevel1: {
+        plural: 'states and territories',
+        singular: 'state or territory',
+      },
+    },
     administrativeAreaLevel1: {
       'Australian Capital Territory': {
         MEDICINAL: LegalStatus.Legal,
@@ -967,6 +973,20 @@ const legalityByCountry: LegalityByCountry = {
     MEDICINAL: LegalStatus.Illegal,
     RECREATIONAL: LegalStatus.Illegal,
     QUANTITY: null,
+    labels: {
+      administrativeAreaLevel1: {
+        plural: 'states',
+        singular: 'state',
+      },
+      administrativeAreaLevel2: {
+        plural: 'counties',
+        singular: 'county',
+      },
+      locality: {
+        plural: 'cities',
+        singular: 'city',
+      },
+    },
     administrativeAreaLevel1: {
       Alabama: {
         MEDICINAL: LegalStatus.Legal,

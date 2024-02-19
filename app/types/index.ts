@@ -33,5 +33,19 @@ export type LegalityByCountry = {
     administrativeAreaLevel1?: {
       [key: string]: LegalityByAdministrativeAreaLevel1
     }
+    labels?: {
+      administrativeAreaLevel1?: {
+        plural: string
+        singular: string
+      }
+      administrativeAreaLevel2?: {
+        plural: string
+        singular: string
+      }
+      locality?: {
+        plural: string
+        singular: string
+      }
+    }
   }
 }

@@ -8,6 +8,10 @@ import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
 type ChildLocations = {
   key: keyof CurrentLocation
+  label: {
+    singular: string | undefined
+    plural: string | undefined
+  }
   data: LegalityByCountry | LegalityByAdministrativeAreaLevel1
 }
 
@@ -18,6 +22,10 @@ export default function getChildLocationsFromLocation(
     return [
       {
         key: 'country',
+        label: {
+          singular: 'Country',
+          plural: 'Countries',
+        },
         data: legailtyByCountry,
       },
     ]
@@ -53,12 +61,20 @@ export default function getChildLocationsFromLocation(
     return [
       {
         key: 'administrativeAreaLevel2',
+        label: {
+          singular: countryMatch.labels?.administrativeAreaLevel2?.singular,
+          plural: countryMatch.labels?.administrativeAreaLevel2?.plural,
+        },
         data: {
           ...administrativeAreaLevel1Match.administrativeAreaLevel2,
         },
       },
       {
         key: 'locality',
+        label: {
+          singular: countryMatch.labels?.locality?.singular,
+          plural: countryMatch.labels?.locality?.plural,
+        },
         data: { ...administrativeAreaLevel1Match.locality },
       },
     ]
@@ -68,6 +84,10 @@ export default function getChildLocationsFromLocation(
     return [
       {
         key: 'administrativeAreaLevel1',
+        label: {
+          singular: countryMatch.labels?.administrativeAreaLevel1?.singular,
+          plural: countryMatch.labels?.administrativeAreaLevel1?.plural,
+        },
         data: { ...countryMatch.administrativeAreaLevel1 },
       },
     ]
