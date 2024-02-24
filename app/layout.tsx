@@ -42,6 +42,9 @@ export const metadata: Metadata = {
   ],
   creator: 'The Good for Nothings Club',
   metadataBase: new URL('https://www.isweedlegalhere.com'),
+  alternates: {
+    canonical: '/',
+  },
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {

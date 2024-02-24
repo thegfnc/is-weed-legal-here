@@ -11,18 +11,27 @@ type GenerateMetadataProps = {
 export async function generateMetadata({
   params: { location },
 }: GenerateMetadataProps): Promise<Metadata> {
-  if (!location) return {}
-
-  const currentLocation = getCurrentLocationFromUrlParams(location)
-  const legalityData = getLegalityDataForLocation(currentLocation)
-
-  const closestLocationName =
-    legalityData?.closestMatchKey &&
-    currentLocation[legalityData.closestMatchKey]
-
-  return {
-    title: `Is weed legal in ${closestLocationName || 'your area'}?`,
+  const metadata: Metadata = {
+    alternates: {
+      canonical: '/browse',
+    },
   }
+
+  if (location) {
+    const currentLocation = getCurrentLocationFromUrlParams(location)
+    const legalityData = getLegalityDataForLocation(currentLocation)
+    const closestLocationName =
+      legalityData?.closestMatchKey &&
+      currentLocation[legalityData.closestMatchKey]
+
+    metadata.title = `Is weed legal in ${closestLocationName || 'your area'}?`
+
+    if (metadata.alternates) {
+      metadata.alternates.canonical += '/' + location.join('/')
+    }
+  }
+
+  return metadata
 }
 
 export default function ResultLayout({

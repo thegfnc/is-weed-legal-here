@@ -20,6 +20,9 @@ export async function generateMetadata({
 
   return {
     title: `Is weed legal in ${closestLocationName || 'your area'}?`,
+    alternates: {
+      canonical: '/search/' + location.join('/'),
+    },
   }
 }
 
