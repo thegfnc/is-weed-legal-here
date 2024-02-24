@@ -51,7 +51,7 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
           ctaLinkUrl={ctaLinkUrl}
         />
       </div>
-      {childLocationGroups.length && (
+      {childLocationGroups.length > 0 && (
         <div className='my-8 flex w-full flex-col gap-16 md:mt-16'>
           {childLocationGroups.map(childLocationGroup => {
             const childLocationNames = Object.keys(childLocationGroup.data)
