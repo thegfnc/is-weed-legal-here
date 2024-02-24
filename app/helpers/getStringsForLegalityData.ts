@@ -113,10 +113,10 @@ const getStringsForLegalityData = (
 
       data.subHeading += '.'
     }
-  } else {
+  } else if (currentLocation.country !== DASH_PLACEHOLDER) {
     track('Legality data unknown', {
-      country: currentLocation?.country || null,
-      postalCode: currentLocation?.postalCode || null,
+      country: currentLocation.country,
+      postalCode: currentLocation.postalCode,
     })
   }
 
