@@ -22,7 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: 'Is weed legal here?',
-    description: 'Find out if weed is legal near you by searching a location.',
+    description:
+      'Learn about cannabis laws in locations worldwide. Stay up-to-date on the latest regulations and find resources for safe and legal consumption.',
     referrer: 'origin-when-cross-origin',
     keywords: [
       'weed',
