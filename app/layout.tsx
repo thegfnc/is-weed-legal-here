@@ -17,34 +17,43 @@ const spaceGrotesk = Space_Grotesk({
   weight: ['400', '500', '700'],
 })
 
-export const metadata: Metadata = {
-  title: 'Is weed legal here?',
-  description: 'Find out if weed is legal near you by searching a location.',
-  referrer: 'origin-when-cross-origin',
-  keywords: [
-    'weed',
-    'cannabis',
-    'marijuana',
-    'legal',
-    'state',
-    'usa',
-    'CBD',
-    'THC',
-    'medical',
-    'recreational',
-    'decriminalized',
-    'legalized',
-    'legalization',
-    'legalised',
-    'legalisation',
-    'legalize',
-    'legalise',
-  ],
-  creator: 'The Good for Nothings Club',
-  metadataBase: new URL('https://www.isweedlegalhere.com'),
-  alternates: {
-    canonical: '/',
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const pathname = '/'
+
+  return {
+    title: 'Is weed legal here?',
+    description: 'Find out if weed is legal near you by searching a location.',
+    referrer: 'origin-when-cross-origin',
+    keywords: [
+      'weed',
+      'cannabis',
+      'marijuana',
+      'legal',
+      'state',
+      'usa',
+      'CBD',
+      'THC',
+      'medical',
+      'recreational',
+      'decriminalized',
+      'legalized',
+      'legalization',
+      'legalised',
+      'legalisation',
+      'legalize',
+      'legalise',
+    ],
+    creator: 'The Good for Nothings Club',
+    metadataBase: new URL('https://www.isweedlegalhere.com'),
+    alternates: {
+      canonical: pathname,
+    },
+    openGraph: {
+      url: pathname,
+      type: 'website',
+      locale: 'en_US',
+    },
+  }
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {

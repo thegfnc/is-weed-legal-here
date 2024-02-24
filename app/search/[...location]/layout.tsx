@@ -1,6 +1,6 @@
+import { Metadata, ResolvingMetadata } from 'next'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
-import { Metadata } from 'next'
 
 type GenerateMetadataProps = {
   params: {
@@ -8,9 +8,13 @@ type GenerateMetadataProps = {
   }
 }
 
-export async function generateMetadata({
-  params: { location },
-}: GenerateMetadataProps): Promise<Metadata> {
+export async function generateMetadata(
+  { params: { location } }: GenerateMetadataProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { openGraph } = await parent
+  const pathname = '/search/' + location.join('/')
+
   const currentLocation = getCurrentLocationFromUrlParams(location)
   const legalityData = getLegalityDataForLocation(currentLocation)
 
@@ -21,7 +25,11 @@ export async function generateMetadata({
   return {
     title: `Is weed legal in ${closestLocationName || 'your area'}?`,
     alternates: {
-      canonical: '/search/' + location.join('/'),
+      canonical: pathname,
+    },
+    openGraph: {
+      ...openGraph,
+      url: pathname,
     },
   }
 }

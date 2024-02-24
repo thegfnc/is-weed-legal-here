@@ -1,19 +1,27 @@
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
-import { Metadata } from 'next'
+import { Metadata, ResolvingMetadata } from 'next'
 
-type GenerateMetadataProps = {
+type GenerateMetadataParams = {
   params: {
     location: string[]
   }
 }
 
-export async function generateMetadata({
-  params: { location },
-}: GenerateMetadataProps): Promise<Metadata> {
+export async function generateMetadata(
+  { params: { location } }: GenerateMetadataParams,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { openGraph } = await parent
+  const pathname = '/browse'
+
   const metadata: Metadata = {
     alternates: {
-      canonical: '/browse',
+      canonical: pathname,
+    },
+    openGraph: {
+      ...openGraph,
+      url: pathname,
     },
   }
 
@@ -28,6 +36,10 @@ export async function generateMetadata({
 
     if (metadata.alternates) {
       metadata.alternates.canonical += '/' + location.join('/')
+    }
+
+    if (metadata.openGraph) {
+      metadata.openGraph.url += '/' + location.join('/')
     }
   }
 
