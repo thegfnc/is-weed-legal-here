@@ -19,8 +19,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: 'Is weed legal here?',
-  description:
-    'Find out if weed is legal near you using your current location.',
+  description: 'Find out if weed is legal near you by searching a location.',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'weed',
@@ -42,6 +41,7 @@ export const metadata: Metadata = {
     'legalise',
   ],
   creator: 'The Good for Nothings Club',
+  metadataBase: new URL('https://www.isweedlegalhere.com'),
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
