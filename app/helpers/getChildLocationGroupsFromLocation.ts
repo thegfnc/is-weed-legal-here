@@ -1,4 +1,4 @@
-import legailtyByCountry from '@/app/data/legalityByCountry'
+import legailtyByCountry from '@/app/data/legalityByCountry2'
 import {
   CurrentLocation,
   LegalityByCountry,
@@ -56,6 +56,14 @@ export default function getChildLocationsFromLocation(
   if (administrativeAreaLevel1Match) {
     return [
       {
+        key: 'locality',
+        label: {
+          singular: countryMatch.labels?.locality?.singular,
+          plural: countryMatch.labels?.locality?.plural,
+        },
+        data: { ...administrativeAreaLevel1Match.locality },
+      },
+      {
         key: 'administrativeAreaLevel2',
         label: {
           singular: countryMatch.labels?.administrativeAreaLevel2?.singular,
@@ -64,14 +72,6 @@ export default function getChildLocationsFromLocation(
         data: {
           ...administrativeAreaLevel1Match.administrativeAreaLevel2,
         },
-      },
-      {
-        key: 'locality',
-        label: {
-          singular: countryMatch.labels?.locality?.singular,
-          plural: countryMatch.labels?.locality?.plural,
-        },
-        data: { ...administrativeAreaLevel1Match.locality },
       },
     ]
   }
