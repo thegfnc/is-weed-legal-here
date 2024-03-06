@@ -1,7 +1,7 @@
 'use client'
 
 import Heading from '../components/Heading'
-import legalityByCountry from '../data/legalityByCountry2'
+import legalityByCountry from '../data/legalityByCountry'
 import { LegalStatus, LegalityByCountry } from '../types'
 
 type TableRow = {

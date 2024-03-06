@@ -1,4 +1,4 @@
-import legailtyByCountry from '@/app/data/legalityByCountry2'
+import legailtyByCountry from '@/app/data/legalityByCountry'
 import {
   CurrentLocation,
   LegalityByCountry,
