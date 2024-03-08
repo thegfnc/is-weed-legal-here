@@ -1,4 +1,10 @@
-import { LegalStatus, LegalityByCountry } from '../types'
+import {
+  LegalStatus,
+  LegalityByAdministrativeAreaLevel1,
+  LegalityByAdministrativeAreaLevel2,
+  LegalityByCountry,
+  LegalityByLocality,
+} from '../types'
 
 type CMSLocationCommon = {
   name: string
@@ -14,10 +20,10 @@ type CMSLocationCommon = {
 }
 
 type CMSAdministrativeAreaLevel1 = CMSLocationCommon & {
-  administrativeAreaLevel2: {
+  administrativeAreaLevel2?: {
     children: CMSLocationCommon[]
   }
-  locality: {
+  locality?: {
     children: CMSLocationCommon[]
   }
 }
@@ -37,7 +43,7 @@ export type CMSCountry = CMSLocationCommon & {
       plural: string
     }
   }
-  administrativeAreaLevel1: {
+  administrativeAreaLevel1?: {
     children: CMSAdministrativeAreaLevel1[]
   }
 }
@@ -73,16 +79,32 @@ export default function transformCMSDataToLegalityByCountry(
         country.isWeedLegalHere.recreational.legalStatus
       ),
       QUANTITY: country.isWeedLegalHere.recreational.quantity || null,
+      labels: {
+        administrativeAreaLevel1: {
+          singular: country.labels?.administrativeAreaLevel1.singular,
+          plural: country.labels?.administrativeAreaLevel1.plural,
+        },
+        administrativeAreaLevel2: {
+          singular: country.labels?.administrativeAreaLevel2.singular,
+          plural: country.labels?.administrativeAreaLevel2.plural,
+        },
+        locality: {
+          singular: country.labels?.locality.singular,
+          plural: country.labels?.locality.plural,
+        },
+      },
     }
 
-    if (country.administrativeAreaLevel1.children.length) {
-      transformedData[country.name].administrativeAreaLevel1 = {}
+    if (country.administrativeAreaLevel1?.children.length) {
+      const transformedAdministrativeAreaLevel1: LegalityByAdministrativeAreaLevel1 =
+        {}
+
+      transformedData[country.name].administrativeAreaLevel1 =
+        transformedAdministrativeAreaLevel1
 
       country.administrativeAreaLevel1?.children.forEach(
         administrativeArea1 => {
-          transformedData[country.name].administrativeAreaLevel1[
-            administrativeArea1.name
-          ] = {
+          transformedAdministrativeAreaLevel1[administrativeArea1.name] = {
             MEDICINAL: getLegalStatusFromString(
               administrativeArea1.isWeedLegalHere.medicinal.legalStatus
             ),
@@ -94,38 +116,41 @@ export default function transformCMSDataToLegalityByCountry(
           }
 
           if (administrativeArea1.administrativeAreaLevel2?.children.length) {
-            transformedData[country.name].administrativeAreaLevel1[
+            const transformedAdministrativeAreaLevel2: LegalityByAdministrativeAreaLevel2 =
+              {}
+
+            transformedAdministrativeAreaLevel1[
               administrativeArea1.name
-            ].administrativeAreaLevel2 = {}
+            ].administrativeAreaLevel2 = transformedAdministrativeAreaLevel2
 
             administrativeArea1.administrativeAreaLevel2.children.forEach(
               administrativeArea2 => {
-                transformedData[country.name].administrativeAreaLevel1[
-                  administrativeArea1.name
-                ].administrativeAreaLevel2[administrativeArea2.name] = {
-                  MEDICINAL: getLegalStatusFromString(
-                    administrativeArea2.isWeedLegalHere.medicinal.legalStatus
-                  ),
-                  RECREATIONAL: getLegalStatusFromString(
-                    administrativeArea2.isWeedLegalHere.recreational.legalStatus
-                  ),
-                  QUANTITY:
-                    administrativeArea2.isWeedLegalHere.recreational.quantity ||
-                    null,
-                }
+                transformedAdministrativeAreaLevel2[administrativeArea2.name] =
+                  {
+                    MEDICINAL: getLegalStatusFromString(
+                      administrativeArea2.isWeedLegalHere.medicinal.legalStatus
+                    ),
+                    RECREATIONAL: getLegalStatusFromString(
+                      administrativeArea2.isWeedLegalHere.recreational
+                        .legalStatus
+                    ),
+                    QUANTITY:
+                      administrativeArea2.isWeedLegalHere.recreational
+                        .quantity || null,
+                  }
               }
             )
           }
 
           if (administrativeArea1.locality?.children.length) {
-            transformedData[country.name].administrativeAreaLevel1[
+            const transformedLocality: LegalityByLocality = {}
+
+            transformedAdministrativeAreaLevel1[
               administrativeArea1.name
-            ].locality = {}
+            ].locality = transformedLocality
 
             administrativeArea1.locality.children.forEach(locality => {
-              transformedData[country.name].administrativeAreaLevel1[
-                administrativeArea1.name
-              ].locality[locality.name] = {
+              transformedLocality[locality.name] = {
                 MEDICINAL: getLegalStatusFromString(
                   locality.isWeedLegalHere.medicinal.legalStatus
                 ),

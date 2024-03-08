@@ -19,20 +19,30 @@ export type CommonLegalityData = {
   QUANTITY: string | null
 }
 
-export type LegalityByAdministrativeAreaLevel1 = CommonLegalityData & {
-  administrativeAreaLevel2?: {
-    [key: string]: CommonLegalityData
-  }
-  locality?: {
-    [key: string]: CommonLegalityData
-  }
+type LegalityByLocalityValue = CommonLegalityData
+
+export type LegalityByLocality = {
+  [key: string]: LegalityByLocalityValue
+}
+
+type LegalityByAdministrativeAreaLevel2Value = CommonLegalityData
+
+export type LegalityByAdministrativeAreaLevel2 = {
+  [key: string]: LegalityByAdministrativeAreaLevel2Value
+}
+
+type LegalityByAdministrativeAreaLevel1Value = CommonLegalityData & {
+  administrativeAreaLevel2?: LegalityByAdministrativeAreaLevel2
+  locality?: LegalityByLocality
+}
+
+export type LegalityByAdministrativeAreaLevel1 = {
+  [key: string]: LegalityByAdministrativeAreaLevel1Value
 }
 
 export type LegalityByCountry = {
   [key: string]: CommonLegalityData & {
-    administrativeAreaLevel1?: {
-      [key: string]: LegalityByAdministrativeAreaLevel1
-    }
+    administrativeAreaLevel1?: LegalityByAdministrativeAreaLevel1
     labels?: {
       administrativeAreaLevel1?: {
         plural: string

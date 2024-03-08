@@ -27,6 +27,13 @@ type BrowseProps = {
 const ALL_COUNTRIES_QUERY = `
   *[_type == 'IIHD_country'] | order(name) {
     name,
+    isWeedLegalHere
+  }
+`
+
+const COUNTRY_MATCH_QUERY = `
+  *[_type == 'IIHD_country' && name == $country] | order(name) {
+    name,
     isWeedLegalHere,
     labels,
     administrativeAreaLevel1 {
@@ -57,11 +64,14 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   const currentLocation = getCurrentLocationFromUrlParams(location)
 
   const { data } = useQuery<CMSCountry[]>({
-    queryKey: ['countries'],
+    queryKey: ['countries', currentLocation.country],
     queryFn: () =>
-      sanityFetch({
-        query: ALL_COUNTRIES_QUERY,
-      }),
+      location.length === 0
+        ? sanityFetch({ query: ALL_COUNTRIES_QUERY })
+        : sanityFetch({
+            query: COUNTRY_MATCH_QUERY,
+            params: { country: currentLocation.country },
+          }),
   })
 
   const transformedData = transformCMSDataToLegalityByCountry(data)
