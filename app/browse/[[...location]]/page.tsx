@@ -4,9 +4,7 @@ import { useContext, useEffect } from 'react'
 import Link from 'next/link'
 import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
 import getChildLocationsFromLocation from '@/app/helpers/getChildLocationGroupsFromLocation'
-import getUrlFromCurrentLocation, {
-  DASH_PLACEHOLDER,
-} from '@/app/helpers/getUrlFromCurrentLocation'
+import getUrlFromCurrentLocation from '@/app/helpers/getUrlFromCurrentLocation'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'

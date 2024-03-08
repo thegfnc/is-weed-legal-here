@@ -12,8 +12,8 @@ type GenerateMetadataParams = {
   }
 }
 
-const ALL_COUNTRIES_QUERY = `
-  *[_type == 'IIHD_country'] | order(name) {
+const COUNTRY_MATCH_QUERY = `
+  *[_type == 'IIHD_country' && name == $country] | order(name) {
     name,
     isWeedLegalHere,
     labels,
@@ -58,7 +58,7 @@ export async function generateMetadata(
   if (location) {
     const currentLocation = getCurrentLocationFromUrlParams(location)
     const data = await sanityFetch<CMSCountry[]>({
-      query: ALL_COUNTRIES_QUERY,
+      query: COUNTRY_MATCH_QUERY,
       params: { country: currentLocation.country },
     })
     const transformedData = transformCMSDataToLegalityByCountry(data)
