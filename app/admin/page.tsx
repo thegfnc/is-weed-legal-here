@@ -130,7 +130,7 @@ const ALL_COUNTRIES_QUERY = `
 
 export default function Admin() {
   const { data } = useQuery<CMSCountry[]>({
-    queryKey: ['browse', location],
+    queryKey: ['countries'],
     queryFn: () =>
       sanityFetch({
         query: ALL_COUNTRIES_QUERY,

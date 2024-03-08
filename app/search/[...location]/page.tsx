@@ -19,8 +19,8 @@ type ResultProps = {
   }
 }
 
-const COUNTRY_MATCH_QUERY = `
-  *[_type == 'IIHD_country' && name == $country] | order(name) {
+const ALL_COUNTRIES_QUERY = `
+  *[_type == 'IIHD_country'] | order(name) {
     name,
     isWeedLegalHere,
     labels,
@@ -52,10 +52,10 @@ export default function SearchResult({ params: { location } }: ResultProps) {
   const currentLocation = getCurrentLocationFromUrlParams(location)
 
   const { data } = useQuery<CMSCountry[]>({
-    queryKey: ['browse', location],
+    queryKey: ['countries'],
     queryFn: () =>
       sanityFetch({
-        query: COUNTRY_MATCH_QUERY,
+        query: ALL_COUNTRIES_QUERY,
         params: { country: currentLocation.country },
       }),
   })

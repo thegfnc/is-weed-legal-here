@@ -52,32 +52,6 @@ const ALL_COUNTRIES_QUERY = `
   }
 `
 
-const COUNTRY_MATCH_QUERY = `
-  *[_type == 'IIHD_country' && name == $country] | order(name) {
-    name,
-    isWeedLegalHere,
-    labels,
-    administrativeAreaLevel1 {
-      children[]-> {
-        name,
-        isWeedLegalHere,
-        administrativeAreaLevel2 {
-          children[]-> {
-            name,
-            isWeedLegalHere
-          }
-        },
-        locality {
-          children[]-> {
-            name,
-            isWeedLegalHere
-          }
-        }
-      }
-    }
-  }
-`
-
 export default function Browse({ params: { location = [] } }: BrowseProps) {
   const fadeInStyles = useFadeIn()
   const setBackgroundColor = useContext(SetBackgroundColorContext)
@@ -85,14 +59,10 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   const currentLocation = getCurrentLocationFromUrlParams(location)
 
   const { data } = useQuery<CMSCountry[]>({
-    queryKey: ['browse', location],
+    queryKey: ['countries'],
     queryFn: () =>
       sanityFetch({
-        query:
-          currentLocation.country === DASH_PLACEHOLDER
-            ? ALL_COUNTRIES_QUERY
-            : COUNTRY_MATCH_QUERY,
-        params: { country: currentLocation.country },
+        query: ALL_COUNTRIES_QUERY,
       }),
   })
 
