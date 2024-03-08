@@ -7,6 +7,11 @@ import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import Result from '@/app/components/Result'
 import useFadeIn from '@/app/hooks/useFadeIn'
+import transformCMSDataToLegalityByCountry, {
+  CMSCountry,
+} from '@/app/helpers/transformCMSDataToLegalityByCountry'
+import { useQuery } from '@tanstack/react-query'
+import { sanityFetch } from '@/app/data/client'
 
 type ResultProps = {
   params: {
@@ -14,12 +19,53 @@ type ResultProps = {
   }
 }
 
+const COUNTRY_MATCH_QUERY = `
+  *[_type == 'IIHD_country' && name == $country] | order(name) {
+    name,
+    isWeedLegalHere,
+    labels,
+    administrativeAreaLevel1 {
+      children[]-> {
+        name,
+        isWeedLegalHere,
+        administrativeAreaLevel2 {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        },
+        locality {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        }
+      }
+    }
+  }
+`
+
 export default function SearchResult({ params: { location } }: ResultProps) {
   const fadeInStyles = useFadeIn()
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
   const currentLocation = getCurrentLocationFromUrlParams(location)
-  const legalityData = getLegalityDataForLocation(currentLocation)
+
+  const { data } = useQuery<CMSCountry[]>({
+    queryKey: ['browse', location],
+    queryFn: () =>
+      sanityFetch({
+        query: COUNTRY_MATCH_QUERY,
+        params: { country: currentLocation.country },
+      }),
+  })
+
+  const transformedData = transformCMSDataToLegalityByCountry(data)
+
+  const legalityData = getLegalityDataForLocation(
+    currentLocation,
+    transformedData
+  )
 
   const {
     backgroundColor,

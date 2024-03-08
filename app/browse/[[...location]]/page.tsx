@@ -4,7 +4,9 @@ import { useContext, useEffect } from 'react'
 import Link from 'next/link'
 import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
 import getChildLocationsFromLocation from '@/app/helpers/getChildLocationGroupsFromLocation'
-import getUrlFromCurrentLocation from '@/app/helpers/getUrlFromCurrentLocation'
+import getUrlFromCurrentLocation, {
+  DASH_PLACEHOLDER,
+} from '@/app/helpers/getUrlFromCurrentLocation'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
@@ -12,6 +14,11 @@ import { HeadingSizes } from '@/app/components/Heading'
 import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
 import Result from '@/app/components/Result'
 import useFadeIn from '@/app/hooks/useFadeIn'
+import { useQuery } from '@tanstack/react-query'
+import { sanityFetch } from '@/app/data/client'
+import transformCMSDataToLegalityByCountry, {
+  CMSCountry,
+} from '@/app/helpers/transformCMSDataToLegalityByCountry'
 
 type BrowseProps = {
   params: {
@@ -19,13 +26,86 @@ type BrowseProps = {
   }
 }
 
+const ALL_COUNTRIES_QUERY = `
+  *[_type == 'IIHD_country'] | order(name) {
+    name,
+    isWeedLegalHere,
+    labels,
+    administrativeAreaLevel1 {
+      children[]-> {
+        name,
+        isWeedLegalHere,
+        administrativeAreaLevel2 {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        },
+        locality {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        }
+      }
+    }
+  }
+`
+
+const COUNTRY_MATCH_QUERY = `
+  *[_type == 'IIHD_country' && name == $country] | order(name) {
+    name,
+    isWeedLegalHere,
+    labels,
+    administrativeAreaLevel1 {
+      children[]-> {
+        name,
+        isWeedLegalHere,
+        administrativeAreaLevel2 {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        },
+        locality {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        }
+      }
+    }
+  }
+`
+
 export default function Browse({ params: { location = [] } }: BrowseProps) {
   const fadeInStyles = useFadeIn()
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
   const currentLocation = getCurrentLocationFromUrlParams(location)
-  const childLocationGroups = getChildLocationsFromLocation(currentLocation)
-  const legalityData = getLegalityDataForLocation(currentLocation)
+
+  const { data } = useQuery<CMSCountry[]>({
+    queryKey: ['browse', location],
+    queryFn: () =>
+      sanityFetch({
+        query:
+          currentLocation.country === DASH_PLACEHOLDER
+            ? ALL_COUNTRIES_QUERY
+            : COUNTRY_MATCH_QUERY,
+        params: { country: currentLocation.country },
+      }),
+  })
+
+  const transformedData = transformCMSDataToLegalityByCountry(data)
+
+  const childLocationGroups = getChildLocationsFromLocation(
+    currentLocation,
+    transformedData
+  )
+  const legalityData = getLegalityDataForLocation(
+    currentLocation,
+    transformedData
+  )
 
   const { heading, subHeading, ctaButtonText, ctaLinkUrl, backgroundColor } =
     getStringsForLegalityData(legalityData, currentLocation)

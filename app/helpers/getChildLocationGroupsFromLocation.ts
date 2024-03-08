@@ -1,4 +1,3 @@
-import legailtyByCountry from '@/app/data/legalityByCountry'
 import {
   CurrentLocation,
   LegalityByCountry,
@@ -16,18 +15,19 @@ type ChildLocations = {
 }
 
 export default function getChildLocationsFromLocation(
-  location: CurrentLocation
+  location: CurrentLocation,
+  data: LegalityByCountry
 ): ChildLocations[] {
   if (location.country === DASH_PLACEHOLDER) {
     return [
       {
         key: 'country',
-        data: legailtyByCountry,
+        data,
       },
     ]
   }
 
-  const countryMatch = legailtyByCountry[location.country]
+  const countryMatch = data[location.country]
 
   const administrativeAreaLevel1Match =
     countryMatch &&
