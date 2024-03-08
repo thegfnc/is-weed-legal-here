@@ -20,5 +20,7 @@ export async function sanityFetch<QueryResponse>({
   query,
   params = {},
 }: SanityFetchParams) {
-  return client.fetch<QueryResponse>(query, params, {})
+  return client.fetch<QueryResponse>(query, params, {
+    next: { revalidate: 60 },
+  })
 }
