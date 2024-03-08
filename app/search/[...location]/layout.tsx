@@ -72,7 +72,7 @@ export async function generateMetadata(
   }
 }
 
-export default function SearchResultLayout({
+export default function SearchLayout({
   children,
 }: {
   children: React.ReactNode

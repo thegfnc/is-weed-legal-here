@@ -7,7 +7,6 @@ import Script from 'next/script'
 import PageWrapper from './components/PageWrapper'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import { Providers } from './providers'
 
 type RootLayoutProps = {
   children: React.ReactNode
@@ -62,13 +61,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang='en'>
       <body className={spaceGrotesk.className}>
-        <Providers>
-          <PageWrapper>
-            <Header />
-            {children}
-            <Footer />
-          </PageWrapper>
-        </Providers>
+        <PageWrapper>
+          <Header />
+          {children}
+          <Footer />
+        </PageWrapper>
         <Analytics />
         <Script src='https://www.googletagmanager.com/gtag/js?id=G-3MCRMXW804' />
         <Script id='google-analytics'>

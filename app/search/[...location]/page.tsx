@@ -1,19 +1,12 @@
-'use client'
-
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
-import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
-import { useContext, useEffect } from 'react'
-import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
-import Result from '@/app/components/Result'
-import useFadeIn from '@/app/hooks/useFadeIn'
 import transformCMSDataToLegalityByCountry, {
   CMSCountry,
 } from '@/app/helpers/transformCMSDataToLegalityByCountry'
-import { useQuery } from '@tanstack/react-query'
 import { sanityFetch } from '@/app/data/client'
+import SearchLocation from './SearchLocation'
 
-type ResultProps = {
+type SearchPageProps = {
   params: {
     location: string[]
   }
@@ -45,19 +38,14 @@ const COUNTRY_MATCH_QUERY = `
   }
 `
 
-export default function SearchResult({ params: { location } }: ResultProps) {
-  const fadeInStyles = useFadeIn()
-  const setBackgroundColor = useContext(SetBackgroundColorContext)
-
+export default async function SearchPage({
+  params: { location },
+}: SearchPageProps) {
   const currentLocation = getCurrentLocationFromUrlParams(location)
 
-  const { data } = useQuery<CMSCountry[]>({
-    queryKey: ['country', currentLocation.country],
-    queryFn: () =>
-      sanityFetch({
-        query: COUNTRY_MATCH_QUERY,
-        params: { country: currentLocation.country },
-      }),
+  const data = await sanityFetch<CMSCountry[]>({
+    query: COUNTRY_MATCH_QUERY,
+    params: { country: currentLocation.country },
   })
 
   const transformedData = transformCMSDataToLegalityByCountry(data)
@@ -67,32 +55,10 @@ export default function SearchResult({ params: { location } }: ResultProps) {
     transformedData
   )
 
-  const {
-    backgroundColor,
-    heading,
-    subHeading,
-    imageType,
-    ctaLinkUrl,
-    ctaButtonText,
-  } = getStringsForLegalityData(legalityData, currentLocation)
-
-  useEffect(() => {
-    setBackgroundColor(backgroundColor)
-  }, [setBackgroundColor, backgroundColor])
-
   return (
-    <main
-      className={
-        'flex flex-col items-center gap-12 py-24 text-center ' + fadeInStyles
-      }
-    >
-      <Result
-        heading={heading}
-        subHeading={subHeading}
-        imageType={imageType}
-        ctaButtonText={ctaButtonText}
-        ctaLinkUrl={ctaLinkUrl}
-      />
-    </main>
+    <SearchLocation
+      currentLocation={currentLocation}
+      legalityData={legalityData}
+    />
   )
 }

@@ -6,9 +6,9 @@ import { sanityFetch } from '@/app/data/client'
 import transformCMSDataToLegalityByCountry, {
   CMSCountry,
 } from '@/app/helpers/transformCMSDataToLegalityByCountry'
-import Location from './Location'
+import BrowseLocation from './BrowseLocation'
 
-type BrowseProps = {
+type BrowsePageProps = {
   params: {
     location: string[]
   }
@@ -47,9 +47,9 @@ const COUNTRY_MATCH_QUERY = `
   }
 `
 
-export default async function Browse({
+export default async function BrowsePage({
   params: { location = [] },
-}: BrowseProps) {
+}: BrowsePageProps) {
   const currentLocation = getCurrentLocationFromUrlParams(location)
 
   const data = await sanityFetch<CMSCountry[]>({
@@ -72,7 +72,7 @@ export default async function Browse({
   )
 
   return (
-    <Location
+    <BrowseLocation
       currentLocation={currentLocation}
       legalityData={legalityData}
       childLocationGroups={childLocationGroups}

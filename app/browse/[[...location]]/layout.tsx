@@ -85,7 +85,7 @@ export async function generateMetadata(
   return metadata
 }
 
-export default function ResultLayout({
+export default function BrowseLayout({
   children,
 }: {
   children: React.ReactNode

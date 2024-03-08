@@ -1,6 +1,3 @@
-'use client'
-
-import { useQuery } from '@tanstack/react-query'
 import Heading from '../components/Heading'
 import { LegalStatus, LegalityByCountry } from '../types'
 import transformCMSDataToLegalityByCountry, {
@@ -128,22 +125,14 @@ const ALL_DATA_QUERY = `
   }
 `
 
-export default function Admin() {
-  const { isLoading, data } = useQuery<CMSCountry[]>({
-    queryKey: ['all data'],
-    queryFn: () =>
-      sanityFetch({
-        query: ALL_DATA_QUERY,
-      }),
+export default async function Admin() {
+  const data = await sanityFetch<CMSCountry[]>({
+    query: ALL_DATA_QUERY,
   })
 
   const transformedData = transformCMSDataToLegalityByCountry(data)
 
   const tableRows = flattenLegalityData(transformedData)
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
 
   return (
     <div className='my-10 w-full'>

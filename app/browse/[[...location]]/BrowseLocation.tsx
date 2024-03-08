@@ -15,28 +15,22 @@ import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
 import { CurrentLocation } from '@/app/types'
 import { GetLegalityDataForLocationReturn } from '@/app/helpers/getLegalityDataForLocation'
 
-type LocationProps = {
+type BrowseLocationProps = {
   currentLocation: CurrentLocation
   legalityData: GetLegalityDataForLocationReturn | null
   childLocationGroups: ChildLocations[]
 }
 
-export default function Location({
+export default function BrowseLocation({
   currentLocation,
   legalityData,
   childLocationGroups,
-}: LocationProps) {
+}: BrowseLocationProps) {
   const fadeInStyles = useFadeIn()
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
-  const {
-    heading,
-    subHeading,
-    ctaButtonText,
-    ctaLinkUrl,
-    backgroundColor,
-    imageType,
-  } = getStringsForLegalityData(legalityData, currentLocation)
+  const { heading, subHeading, ctaButtonText, ctaLinkUrl, backgroundColor } =
+    getStringsForLegalityData(legalityData, currentLocation)
 
   useEffect(() => {
     setBackgroundColor(backgroundColor)
