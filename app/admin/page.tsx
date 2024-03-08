@@ -1,8 +1,9 @@
-'use client'
-
 import Heading from '../components/Heading'
-import legalityByCountry from '../data/legalityByCountry'
 import { LegalStatus, LegalityByCountry } from '../types'
+import transformCMSDataToLegalityByCountry, {
+  CMSCountry,
+} from '../helpers/transformCMSDataToLegalityByCountry'
+import { sanityFetch } from '../data/client'
 
 type TableRow = {
   country: string
@@ -98,8 +99,40 @@ const TH_CLASS_NAME =
 
 const TD_CLASS_NAME = 'px-6 py-4 text-sm border-r-2 border-slate-700'
 
-export default function Admin() {
-  const tableRows = flattenLegalityData(legalityByCountry)
+const ALL_DATA_QUERY = `
+  *[_type == 'IIHD_country'] | order(name) {
+    name,
+    isWeedLegalHere,
+    labels,
+    administrativeAreaLevel1 {
+      children[]-> {
+        name,
+        isWeedLegalHere,
+        administrativeAreaLevel2 {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        },
+        locality {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        }
+      }
+    }
+  }
+`
+
+export default async function Admin() {
+  const data = await sanityFetch<CMSCountry[]>({
+    query: ALL_DATA_QUERY,
+  })
+
+  const transformedData = transformCMSDataToLegalityByCountry(data)
+
+  const tableRows = flattenLegalityData(transformedData)
 
   return (
     <div className='my-10 w-full'>

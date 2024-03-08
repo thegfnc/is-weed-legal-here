@@ -1,12 +1,42 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
+import transformCMSDataToLegalityByCountry, {
+  CMSCountry,
+} from '@/app/helpers/transformCMSDataToLegalityByCountry'
+import { sanityFetch } from '@/app/data/client'
 
 type GenerateMetadataProps = {
   params: {
     location: string[]
   }
 }
+
+const COUNTRY_MATCH_QUERY = `
+  *[_type == 'IIHD_country' && name == $country] | order(name) {
+    name,
+    isWeedLegalHere,
+    labels,
+    administrativeAreaLevel1 {
+      children[]-> {
+        name,
+        isWeedLegalHere,
+        administrativeAreaLevel2 {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        },
+        locality {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        }
+      }
+    }
+  }
+`
 
 export async function generateMetadata(
   { params: { location } }: GenerateMetadataProps,
@@ -16,7 +46,15 @@ export async function generateMetadata(
   const pathname = '/search/' + location.join('/')
 
   const currentLocation = getCurrentLocationFromUrlParams(location)
-  const legalityData = getLegalityDataForLocation(currentLocation)
+  const data = await sanityFetch<CMSCountry[]>({
+    query: COUNTRY_MATCH_QUERY,
+    params: { country: currentLocation.country },
+  })
+  const transformedData = transformCMSDataToLegalityByCountry(data)
+  const legalityData = getLegalityDataForLocation(
+    currentLocation,
+    transformedData
+  )
 
   const closestLocationName =
     legalityData?.closestMatchKey &&
@@ -34,7 +72,7 @@ export async function generateMetadata(
   }
 }
 
-export default function SearchResultLayout({
+export default function SearchLayout({
   children,
 }: {
   children: React.ReactNode

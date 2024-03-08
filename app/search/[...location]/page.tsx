@@ -1,52 +1,64 @@
-'use client'
-
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
-import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
-import { useContext, useEffect } from 'react'
-import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
-import Result from '@/app/components/Result'
-import useFadeIn from '@/app/hooks/useFadeIn'
+import transformCMSDataToLegalityByCountry, {
+  CMSCountry,
+} from '@/app/helpers/transformCMSDataToLegalityByCountry'
+import { sanityFetch } from '@/app/data/client'
+import SearchLocation from './SearchLocation'
 
-type ResultProps = {
+type SearchPageProps = {
   params: {
     location: string[]
   }
 }
 
-export default function SearchResult({ params: { location } }: ResultProps) {
-  const fadeInStyles = useFadeIn()
-  const setBackgroundColor = useContext(SetBackgroundColorContext)
+const COUNTRY_MATCH_QUERY = `
+  *[_type == 'IIHD_country' && name == $country] | order(name) {
+    name,
+    isWeedLegalHere,
+    labels,
+    administrativeAreaLevel1 {
+      children[]-> {
+        name,
+        isWeedLegalHere,
+        administrativeAreaLevel2 {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        },
+        locality {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        }
+      }
+    }
+  }
+`
 
+export default async function SearchPage({
+  params: { location },
+}: SearchPageProps) {
   const currentLocation = getCurrentLocationFromUrlParams(location)
-  const legalityData = getLegalityDataForLocation(currentLocation)
 
-  const {
-    backgroundColor,
-    heading,
-    subHeading,
-    imageType,
-    ctaLinkUrl,
-    ctaButtonText,
-  } = getStringsForLegalityData(legalityData, currentLocation)
+  const data = await sanityFetch<CMSCountry[]>({
+    query: COUNTRY_MATCH_QUERY,
+    params: { country: currentLocation.country },
+  })
 
-  useEffect(() => {
-    setBackgroundColor(backgroundColor)
-  }, [setBackgroundColor, backgroundColor])
+  const transformedData = transformCMSDataToLegalityByCountry(data)
+
+  const legalityData = getLegalityDataForLocation(
+    currentLocation,
+    transformedData
+  )
 
   return (
-    <main
-      className={
-        'flex flex-col items-center gap-12 py-24 text-center ' + fadeInStyles
-      }
-    >
-      <Result
-        heading={heading}
-        subHeading={subHeading}
-        imageType={imageType}
-        ctaButtonText={ctaButtonText}
-        ctaLinkUrl={ctaLinkUrl}
-      />
-    </main>
+    <SearchLocation
+      currentLocation={currentLocation}
+      legalityData={legalityData}
+    />
   )
 }

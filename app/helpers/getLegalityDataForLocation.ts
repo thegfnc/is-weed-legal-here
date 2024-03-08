@@ -1,7 +1,6 @@
 import pick from 'lodash.pick'
 
-import { CommonLegalityData } from '@/app/types'
-import legailtyByCountry from '@/app/data/legalityByCountry'
+import { CommonLegalityData, LegalityByCountry } from '@/app/types'
 import { CurrentLocation } from '@/app/types'
 
 export type ClosestMatchKey =
@@ -19,14 +18,19 @@ export type GetLegalityDataForLocationReturn = {
 }
 
 const getLegalityDataForLocation = (
-  location: CurrentLocation
+  location: CurrentLocation,
+  data: LegalityByCountry
 ): GetLegalityDataForLocationReturn | null => {
   const legalityData: GetLegalityDataForLocationReturn = {}
+
+  if (!data) {
+    return null
+  }
 
   ////////////////
   // COUNTRY
   ////////////////////////////////
-  const countryMatch = legailtyByCountry[location.country]
+  const countryMatch = data[location.country]
 
   if (countryMatch) {
     legalityData.country = pick(countryMatch, [

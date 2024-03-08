@@ -3,6 +3,10 @@ import getCurrentLocationFromUrlParams from './helpers/getCurrentLocationFromUrl
 import getChildLocationsFromLocation from './helpers/getChildLocationGroupsFromLocation'
 import getUrlFromCurrentLocation from './helpers/getUrlFromCurrentLocation'
 import { CurrentLocation } from './types'
+import { sanityFetch } from './data/client'
+import transformCMSDataToLegalityByCountry, {
+  CMSCountry,
+} from './helpers/transformCMSDataToLegalityByCountry'
 
 const defaultPage: MetadataRoute.Sitemap[0] = {
   url: 'https://www.isweedlegalhere.com',
@@ -11,12 +15,48 @@ const defaultPage: MetadataRoute.Sitemap[0] = {
   priority: 1,
 }
 
+const ALL_DATA_QUERY = `
+  *[_type == 'IIHD_country'] | order(name) {
+    name,
+    isWeedLegalHere,
+    labels,
+    administrativeAreaLevel1 {
+      children[]-> {
+        name,
+        isWeedLegalHere,
+        administrativeAreaLevel2 {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        },
+        locality {
+          children[]-> {
+            name,
+            isWeedLegalHere
+          }
+        }
+      }
+    }
+  }
+`
+
 const enumerateBrowseLocations = (
+  data: CMSCountry[],
   currentLocation: CurrentLocation,
   pageCollector: MetadataRoute.Sitemap = []
 ) => {
-  getChildLocationsFromLocation(currentLocation).forEach(childLocationGroup => {
-    Object.keys(childLocationGroup.data).forEach(childLocationName => {
+  const transformedData = transformCMSDataToLegalityByCountry(data)
+
+  const childLocationGroups = getChildLocationsFromLocation(
+    currentLocation,
+    transformedData
+  )
+
+  for (const childLocationGroup of childLocationGroups) {
+    const childLocationNames = Object.keys(childLocationGroup.data)
+
+    for (const childLocationName of childLocationNames) {
       const childLocation = {
         ...currentLocation,
       }
@@ -35,17 +75,21 @@ const enumerateBrowseLocations = (
       })
 
       if (childLocationGroup.key) {
-        enumerateBrowseLocations(childLocation, pageCollector)
+        enumerateBrowseLocations(data, childLocation, pageCollector)
       }
-    })
-  })
+    }
+  }
 }
 
-const emptyCurrentLocation = getCurrentLocationFromUrlParams([])
-const browsePages: MetadataRoute.Sitemap = []
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const data = await sanityFetch<CMSCountry[]>({
+    query: ALL_DATA_QUERY,
+  })
 
-enumerateBrowseLocations(emptyCurrentLocation, browsePages)
+  const emptyCurrentLocation = getCurrentLocationFromUrlParams([])
+  const browsePages: MetadataRoute.Sitemap = []
 
-export default function sitemap(): MetadataRoute.Sitemap {
+  await enumerateBrowseLocations(data, emptyCurrentLocation, browsePages)
+
   return [defaultPage, ...browsePages]
 }
