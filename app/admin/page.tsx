@@ -102,7 +102,7 @@ const TH_CLASS_NAME =
 
 const TD_CLASS_NAME = 'px-6 py-4 text-sm border-r-2 border-slate-700'
 
-const ALL_COUNTRIES_QUERY = `
+const ALL_DATA_QUERY = `
   *[_type == 'IIHD_country'] | order(name) {
     name,
     isWeedLegalHere,
@@ -130,10 +130,10 @@ const ALL_COUNTRIES_QUERY = `
 
 export default function Admin() {
   const { isLoading, data } = useQuery<CMSCountry[]>({
-    queryKey: ['all'],
+    queryKey: ['all data'],
     queryFn: () =>
       sanityFetch({
-        query: ALL_COUNTRIES_QUERY,
+        query: ALL_DATA_QUERY,
       }),
   })
 
