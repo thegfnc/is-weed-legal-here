@@ -5,7 +5,7 @@ import {
 } from '@/app/types'
 import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
-type ChildLocations = {
+export type ChildLocations = {
   key: keyof CurrentLocation
   label?: {
     singular: string | undefined

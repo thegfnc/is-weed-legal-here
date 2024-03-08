@@ -6,7 +6,7 @@ import { CurrentLocation } from '@/app/types'
 import { BackgroundColor } from '../contexts/backgroundColorContext'
 import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
-type StringsData = {
+export type LegalityStrings = {
   backgroundColor: BackgroundColor
   heading: string
   subHeading: string
@@ -19,7 +19,7 @@ const getStringsForLegalityData = (
   legalityData: GetLegalityDataForLocationReturn | null,
   currentLocation: CurrentLocation
 ) => {
-  const data: StringsData = {
+  const data: LegalityStrings = {
     backgroundColor: BackgroundColor.YELLOW,
     heading: "Sorry! We don't know if weed is legal in your location yet.",
     subHeading: '',
