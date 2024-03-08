@@ -129,8 +129,8 @@ const ALL_COUNTRIES_QUERY = `
 `
 
 export default function Admin() {
-  const { data } = useQuery<CMSCountry[]>({
-    queryKey: ['countries'],
+  const { isLoading, data } = useQuery<CMSCountry[]>({
+    queryKey: ['all'],
     queryFn: () =>
       sanityFetch({
         query: ALL_COUNTRIES_QUERY,
@@ -140,6 +140,10 @@ export default function Admin() {
   const transformedData = transformCMSDataToLegalityByCountry(data)
 
   const tableRows = flattenLegalityData(transformedData)
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div className='my-10 w-full'>

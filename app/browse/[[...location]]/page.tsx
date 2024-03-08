@@ -4,7 +4,9 @@ import { useContext, useEffect } from 'react'
 import Link from 'next/link'
 import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
 import getChildLocationsFromLocation from '@/app/helpers/getChildLocationGroupsFromLocation'
-import getUrlFromCurrentLocation from '@/app/helpers/getUrlFromCurrentLocation'
+import getUrlFromCurrentLocation, {
+  DASH_PLACEHOLDER,
+} from '@/app/helpers/getUrlFromCurrentLocation'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
@@ -64,9 +66,9 @@ export default function Browse({ params: { location = [] } }: BrowseProps) {
   const currentLocation = getCurrentLocationFromUrlParams(location)
 
   const { data } = useQuery<CMSCountry[]>({
-    queryKey: ['countries', currentLocation.country],
+    queryKey: ['country', currentLocation.country],
     queryFn: () =>
-      location.length === 0
+      currentLocation.country === DASH_PLACEHOLDER
         ? sanityFetch({ query: ALL_COUNTRIES_QUERY })
         : sanityFetch({
             query: COUNTRY_MATCH_QUERY,
