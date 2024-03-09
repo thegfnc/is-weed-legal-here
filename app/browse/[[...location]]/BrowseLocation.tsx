@@ -60,9 +60,7 @@ export default function BrowseLocation({
       {childLocationGroups.length > 0 && (
         <div className='my-8 flex w-full flex-col gap-16 md:mt-16'>
           {childLocationGroups.map(childLocationGroup => {
-            const childLocationNames = Object.keys(childLocationGroup.data)
-
-            if (childLocationNames.length === 0) return null
+            if (!childLocationGroup.names.length) return null
 
             return (
               <div key={childLocationGroup.key}>
@@ -72,7 +70,7 @@ export default function BrowseLocation({
                   </h3>
                 )}
                 <div className='mt-4 grid grid-cols-2 gap-x-4 gap-y-[10px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-                  {childLocationNames.map(childLocationName => {
+                  {childLocationGroup.names.map(childLocationName => {
                     const childLocation = {
                       ...currentLocation,
                     }

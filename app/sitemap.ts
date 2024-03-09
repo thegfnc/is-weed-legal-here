@@ -54,9 +54,7 @@ const enumerateBrowseLocations = (
   )
 
   for (const childLocationGroup of childLocationGroups) {
-    const childLocationNames = Object.keys(childLocationGroup.data)
-
-    for (const childLocationName of childLocationNames) {
+    for (const childLocationName of childLocationGroup.names) {
       const childLocation = {
         ...currentLocation,
       }

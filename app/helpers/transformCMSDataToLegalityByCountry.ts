@@ -30,15 +30,15 @@ type CMSAdministrativeAreaLevel1 = CMSLocationCommon & {
 
 export type CMSCountry = CMSLocationCommon & {
   labels: {
-    administrativeAreaLevel1: {
+    administrativeAreaLevel1?: {
       singular: string
       plural: string
     }
-    administrativeAreaLevel2: {
+    administrativeAreaLevel2?: {
       singular: string
       plural: string
     }
-    locality: {
+    locality?: {
       singular: string
       plural: string
     }
@@ -81,16 +81,16 @@ export default function transformCMSDataToLegalityByCountry(
       QUANTITY: country.isWeedLegalHere.recreational.quantity || null,
       labels: {
         administrativeAreaLevel1: {
-          singular: country.labels?.administrativeAreaLevel1.singular,
-          plural: country.labels?.administrativeAreaLevel1.plural,
+          singular: country.labels?.administrativeAreaLevel1?.singular,
+          plural: country.labels?.administrativeAreaLevel1?.plural,
         },
         administrativeAreaLevel2: {
-          singular: country.labels?.administrativeAreaLevel2.singular,
-          plural: country.labels?.administrativeAreaLevel2.plural,
+          singular: country.labels?.administrativeAreaLevel2?.singular,
+          plural: country.labels?.administrativeAreaLevel2?.plural,
         },
         locality: {
-          singular: country.labels?.locality.singular,
-          plural: country.labels?.locality.plural,
+          singular: country.labels?.locality?.singular,
+          plural: country.labels?.locality?.plural,
         },
       },
     }

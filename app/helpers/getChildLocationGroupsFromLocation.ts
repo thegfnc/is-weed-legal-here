@@ -11,7 +11,7 @@ export type ChildLocations = {
     singular: string | undefined
     plural: string | undefined
   }
-  data: LegalityByCountry | LegalityByAdministrativeAreaLevel1
+  names: string[]
 }
 
 export default function getChildLocationsFromLocation(
@@ -22,7 +22,7 @@ export default function getChildLocationsFromLocation(
     return [
       {
         key: 'country',
-        data,
+        names: Object.keys(data).sort((a, b) => a.localeCompare(b)),
       },
     ]
   }
@@ -61,7 +61,9 @@ export default function getChildLocationsFromLocation(
           singular: countryMatch.labels?.locality?.singular,
           plural: countryMatch.labels?.locality?.plural,
         },
-        data: { ...administrativeAreaLevel1Match.locality },
+        names: Object.keys(administrativeAreaLevel1Match.locality || {}).sort(
+          (a, b) => a.localeCompare(b)
+        ),
       },
       {
         key: 'administrativeAreaLevel2',
@@ -69,9 +71,9 @@ export default function getChildLocationsFromLocation(
           singular: countryMatch.labels?.administrativeAreaLevel2?.singular,
           plural: countryMatch.labels?.administrativeAreaLevel2?.plural,
         },
-        data: {
-          ...administrativeAreaLevel1Match.administrativeAreaLevel2,
-        },
+        names: Object.keys(
+          administrativeAreaLevel1Match.administrativeAreaLevel2 || {}
+        ).sort((a, b) => a.localeCompare(b)),
       },
     ]
   }
@@ -84,7 +86,9 @@ export default function getChildLocationsFromLocation(
           singular: countryMatch.labels?.administrativeAreaLevel1?.singular,
           plural: countryMatch.labels?.administrativeAreaLevel1?.plural,
         },
-        data: { ...countryMatch.administrativeAreaLevel1 },
+        names: Object.keys(countryMatch.administrativeAreaLevel1 || {}).sort(
+          (a, b) => a.localeCompare(b)
+        ),
       },
     ]
   }

@@ -45,16 +45,16 @@ export type LegalityByCountry = {
     administrativeAreaLevel1?: LegalityByAdministrativeAreaLevel1
     labels?: {
       administrativeAreaLevel1?: {
-        plural: string
-        singular: string
+        plural: string | undefined
+        singular: string | undefined
       }
       administrativeAreaLevel2?: {
-        plural: string
-        singular: string
+        plural: string | undefined
+        singular: string | undefined
       }
       locality?: {
-        plural: string
-        singular: string
+        plural: string | undefined
+        singular: string | undefined
       }
     }
   }
