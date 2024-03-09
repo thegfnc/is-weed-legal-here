@@ -1,7 +1,7 @@
 export enum HeadingSizes {
-  SMALL = 'text-[24px] md:text-[36px]',
+  SMALL = 'text-[22px] md:text-[32px]',
   MEDIUM = 'text-[36px] md:text-[48px]',
-  LARGE = 'text-[48px] md:text-[72px]',
+  LARGE = 'text-[42px] md:text-[64px]',
 }
 
 type HeadingProps = {

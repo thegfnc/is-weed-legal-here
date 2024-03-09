@@ -1,8 +1,13 @@
 import pick from 'lodash.pick'
 
-import { CMSCountry, CommonLegalityData, LegalityByCountry } from '@/app/types'
+import {
+  CMSAdministrativeAreaLevel1,
+  CMSAdministrativeAreaLevel2,
+  CMSCountry,
+  CMSLocality,
+} from '@/app/types'
 import { CurrentLocation } from '@/app/types'
-import transformCMSDataToLegalityByCountry from './transformCMSDataToLegalityByCountry'
+import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
 export type ClosestMatchKey =
   | 'country'
@@ -11,10 +16,10 @@ export type ClosestMatchKey =
   | 'locality'
 
 export type GetLegalityDataForLocationReturn = {
-  country?: CommonLegalityData
-  administrativeAreaLevel1?: CommonLegalityData
-  administrativeAreaLevel2?: CommonLegalityData
-  locality?: CommonLegalityData
+  country?: CMSCountry
+  administrativeAreaLevel1?: CMSAdministrativeAreaLevel1
+  administrativeAreaLevel2?: CMSAdministrativeAreaLevel2
+  locality?: CMSLocality
   closestMatchKey?: ClosestMatchKey
 }
 
@@ -28,18 +33,16 @@ const getLegalityDataForLocation = (
     return null
   }
 
-  const transformedData = transformCMSDataToLegalityByCountry(data)
-
   ////////////////
   // COUNTRY
   ////////////////////////////////
-  const countryMatch = transformedData[location.country]
+  const countryMatch = data.find(country => country.name === location.country)
 
   if (countryMatch) {
     legalityData.country = pick(countryMatch, [
-      'MEDICINAL',
-      'RECREATIONAL',
-      'QUANTITY',
+      'name',
+      'isWeedLegalHere',
+      'labels',
     ])
     legalityData.closestMatchKey = 'country'
   }
@@ -49,14 +52,16 @@ const getLegalityDataForLocation = (
   ////////////////////////////////
   const administrativeAreaLevel1Match =
     countryMatch &&
-    countryMatch.administrativeAreaLevel1 &&
-    location.administrativeAreaLevel1 &&
-    countryMatch.administrativeAreaLevel1[location.administrativeAreaLevel1]
+    location.administrativeAreaLevel1 !== DASH_PLACEHOLDER &&
+    countryMatch.administrativeAreaLevel1?.children?.find(
+      administrativeAreaLevel1 =>
+        administrativeAreaLevel1.name === location.administrativeAreaLevel1
+    )
 
   if (administrativeAreaLevel1Match) {
     legalityData.administrativeAreaLevel1 = pick(
       administrativeAreaLevel1Match,
-      ['MEDICINAL', 'RECREATIONAL', 'QUANTITY']
+      ['name', 'isWeedLegalHere']
     )
     legalityData.closestMatchKey = 'administrativeAreaLevel1'
   }
@@ -66,16 +71,16 @@ const getLegalityDataForLocation = (
   ////////////////////////////////
   const administrativeAreaLevel2Match =
     administrativeAreaLevel1Match &&
-    administrativeAreaLevel1Match.administrativeAreaLevel2 &&
-    location.administrativeAreaLevel2 &&
-    administrativeAreaLevel1Match.administrativeAreaLevel2[
-      location.administrativeAreaLevel2
-    ]
+    location.administrativeAreaLevel2 !== DASH_PLACEHOLDER &&
+    administrativeAreaLevel1Match.administrativeAreaLevel2?.children?.find(
+      administrativeAreaLevel2 =>
+        administrativeAreaLevel2.name === location.administrativeAreaLevel2
+    )
 
   if (administrativeAreaLevel2Match) {
     legalityData.administrativeAreaLevel2 = pick(
       administrativeAreaLevel2Match,
-      ['MEDICINAL', 'RECREATIONAL', 'QUANTITY']
+      ['name', 'isWeedLegalHere']
     )
     legalityData.closestMatchKey = 'administrativeAreaLevel2'
   }
@@ -85,16 +90,13 @@ const getLegalityDataForLocation = (
   ////////////////////////////////
   const localityMatch =
     administrativeAreaLevel1Match &&
-    administrativeAreaLevel1Match.locality &&
-    location.locality &&
-    administrativeAreaLevel1Match.locality[location.locality]
+    location.locality !== DASH_PLACEHOLDER &&
+    administrativeAreaLevel1Match.locality?.children?.find(
+      locality => locality.name === location.locality
+    )
 
   if (localityMatch) {
-    legalityData.locality = pick(localityMatch, [
-      'MEDICINAL',
-      'RECREATIONAL',
-      'QUANTITY',
-    ])
+    legalityData.locality = pick(localityMatch, ['name', 'isWeedLegalHere'])
     legalityData.closestMatchKey = 'locality'
   }
 

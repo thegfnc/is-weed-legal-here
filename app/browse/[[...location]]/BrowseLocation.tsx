@@ -1,19 +1,14 @@
 'use client'
 
-import { useContext, useEffect } from 'react'
 import Link from 'next/link'
-import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
-import getUrlFromCurrentLocation, {
-  DASH_PLACEHOLDER,
-} from '@/app/helpers/getUrlFromCurrentLocation'
+import getUrlFromCurrentLocation from '@/app/helpers/getUrlFromCurrentLocation'
 import Breadcrumbs from '@/app/components/Breadcrumbs'
-import { HeadingSizes } from '@/app/components/Heading'
 import Result from '@/app/components/Result'
 import useFadeIn from '@/app/hooks/useFadeIn'
 import { ChildLocations } from '@/app/helpers/getChildLocationGroupsFromLocation'
-import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
 import { CurrentLocation } from '@/app/types'
 import { GetLegalityDataForLocationReturn } from '@/app/helpers/getLegalityDataForLocation'
+import Heading, { HeadingSizes } from '@/app/components/Heading'
 
 type BrowseLocationProps = {
   currentLocation: CurrentLocation
@@ -27,38 +22,20 @@ export default function BrowseLocation({
   childLocationGroups,
 }: BrowseLocationProps) {
   const fadeInStyles = useFadeIn()
-  const setBackgroundColor = useContext(SetBackgroundColorContext)
-
-  const { heading, subHeading, ctaButtonText, ctaLinkUrl, backgroundColor } =
-    getStringsForLegalityData(legalityData, currentLocation)
-
-  useEffect(() => {
-    setBackgroundColor(backgroundColor)
-  }, [setBackgroundColor, backgroundColor])
 
   return (
     <main
       className={
-        'mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-8 text-center md:py-14 ' +
+        'mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-8 md:py-14 ' +
         fadeInStyles
       }
     >
       <Breadcrumbs currentLocation={currentLocation} />
-      <div className='flex flex-col items-center gap-6 py-24 text-center'>
-        <Result
-          heading={
-            currentLocation.country === DASH_PLACEHOLDER
-              ? 'Browse around the world.'
-              : heading
-          }
-          headingSize={HeadingSizes.MEDIUM}
-          subHeading={subHeading}
-          ctaButtonText={ctaButtonText}
-          ctaLinkUrl={ctaLinkUrl}
-        />
+      <div className='flex flex-col items-center px-20 pb-16 pt-[72px]'>
+        <Result currentLocation={currentLocation} legalityData={legalityData} />
       </div>
       {childLocationGroups.length > 0 && (
-        <div className='my-8 flex w-full flex-col gap-16 md:mt-16'>
+        <div className='my-8 flex w-full flex-col gap-16 text-center md:mt-16'>
           {childLocationGroups.map(childLocationGroup => {
             if (!childLocationGroup.names.length) return null
 

@@ -1,3 +1,5 @@
+import { TypedObject } from '@portabletext/types'
+
 export type CurrentLocation = {
   country: string
   administrativeAreaLevel1: string
@@ -6,98 +8,74 @@ export type CurrentLocation = {
   postalCode: string
 }
 
-export enum LegalStatus {
-  Legal = 'Legal',
-  Illegal = 'Illegal',
-  Decriminalized = 'Decriminalized',
-  Unknown = 'Unknown',
-}
+export type MedicinalLegalStatus = 'illegal' | 'legal' | 'unknown'
 
-export type CommonLegalityData = {
-  MEDICINAL: LegalStatus
-  RECREATIONAL: LegalStatus
-  QUANTITY: string | null
-}
-
-type LegalityByLocalityValue = CommonLegalityData
-
-export type LegalityByLocality = {
-  [key: string]: LegalityByLocalityValue
-}
-
-type LegalityByAdministrativeAreaLevel2Value = CommonLegalityData
-
-export type LegalityByAdministrativeAreaLevel2 = {
-  [key: string]: LegalityByAdministrativeAreaLevel2Value
-}
-
-type LegalityByAdministrativeAreaLevel1Value = CommonLegalityData & {
-  administrativeAreaLevel2?: LegalityByAdministrativeAreaLevel2
-  locality?: LegalityByLocality
-}
-
-export type LegalityByAdministrativeAreaLevel1 = {
-  [key: string]: LegalityByAdministrativeAreaLevel1Value
-}
-
-export type LegalityByCountry = {
-  [key: string]: CommonLegalityData & {
-    administrativeAreaLevel1?: LegalityByAdministrativeAreaLevel1
-    labels?: {
-      administrativeAreaLevel1?: {
-        plural: string | undefined
-        singular: string | undefined
-      }
-      administrativeAreaLevel2?: {
-        plural: string | undefined
-        singular: string | undefined
-      }
-      locality?: {
-        plural: string | undefined
-        singular: string | undefined
-      }
-    }
-  }
-}
+export type CommonLegalStatus =
+  | 'illegal'
+  | 'legal'
+  | 'decriminalized'
+  | 'unknown'
 
 type CMSLocationCommon = {
   name: string
-  isWeedLegalHere: {
-    medicinal: {
-      legalStatus: 'illegal' | 'legal' | 'unknown'
+  isWeedLegalHere?: {
+    overview?: TypedObject[]
+    medicinal?: {
+      legalStatus?: MedicinalLegalStatus
+      quantity?: string
     }
-    recreational: {
-      legalStatus: 'illegal' | 'legal' | 'decriminalized' | 'unknown'
-      quantity: string
+    recreational?: {
+      legalStatus?: CommonLegalStatus
+      quantity?: string
+    }
+    thca?: {
+      legalStatus?: CommonLegalStatus
+      quantity?: string
+    }
+    delta9?: {
+      legalStatus?: CommonLegalStatus
+      quantity?: string
+    }
+    delta8?: {
+      legalStatus?: CommonLegalStatus
+      quantity?: string
+    }
+    cbd?: {
+      legalStatus?: CommonLegalStatus
+      quantity?: string
     }
   }
 }
 
-type CMSAdministrativeAreaLevel1 = CMSLocationCommon & {
+export type CMSLocality = CMSLocationCommon
+
+export type CMSAdministrativeAreaLevel2 = CMSLocationCommon
+
+export type CMSAdministrativeAreaLevel1 = CMSLocationCommon & {
   administrativeAreaLevel2?: {
-    children: CMSLocationCommon[]
+    children?: CMSAdministrativeAreaLevel2[]
   }
   locality?: {
-    children: CMSLocationCommon[]
+    children?: CMSLocality[]
   }
 }
 
 export type CMSCountry = CMSLocationCommon & {
-  labels: {
+  labels?: {
     administrativeAreaLevel1?: {
-      singular: string
-      plural: string
+      singular?: string
+      plural?: string
     }
     administrativeAreaLevel2?: {
-      singular: string
-      plural: string
+      singular?: string
+      plural?: string
     }
     locality?: {
-      singular: string
-      plural: string
+      singular?: string
+      plural?: string
     }
   }
   administrativeAreaLevel1?: {
-    children: CMSAdministrativeAreaLevel1[]
+    children?: CMSAdministrativeAreaLevel1[]
   }
 }

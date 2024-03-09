@@ -1,9 +1,6 @@
 'use client'
 
 import { GetLegalityDataForLocationReturn } from '@/app/helpers/getLegalityDataForLocation'
-import getStringsForLegalityData from '@/app/helpers/getStringsForLegalityData'
-import { useContext, useEffect } from 'react'
-import { SetBackgroundColorContext } from '@/app/contexts/backgroundColorContext'
 import Result from '@/app/components/Result'
 import useFadeIn from '@/app/hooks/useFadeIn'
 import { CurrentLocation } from '@/app/types'
@@ -18,34 +15,17 @@ export default function SearchLocation({
   legalityData,
 }: SearchLocationProps) {
   const fadeInStyles = useFadeIn()
-  const setBackgroundColor = useContext(SetBackgroundColorContext)
-
-  const {
-    backgroundColor,
-    heading,
-    subHeading,
-    imageType,
-    ctaLinkUrl,
-    ctaButtonText,
-  } = getStringsForLegalityData(legalityData, currentLocation)
-
-  useEffect(() => {
-    setBackgroundColor(backgroundColor)
-  }, [setBackgroundColor, backgroundColor])
 
   return (
     <main
       className={
-        'flex flex-col items-center gap-12 py-24 text-center ' + fadeInStyles
+        'mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-8 md:py-14 ' +
+        fadeInStyles
       }
     >
-      <Result
-        heading={heading}
-        subHeading={subHeading}
-        imageType={imageType}
-        ctaButtonText={ctaButtonText}
-        ctaLinkUrl={ctaLinkUrl}
-      />
+      <div className='flex flex-col items-center px-20 pb-16 pt-[72px]'>
+        <Result currentLocation={currentLocation} legalityData={legalityData} />
+      </div>
     </main>
   )
 }

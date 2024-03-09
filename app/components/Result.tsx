@@ -1,39 +1,76 @@
+import { TypedObject } from '@portabletext/types'
+
 import MainImage from '@/app/components/MainImage'
 import SubHeading from '@/app/components/SubHeading'
-import Heading, { HeadingSizes } from '@/app/components/Heading'
+import Heading from '@/app/components/Heading'
 import CallToActionButton from '@/app/components/CallToActionButton'
 import { MainImageType } from '../data/images'
+import Overview from './Overview'
+import LegalityStatusTable from './LegalityStatusTable'
+import RelatedLocationsList from './RelatedLocationsList'
+import SponsoredBy from './SponsoredBy'
+import { CurrentLocation } from '../types'
+import { GetLegalityDataForLocationReturn } from '../helpers/getLegalityDataForLocation'
+import { DASH_PLACEHOLDER } from '../helpers/getUrlFromCurrentLocation'
+import getStringsForLegalityData from '../helpers/getStringsForLegalityData'
+import { useContext, useEffect } from 'react'
+import { SetBackgroundColorContext } from '../contexts/backgroundColorContext'
 
 type ResultProps = {
-  heading: string
-  headingSize?: HeadingSizes
-  subHeading?: string
-  imageType?: MainImageType | null
-  ctaLinkUrl?: string | null
-  ctaButtonText?: string
+  currentLocation: CurrentLocation
+  legalityData: GetLegalityDataForLocationReturn | null
 }
 
-export default function Result({
-  heading,
-  headingSize = HeadingSizes.LARGE,
-  subHeading,
-  imageType,
-  ctaLinkUrl,
-  ctaButtonText,
-}: ResultProps) {
+export default function Result({ currentLocation, legalityData }: ResultProps) {
+  const setBackgroundColor = useContext(SetBackgroundColorContext)
+
+  const {
+    heading,
+    subHeading,
+    ctaButtonText,
+    ctaLinkUrl,
+    backgroundColor,
+    imageType,
+    overview,
+  } = getStringsForLegalityData(legalityData, currentLocation)
+
+  useEffect(() => {
+    setBackgroundColor(backgroundColor)
+  }, [setBackgroundColor, backgroundColor])
+
   return (
     <>
-      <div className='max-w-6xl'>
-        <Heading text={heading} size={headingSize} />
+      <div className='flex flex-col items-center gap-6 text-center'>
+        <Heading
+          text={
+            currentLocation.country === DASH_PLACEHOLDER
+              ? 'Browse around the world.'
+              : heading
+          }
+        />
+        {subHeading && (
+          <div>
+            <SubHeading text={subHeading} />
+          </div>
+        )}
+        {imageType && <MainImage type={imageType} />}
+        {ctaButtonText && ctaLinkUrl && (
+          <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />
+        )}
       </div>
-      {subHeading && (
-        <div>
-          <SubHeading text={subHeading} />
+      {legalityData && overview && (
+        <div className='mt-[72px] grid grid-cols-3 gap-[120px] border-t-2 border-brand-purple pt-16'>
+          <div className='col-span-2'>
+            {overview && <Overview body={overview} />}
+            <div className='mt-16 border-t-2 border-brand-purple pt-16'>
+              <LegalityStatusTable legalityData={legalityData} />
+            </div>
+          </div>
+          <div className='flex flex-col gap-8'>
+            <RelatedLocationsList currentLocation={currentLocation} />
+            <SponsoredBy />
+          </div>
         </div>
-      )}
-      {imageType && <MainImage type={imageType} />}
-      {ctaButtonText && ctaLinkUrl && (
-        <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />
       )}
     </>
   )
