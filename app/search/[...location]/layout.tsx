@@ -49,6 +49,12 @@ export async function generateMetadata(
   const data = await sanityFetch<CMSCountry[]>({
     query: COUNTRY_MATCH_QUERY,
     params: { country: currentLocation.country },
+    tags: [
+      'IIHD_country',
+      'IIHD_administrativeAreaLevel1',
+      'IIHD_administrativeAreaLevel2',
+      'IIHD_locality',
+    ],
   })
   const transformedData = transformCMSDataToLegalityByCountry(data)
   const legalityData = getLegalityDataForLocation(

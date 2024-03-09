@@ -128,6 +128,12 @@ const ALL_DATA_QUERY = `
 export default async function Admin() {
   const data = await sanityFetch<CMSCountry[]>({
     query: ALL_DATA_QUERY,
+    tags: [
+      'IIHD_country',
+      'IIHD_administrativeAreaLevel1',
+      'IIHD_administrativeAreaLevel2',
+      'IIHD_locality',
+    ],
   })
 
   const transformedData = transformCMSDataToLegalityByCountry(data)

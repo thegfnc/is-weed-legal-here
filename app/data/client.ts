@@ -14,13 +14,15 @@ export const client = createClient({
 type SanityFetchParams = {
   query: string
   params?: QueryParams
+  tags?: string[]
 }
 
 export async function sanityFetch<QueryResponse>({
   query,
   params = {},
+  tags,
 }: SanityFetchParams) {
   return client.fetch<QueryResponse>(query, params, {
-    next: { revalidate: 60 },
+    next: { tags },
   })
 }

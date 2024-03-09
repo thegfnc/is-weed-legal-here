@@ -84,6 +84,12 @@ const enumerateBrowseLocations = (
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const data = await sanityFetch<CMSCountry[]>({
     query: ALL_DATA_QUERY,
+    tags: [
+      'IIHD_country',
+      'IIHD_administrativeAreaLevel1',
+      'IIHD_administrativeAreaLevel2',
+      'IIHD_locality',
+    ],
   })
 
   const emptyCurrentLocation = getCurrentLocationFromUrlParams([])
