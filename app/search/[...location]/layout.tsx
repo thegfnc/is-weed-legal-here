@@ -1,10 +1,8 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
-import transformCMSDataToLegalityByCountry, {
-  CMSCountry,
-} from '@/app/helpers/transformCMSDataToLegalityByCountry'
 import { sanityFetch } from '@/app/data/client'
+import { CMSCountry } from '@/app/types'
 
 type GenerateMetadataProps = {
   params: {
@@ -56,11 +54,8 @@ export async function generateMetadata(
       'IIHD_locality',
     ],
   })
-  const transformedData = transformCMSDataToLegalityByCountry(data)
-  const legalityData = getLegalityDataForLocation(
-    currentLocation,
-    transformedData
-  )
+
+  const legalityData = getLegalityDataForLocation(currentLocation, data)
 
   const closestLocationName =
     legalityData?.closestMatchKey &&

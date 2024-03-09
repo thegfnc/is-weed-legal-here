@@ -1,52 +1,11 @@
 import {
+  CMSCountry,
   LegalStatus,
   LegalityByAdministrativeAreaLevel1,
   LegalityByAdministrativeAreaLevel2,
   LegalityByCountry,
   LegalityByLocality,
 } from '../types'
-
-type CMSLocationCommon = {
-  name: string
-  isWeedLegalHere: {
-    medicinal: {
-      legalStatus: 'illegal' | 'legal' | 'unknown'
-    }
-    recreational: {
-      legalStatus: 'illegal' | 'legal' | 'decriminalized' | 'unknown'
-      quantity: string
-    }
-  }
-}
-
-type CMSAdministrativeAreaLevel1 = CMSLocationCommon & {
-  administrativeAreaLevel2?: {
-    children: CMSLocationCommon[]
-  }
-  locality?: {
-    children: CMSLocationCommon[]
-  }
-}
-
-export type CMSCountry = CMSLocationCommon & {
-  labels: {
-    administrativeAreaLevel1?: {
-      singular: string
-      plural: string
-    }
-    administrativeAreaLevel2?: {
-      singular: string
-      plural: string
-    }
-    locality?: {
-      singular: string
-      plural: string
-    }
-  }
-  administrativeAreaLevel1?: {
-    children: CMSAdministrativeAreaLevel1[]
-  }
-}
 
 const getLegalStatusFromString = (legalStatus: string): LegalStatus => {
   switch (legalStatus) {

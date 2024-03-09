@@ -1,10 +1,8 @@
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
-import transformCMSDataToLegalityByCountry, {
-  CMSCountry,
-} from '@/app/helpers/transformCMSDataToLegalityByCountry'
 import { sanityFetch } from '@/app/data/client'
 import SearchLocation from './SearchLocation'
+import { CMSCountry } from '@/app/types'
 
 type SearchPageProps = {
   params: {
@@ -54,12 +52,7 @@ export default async function SearchPage({
     ],
   })
 
-  const transformedData = transformCMSDataToLegalityByCountry(data)
-
-  const legalityData = getLegalityDataForLocation(
-    currentLocation,
-    transformedData
-  )
+  const legalityData = getLegalityDataForLocation(currentLocation, data)
 
   return (
     <SearchLocation

@@ -3,10 +3,8 @@ import { DASH_PLACEHOLDER } from '@/app/helpers/getUrlFromCurrentLocation'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
 import { sanityFetch } from '@/app/data/client'
-import transformCMSDataToLegalityByCountry, {
-  CMSCountry,
-} from '@/app/helpers/transformCMSDataToLegalityByCountry'
 import BrowseLocation from './BrowseLocation'
+import { CMSCountry } from '@/app/types'
 
 type BrowsePageProps = {
   params: {
@@ -66,16 +64,11 @@ export default async function BrowsePage({
     ],
   })
 
-  const transformedData = transformCMSDataToLegalityByCountry(data)
-
   const childLocationGroups = getChildLocationsFromLocation(
     currentLocation,
-    transformedData
+    data
   )
-  const legalityData = getLegalityDataForLocation(
-    currentLocation,
-    transformedData
-  )
+  const legalityData = getLegalityDataForLocation(currentLocation, data)
 
   return (
     <BrowseLocation

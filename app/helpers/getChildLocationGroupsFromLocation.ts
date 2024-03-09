@@ -1,8 +1,4 @@
-import {
-  CurrentLocation,
-  LegalityByCountry,
-  LegalityByAdministrativeAreaLevel1,
-} from '@/app/types'
+import { CMSCountry, CurrentLocation } from '@/app/types'
 import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
 export type ChildLocations = {
@@ -16,38 +12,43 @@ export type ChildLocations = {
 
 export default function getChildLocationsFromLocation(
   location: CurrentLocation,
-  data: LegalityByCountry
+  data: CMSCountry[]
 ): ChildLocations[] {
   if (location.country === DASH_PLACEHOLDER) {
     return [
       {
         key: 'country',
-        names: Object.keys(data).sort((a, b) => a.localeCompare(b)),
+        names: data
+          .map(country => country.name)
+          .sort((a, b) => a.localeCompare(b)),
       },
     ]
   }
 
-  const countryMatch = data[location.country]
+  const countryMatch = data.find(country => country.name === location.country)
 
   const administrativeAreaLevel1Match =
     countryMatch &&
-    countryMatch.administrativeAreaLevel1 &&
-    location.administrativeAreaLevel1 &&
-    countryMatch.administrativeAreaLevel1[location.administrativeAreaLevel1]
+    location.administrativeAreaLevel1 !== DASH_PLACEHOLDER &&
+    countryMatch.administrativeAreaLevel1?.children.find(
+      administrativeAreaLevel1 =>
+        administrativeAreaLevel1.name === location.administrativeAreaLevel1
+    )
 
   const administrativeAreaLevel2Match =
     administrativeAreaLevel1Match &&
-    administrativeAreaLevel1Match.administrativeAreaLevel2 &&
-    location.administrativeAreaLevel2 &&
-    administrativeAreaLevel1Match.administrativeAreaLevel2[
-      location.administrativeAreaLevel2
-    ]
+    location.administrativeAreaLevel2 !== DASH_PLACEHOLDER &&
+    administrativeAreaLevel1Match.administrativeAreaLevel2?.children.find(
+      administrativeAreaLevel2 =>
+        administrativeAreaLevel2.name === location.administrativeAreaLevel2
+    )
 
   const localityMatch =
     administrativeAreaLevel1Match &&
-    administrativeAreaLevel1Match.locality &&
-    location.locality &&
-    administrativeAreaLevel1Match.locality[location.locality]
+    location.locality !== DASH_PLACEHOLDER &&
+    administrativeAreaLevel1Match.locality?.children.find(
+      locality => locality.name === location.locality
+    )
 
   if (localityMatch || administrativeAreaLevel2Match) {
     return []
@@ -61,9 +62,10 @@ export default function getChildLocationsFromLocation(
           singular: countryMatch.labels?.locality?.singular,
           plural: countryMatch.labels?.locality?.plural,
         },
-        names: Object.keys(administrativeAreaLevel1Match.locality || {}).sort(
-          (a, b) => a.localeCompare(b)
-        ),
+        names:
+          administrativeAreaLevel1Match.locality?.children
+            .map(locality => locality.name)
+            .sort((a, b) => a.localeCompare(b)) ?? [],
       },
       {
         key: 'administrativeAreaLevel2',
@@ -71,9 +73,10 @@ export default function getChildLocationsFromLocation(
           singular: countryMatch.labels?.administrativeAreaLevel2?.singular,
           plural: countryMatch.labels?.administrativeAreaLevel2?.plural,
         },
-        names: Object.keys(
-          administrativeAreaLevel1Match.administrativeAreaLevel2 || {}
-        ).sort((a, b) => a.localeCompare(b)),
+        names:
+          administrativeAreaLevel1Match.administrativeAreaLevel2?.children
+            .map(administrativeAreaLevel2 => administrativeAreaLevel2.name)
+            .sort((a, b) => a.localeCompare(b)) ?? [],
       },
     ]
   }
@@ -86,9 +89,10 @@ export default function getChildLocationsFromLocation(
           singular: countryMatch.labels?.administrativeAreaLevel1?.singular,
           plural: countryMatch.labels?.administrativeAreaLevel1?.plural,
         },
-        names: Object.keys(countryMatch.administrativeAreaLevel1 || {}).sort(
-          (a, b) => a.localeCompare(b)
-        ),
+        names:
+          countryMatch.administrativeAreaLevel1?.children
+            .map(administrativeAreaLevel1 => administrativeAreaLevel1.name)
+            .sort((a, b) => a.localeCompare(b)) ?? [],
       },
     ]
   }

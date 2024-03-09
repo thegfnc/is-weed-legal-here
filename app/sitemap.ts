@@ -2,11 +2,8 @@ import { MetadataRoute } from 'next'
 import getCurrentLocationFromUrlParams from './helpers/getCurrentLocationFromUrlParams'
 import getChildLocationsFromLocation from './helpers/getChildLocationGroupsFromLocation'
 import getUrlFromCurrentLocation from './helpers/getUrlFromCurrentLocation'
-import { CurrentLocation } from './types'
+import { CMSCountry, CurrentLocation } from './types'
 import { sanityFetch } from './data/client'
-import transformCMSDataToLegalityByCountry, {
-  CMSCountry,
-} from './helpers/transformCMSDataToLegalityByCountry'
 
 const defaultPage: MetadataRoute.Sitemap[0] = {
   url: 'https://www.isweedlegalhere.com',
@@ -46,11 +43,9 @@ const enumerateBrowseLocations = (
   currentLocation: CurrentLocation,
   pageCollector: MetadataRoute.Sitemap = []
 ) => {
-  const transformedData = transformCMSDataToLegalityByCountry(data)
-
   const childLocationGroups = getChildLocationsFromLocation(
     currentLocation,
-    transformedData
+    data
   )
 
   for (const childLocationGroup of childLocationGroups) {

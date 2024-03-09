@@ -1,8 +1,6 @@
 import Heading from '../components/Heading'
-import { LegalStatus, LegalityByCountry } from '../types'
-import transformCMSDataToLegalityByCountry, {
-  CMSCountry,
-} from '../helpers/transformCMSDataToLegalityByCountry'
+import { CMSCountry, LegalStatus, LegalityByCountry } from '../types'
+import transformCMSDataToLegalityByCountry from '../helpers/transformCMSDataToLegalityByCountry'
 import { sanityFetch } from '../data/client'
 
 type TableRow = {
