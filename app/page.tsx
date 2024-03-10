@@ -25,7 +25,9 @@ export default function Home() {
   }, [setBackgroundColor])
 
   return (
-    <main className={'flex flex-col gap-10 py-24 text-center ' + fadeInStyles}>
+    <main
+      className={'flex flex-col gap-9 px-2 py-24 text-center ' + fadeInStyles}
+    >
       <Heading text={'Is weed legal here?'} />
       <div className='flex flex-col gap-6'>
         <Suspense fallback={<SearchInputsFallback />}>
