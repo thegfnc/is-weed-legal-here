@@ -32,7 +32,7 @@ const CallToActionButton = ({ text, linkUrl }: CallToActionButtonProps) => {
       target='_blank'
       rel='noopener noreferrer'
     >
-      {text} <MdKeyboardArrowRight size='24px' className='ml-2' />
+      {text} <MdKeyboardArrowRight className='ml-2 size-6' />
     </a>
   )
 }
