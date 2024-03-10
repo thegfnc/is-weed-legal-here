@@ -28,7 +28,7 @@ export default function LegalityStatusTable({
         <div className='grid grid-cols-3 border-t-2 border-brand-purple px-4 lg:px-6'>
           <div className='py-4 pr-[10px]'>Medicinal</div>
           <div className='py-4 pr-[10px] capitalize'>
-            {closestMatchData.isWeedLegalHere?.medicinal?.legalStatus}
+            {closestMatchData.isWeedLegalHere?.medicinal?.legalStatus || '–'}
           </div>
           <div className='py-4'>
             {closestMatchData.isWeedLegalHere?.medicinal?.quantity || '–'}
@@ -37,7 +37,7 @@ export default function LegalityStatusTable({
             Recreational
           </div>
           <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
-            {closestMatchData.isWeedLegalHere?.recreational?.legalStatus}
+            {closestMatchData.isWeedLegalHere?.recreational?.legalStatus || '–'}
           </div>
           <div className='border-t-2 border-brand-purple py-4'>
             {closestMatchData.isWeedLegalHere?.recreational?.quantity || '–'}
@@ -46,7 +46,7 @@ export default function LegalityStatusTable({
             THCA
           </div>
           <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
-            {closestMatchData.isWeedLegalHere?.thca?.legalStatus}
+            {closestMatchData.isWeedLegalHere?.thca?.legalStatus || '–'}
           </div>
           <div className='border-t-2 border-brand-purple py-4'>
             {closestMatchData.isWeedLegalHere?.thca?.quantity || '–'}
@@ -55,7 +55,7 @@ export default function LegalityStatusTable({
             Delta 8
           </div>
           <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
-            {closestMatchData.isWeedLegalHere?.delta8?.legalStatus}
+            {closestMatchData.isWeedLegalHere?.delta8?.legalStatus || '–'}
           </div>
           <div className='border-t-2 border-brand-purple py-4'>
             {closestMatchData.isWeedLegalHere?.delta8?.quantity || '–'}
@@ -64,7 +64,7 @@ export default function LegalityStatusTable({
             Delta 9
           </div>
           <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
-            {closestMatchData.isWeedLegalHere?.delta9?.legalStatus}
+            {closestMatchData.isWeedLegalHere?.delta9?.legalStatus || '–'}
           </div>
           <div className='border-t-2 border-brand-purple py-4'>
             {closestMatchData.isWeedLegalHere?.delta9?.quantity || '–'}
