@@ -108,9 +108,9 @@ export default function BrowserLocationButton({
     <div className='flex flex-col items-center justify-center text-balance text-[18px]'>
       <button
         onClick={geolocationPermissionListener}
-        className='flex items-center px-4 py-2 text-lg underline-offset-4 hover:underline'
+        className='flex items-center px-4 py-2 text-base underline-offset-4 hover:underline md:text-lg'
       >
-        <MdOutlineLocationOn size='28px' className='mr-1' />
+        <MdOutlineLocationOn className='mr-1 size-6 md:size-7' />
         Use current location
       </button>
     </div>

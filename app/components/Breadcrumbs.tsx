@@ -74,7 +74,7 @@ export default function Breadcrumbs({ currentLocation }: BreadrumbsProps) {
             {part.title}
           </Link>
           {index !== breadcrumbParts.length - 1 && (
-            <MdChevronRight size='20px' className='mx-1' />
+            <MdChevronRight className='mx-1 size-5' />
           )}
         </Fragment>
       ))}

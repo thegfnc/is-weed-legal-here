@@ -167,10 +167,7 @@ export default function PlacesAutocompleteInput({
           className={`relative flex cursor-text items-center overflow-hidden rounded-full border-2 border-brand-purple py-4 pl-11 pr-8 ${isFocused ? 'bg-white' : 'bg-transparent'}`}
           onClick={handleFocusInput}
         >
-          <MdSearch
-            size='24px'
-            className='pointer-events-none absolute left-4'
-          />
+          <MdSearch className='pointer-events-none absolute left-4 size-6' />
           <input
             type='text'
             placeholder='Search address, city, state, or zip'
