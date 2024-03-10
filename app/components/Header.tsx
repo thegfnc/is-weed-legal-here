@@ -14,7 +14,7 @@ const Header = () => {
         <Link
           href='https://isweedlegalhere.bigcartel.com/'
           target='_blank'
-          className='flex max-w-10 items-center overflow-hidden whitespace-nowrap rounded-full p-2 transition-all duration-700 ease-in-out will-change-[max-width] hover:bg-gray-800/5 md:hover:max-w-48'
+          className='flex max-w-10 items-center overflow-hidden whitespace-nowrap rounded-full p-2 transition-all duration-500 ease-in-out will-change-[max-width] hover:bg-gray-800/5 md:hover:max-w-48'
         >
           <div>
             <MdOutlineShoppingBag
@@ -40,7 +40,7 @@ const Header = () => {
       <div className='absolute right-0 top-0'>
         <Link
           href='/browse'
-          className='flex max-w-10 items-center overflow-hidden whitespace-nowrap rounded-full p-2 transition-all duration-700 ease-in-out will-change-[max-width] hover:bg-gray-800/5 md:hover:max-w-48'
+          className='flex max-w-10 items-center overflow-hidden whitespace-nowrap rounded-full p-2 transition-all duration-500 ease-in-out will-change-[max-width] hover:bg-gray-800/5 md:hover:max-w-48'
         >
           <div>
             <MdLanguage size='24px' title='Browse the world' />
