@@ -32,12 +32,14 @@ export default function BrowseLocation({
       <div className='flex flex-col items-center pb-16 pt-[72px]'>
         <Result currentLocation={currentLocation} legalityData={legalityData} />
       </div>
-      <div className='my-8 w-full md:mt-16'>
-        <ChildLocations
-          currentLocation={currentLocation}
-          childLocationGroups={childLocationGroups}
-        />
-      </div>
+      {childLocationGroups.length > 0 && (
+        <div className='my-8 w-full md:mt-16'>
+          <ChildLocations
+            currentLocation={currentLocation}
+            childLocationGroups={childLocationGroups}
+          />
+        </div>
+      )}
     </main>
   )
 }
