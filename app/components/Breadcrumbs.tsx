@@ -64,7 +64,7 @@ export default function Breadcrumbs({ currentLocation }: BreadrumbsProps) {
   }
 
   return (
-    <div className='flex flex-wrap items-center justify-center'>
+    <div className='flex flex-wrap items-center justify-center px-2'>
       {breadcrumbParts.map((part, index) => (
         <Fragment key={part.href}>
           <Link

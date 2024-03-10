@@ -16,7 +16,9 @@ export default function LegalityStatusTable({
 
   return (
     <div>
-      <h2 className='text-[32px] font-bold leading-normal'>Legality Status</h2>
+      <h2 className='text-3xl font-bold leading-normal md:text-[32px]'>
+        Legality Status
+      </h2>
       <div className='mt-8 border-2 border-brand-purple text-[13px] sm:text-sm md:text-base'>
         <div className='grid grid-cols-3 px-4 py-4 font-bold uppercase lg:px-6'>
           <div className='pr-[10px]'>Type</div>
