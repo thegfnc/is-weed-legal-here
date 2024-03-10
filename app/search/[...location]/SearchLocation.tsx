@@ -19,11 +19,11 @@ export default function SearchLocation({
   return (
     <main
       className={
-        'mx-auto flex w-full max-w-screen-xl flex-grow flex-col items-center py-8 md:py-14 ' +
+        'mx-auto flex w-full max-w-[1120px] flex-grow flex-col items-center py-8 md:py-14 ' +
         fadeInStyles
       }
     >
-      <div className='flex flex-col items-center px-20 pb-16 pt-[72px]'>
+      <div className='flex flex-col items-center pb-16 pt-[72px]'>
         <Result currentLocation={currentLocation} legalityData={legalityData} />
       </div>
     </main>

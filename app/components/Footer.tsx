@@ -20,7 +20,7 @@ const Footer = () => {
 
   return (
     <footer className='flex flex-col items-center'>
-      <div className='flex flex-col gap-2 text-[14px] sm:flex-row'>
+      <div className='flex flex-col gap-2 text-[14px] md:flex-row'>
         <div className='flex justify-center gap-2'>
           <span> &copy; {new Date().getFullYear()}</span>
           <a
@@ -32,7 +32,7 @@ const Footer = () => {
           </a>
         </div>
         <div className='flex justify-center gap-2'>
-          <span className='hidden sm:block'>·</span>
+          <span className='hidden md:block'>·</span>
           <button
             className='underline-offset-2 hover:underline'
             onClick={() => setModalType(ModalType.DISCLAIMER)}
@@ -59,7 +59,7 @@ const Footer = () => {
             className='underline-offset-2 hover:underline'
             onClick={() => client && client.openDialog()}
           >
-            Report Error
+            Report an error
           </button>
         </div>
       </div>

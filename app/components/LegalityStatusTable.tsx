@@ -17,13 +17,13 @@ export default function LegalityStatusTable({
   return (
     <div>
       <h2 className='text-[32px] font-bold leading-normal'>Legality Status</h2>
-      <div className='mt-8 border-2 border-brand-purple'>
-        <div className='grid grid-cols-3 px-6 py-4 font-bold uppercase'>
+      <div className='mt-8 border-2 border-brand-purple text-[13px] sm:text-sm md:text-base'>
+        <div className='grid grid-cols-3 px-4 py-4 font-bold uppercase lg:px-6'>
           <div className='pr-[10px]'>Type</div>
           <div className='pr-[10px]'>Status</div>
           <div>Quantity</div>
         </div>
-        <div className='grid grid-cols-3 border-t-2 border-brand-purple px-6'>
+        <div className='grid grid-cols-3 border-t-2 border-brand-purple px-4 lg:px-6'>
           <div className='py-4 pr-[10px]'>Medicinal</div>
           <div className='py-4 pr-[10px] capitalize'>
             {closestMatchData.isWeedLegalHere?.medicinal?.legalStatus}

@@ -65,7 +65,7 @@ export default function RelatedLocationsList({
 
   return (
     <div className='border-2 border-brand-purple text-[16px]'>
-      <h3 className='p-6 font-bold uppercase leading-none'>
+      <h3 className='px-4 py-6 font-bold uppercase leading-none lg:px-6'>
         Related Locations
       </h3>
       <div className='border-t-2 border-brand-purple'>
@@ -74,7 +74,8 @@ export default function RelatedLocationsList({
             <li
               key={name}
               className={
-                'mx-6' + (index !== 0 ? ' border-t-2 border-brand-purple' : '')
+                'mx-4 lg:mx-6' +
+                (index !== 0 ? ' border-t-2 border-brand-purple' : '')
               }
             >
               <Link

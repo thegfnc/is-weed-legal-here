@@ -59,8 +59,8 @@ export default function Result({ currentLocation, legalityData }: ResultProps) {
         )}
       </div>
       {legalityData && overview && (
-        <div className='mt-[72px] grid grid-cols-3 gap-[120px] border-t-2 border-brand-purple pt-16'>
-          <div className='col-span-2'>
+        <div className='mt-[96px] grid grid-cols-1 gap-14 border-t-2 border-brand-purple pt-16 md:grid-cols-3 lg:gap-[120px]'>
+          <div className='md:col-span-2'>
             {overview && <Overview body={overview} />}
             <div className='mt-16 border-t-2 border-brand-purple pt-16'>
               <LegalityStatusTable legalityData={legalityData} />

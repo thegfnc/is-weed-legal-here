@@ -1,7 +1,7 @@
 import { CMSCountry, CurrentLocation } from '@/app/types'
 import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
-export type ChildLocations = {
+export type ChildLocationGroup = {
   key: keyof CurrentLocation
   label?: {
     singular: string | undefined
@@ -13,7 +13,7 @@ export type ChildLocations = {
 export default function getChildLocationsFromLocation(
   location: CurrentLocation,
   data: CMSCountry[]
-): ChildLocations[] {
+): ChildLocationGroup[] {
   if (location.country === DASH_PLACEHOLDER) {
     return [
       {

@@ -4,8 +4,7 @@ import { Suspense, useEffect, useRef, useState } from 'react'
 
 const BudsfeedAd = () => (
   <svg
-    width='320'
-    height='70'
+    className='h-auto w-full max-w-[320px]'
     viewBox='0 0 320 70'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'
@@ -70,8 +69,7 @@ const BudsfeedAd = () => (
 
 const ChillSteelPipesAd = () => (
   <svg
-    width='320'
-    height='100'
+    className='h-auto w-full max-w-[320px]'
     viewBox='0 0 320 100'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'

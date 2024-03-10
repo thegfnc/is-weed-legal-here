@@ -18,7 +18,7 @@ export default function PageWrapper({ children }: PageWrapperProps) {
     <BackgroundColorContext.Provider value={backgroundColor}>
       <SetBackgroundColorContext.Provider value={setBackgroundColor}>
         <div
-          className={`flex min-h-[100dvh] w-screen flex-col justify-between ${backgroundColor} p-6 text-brand-purple transition-colors duration-500 md:p-10`}
+          className={`flex min-h-[100dvh] w-screen flex-col justify-between ${backgroundColor} px-4 py-6 text-brand-purple transition-colors duration-500 md:px-10 md:py-10`}
         >
           {children}
         </div>
