@@ -1,4 +1,5 @@
 import { track } from '@vercel/analytics'
+import { TypedObject } from '@portabletext/types'
 
 import { MainImageType } from '@/app/data/images'
 import { GetLegalityDataForLocationReturn } from './getLegalityDataForLocation'
@@ -9,10 +10,11 @@ import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 export type LegalityStrings = {
   backgroundColor: BackgroundColor
   heading: string
-  subHeading: string
-  imageType: MainImageType | null
-  ctaLinkUrl: string | null
-  ctaButtonText: string
+  subHeading?: string
+  imageType?: MainImageType
+  ctaLinkUrl?: string
+  ctaButtonText?: string
+  overview?: TypedObject[]
 }
 
 const getStringsForLegalityData = (
@@ -22,10 +24,11 @@ const getStringsForLegalityData = (
   const data: LegalityStrings = {
     backgroundColor: BackgroundColor.YELLOW,
     heading: "Sorry! We don't know if weed is legal in your location yet.",
-    subHeading: '',
-    imageType: null,
-    ctaLinkUrl: null,
-    ctaButtonText: '',
+    subHeading: undefined,
+    imageType: undefined,
+    ctaLinkUrl: undefined,
+    ctaButtonText: undefined,
+    overview: undefined,
   }
 
   const closestMatchLocation =
@@ -37,12 +40,14 @@ const getStringsForLegalityData = (
   const closestMatchLegalityData =
     legalityData &&
     legalityData.closestMatchKey &&
-    legalityData[legalityData.closestMatchKey]
+    legalityData[legalityData.closestMatchKey]?.isWeedLegalHere
 
   if (closestMatchLocation && closestMatchLegalityData) {
+    data.overview = closestMatchLegalityData?.overview
+
     if (
-      closestMatchLegalityData.MEDICINAL === 'Legal' &&
-      closestMatchLegalityData.RECREATIONAL === 'Legal'
+      closestMatchLegalityData.medicinal?.legalStatus === 'legal' &&
+      closestMatchLegalityData.recreational?.legalStatus === 'legal'
     ) {
       data.backgroundColor = BackgroundColor.GREEN
       data.heading = `Dude! Weed is totally legal in ${closestMatchLocation}.`
@@ -57,8 +62,8 @@ const getStringsForLegalityData = (
       data.ctaButtonText = 'Find dispensaries near you'
       data.imageType = MainImageType.Legal
     } else if (
-      closestMatchLegalityData.MEDICINAL === 'Illegal' &&
-      closestMatchLegalityData.RECREATIONAL === 'Illegal'
+      closestMatchLegalityData.medicinal?.legalStatus === 'illegal' &&
+      closestMatchLegalityData.recreational?.legalStatus === 'illegal'
     ) {
       data.backgroundColor = BackgroundColor.RED
       data.heading = `Bruh! Unfortunately, weed is illegal in ${closestMatchLocation}.`
@@ -67,8 +72,8 @@ const getStringsForLegalityData = (
       data.ctaButtonText = 'Find out how to take action'
       data.imageType = MainImageType.Illegal
     } else if (
-      closestMatchLegalityData.MEDICINAL === 'Unknown' &&
-      closestMatchLegalityData.RECREATIONAL === 'Unknown'
+      closestMatchLegalityData.medicinal?.legalStatus === 'unknown' &&
+      closestMatchLegalityData.recreational?.legalStatus === 'unknown'
     ) {
       data.heading = `Sorry! We don't know if weed is legal in ${closestMatchLocation} yet.`
     } else {
@@ -84,16 +89,18 @@ const getStringsForLegalityData = (
       data.imageType = MainImageType.SortOf
 
       // Beginning of sentence - medical marijuana
-      if (closestMatchLegalityData.MEDICINAL === 'Legal') {
+      if (closestMatchLegalityData.medicinal?.legalStatus === 'legal') {
         data.subHeading = 'Medical marijuana is legal'
-      } else if (closestMatchLegalityData.MEDICINAL === 'Illegal') {
+      } else if (
+        closestMatchLegalityData.medicinal?.legalStatus === 'illegal'
+      ) {
         data.subHeading = 'Medical marijuana is illegal'
       }
 
       // Sentence connector
       if (
-        closestMatchLegalityData.MEDICINAL === 'Legal' &&
-        closestMatchLegalityData.RECREATIONAL === 'Decriminalized'
+        closestMatchLegalityData.medicinal?.legalStatus === 'legal' &&
+        closestMatchLegalityData.recreational?.legalStatus === 'decriminalized'
       ) {
         data.subHeading += ' and '
       } else {
@@ -101,20 +108,24 @@ const getStringsForLegalityData = (
       }
 
       // End of sentence - recreational usage
-      if (closestMatchLegalityData.RECREATIONAL === 'Decriminalized') {
+      if (
+        closestMatchLegalityData.recreational?.legalStatus === 'decriminalized'
+      ) {
         data.subHeading += ' recreational usage is decriminalized'
 
-        if (closestMatchLegalityData.QUANTITY) {
-          data.subHeading += ` up to ${closestMatchLegalityData.QUANTITY}`
+        if (closestMatchLegalityData.recreational.quantity) {
+          data.subHeading += ` up to ${closestMatchLegalityData.recreational.quantity}`
         }
-      } else if (closestMatchLegalityData.RECREATIONAL === 'Illegal') {
+      } else if (
+        closestMatchLegalityData.recreational?.legalStatus === 'illegal'
+      ) {
         data.subHeading += ' recreational usage is illegal'
       }
 
       data.subHeading += '.'
     }
   } else if (currentLocation.country !== DASH_PLACEHOLDER) {
-    track('Legality data unknown', {
+    track('data_unknown', {
       country: currentLocation.country,
       postalCode: currentLocation.postalCode,
     })

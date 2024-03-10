@@ -48,7 +48,7 @@ export default function BrowserLocationButton({
             return
           }
 
-          const url = getUrlFromCurrentLocation(currentLocation, '/search')
+          const url = getUrlFromCurrentLocation(currentLocation, '/browse')
           router.push(url)
         } catch {
           setErrorMessage(ErrorMessages.UNKNOWN)
