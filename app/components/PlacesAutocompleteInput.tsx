@@ -116,7 +116,7 @@ export default function PlacesAutocompleteInput({
 
         if (status === google.maps.places.PlacesServiceStatus.OK && place) {
           const currentLocation = getCurrentLocationFromPlaceResult(place)
-          const url = getUrlFromCurrentLocation(currentLocation, '/search')
+          const url = getUrlFromCurrentLocation(currentLocation, '/browse')
           router.push(url)
         }
       }
