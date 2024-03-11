@@ -26,49 +26,83 @@ export default function LegalityStatusTable({
           <div>Quantity</div>
         </div>
         <div className='grid grid-cols-3 border-t-2 border-brand-purple px-4 lg:px-6'>
-          <div className='py-4 pr-[10px]'>Medicinal</div>
-          <div className='py-4 pr-[10px] capitalize'>
-            {closestMatchData.isWeedLegalHere?.medicinal?.legalStatus || '–'}
-          </div>
-          <div className='py-4'>
-            {closestMatchData.isWeedLegalHere?.medicinal?.quantity || '–'}
-          </div>
-          <div className='border-t-2 border-brand-purple py-4 pr-[10px]'>
-            Recreational
-          </div>
-          <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
-            {closestMatchData.isWeedLegalHere?.recreational?.legalStatus || '–'}
-          </div>
-          <div className='border-t-2 border-brand-purple py-4'>
-            {closestMatchData.isWeedLegalHere?.recreational?.quantity || '–'}
-          </div>
-          <div className='border-t-2 border-brand-purple py-4 pr-[10px]'>
-            THCA
-          </div>
-          <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
-            {closestMatchData.isWeedLegalHere?.thca?.legalStatus || '–'}
-          </div>
-          <div className='border-t-2 border-brand-purple py-4'>
-            {closestMatchData.isWeedLegalHere?.thca?.quantity || '–'}
-          </div>
-          <div className='border-t-2 border-brand-purple py-4 pr-[10px]'>
-            Delta 8
-          </div>
-          <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
-            {closestMatchData.isWeedLegalHere?.delta8?.legalStatus || '–'}
-          </div>
-          <div className='border-t-2 border-brand-purple py-4'>
-            {closestMatchData.isWeedLegalHere?.delta8?.quantity || '–'}
-          </div>
-          <div className='border-t-2 border-brand-purple py-4 pr-[10px]'>
-            Delta 9
-          </div>
-          <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
-            {closestMatchData.isWeedLegalHere?.delta9?.legalStatus || '–'}
-          </div>
-          <div className='border-t-2 border-brand-purple py-4'>
-            {closestMatchData.isWeedLegalHere?.delta9?.quantity || '–'}
-          </div>
+          {closestMatchData.isWeedLegalHere?.medicinal?.legalStatus && (
+            <>
+              <div className='py-4 pr-[10px]'>Medicinal</div>
+              <div className='py-4 pr-[10px] capitalize'>
+                {closestMatchData.isWeedLegalHere?.medicinal?.legalStatus}
+              </div>
+              <div className='py-4'>
+                {closestMatchData.isWeedLegalHere?.medicinal?.quantity || '–'}
+              </div>
+            </>
+          )}
+          {closestMatchData.isWeedLegalHere?.recreational?.legalStatus && (
+            <>
+              <div className='border-t-2 border-brand-purple py-4 pr-[10px]'>
+                Recreational
+              </div>
+              <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
+                {closestMatchData.isWeedLegalHere?.recreational?.legalStatus}
+              </div>
+              <div className='border-t-2 border-brand-purple py-4'>
+                {closestMatchData.isWeedLegalHere?.recreational?.quantity ||
+                  '–'}
+              </div>
+            </>
+          )}
+          {closestMatchData.isWeedLegalHere?.thca?.legalStatus && (
+            <>
+              <div className='border-t-2 border-brand-purple py-4 pr-[10px]'>
+                THCA
+              </div>
+              <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
+                {closestMatchData.isWeedLegalHere?.thca?.legalStatus}
+              </div>
+              <div className='border-t-2 border-brand-purple py-4'>
+                {closestMatchData.isWeedLegalHere?.thca?.quantity || '–'}
+              </div>
+            </>
+          )}
+          {closestMatchData.isWeedLegalHere?.delta8?.legalStatus && (
+            <>
+              <div className='border-t-2 border-brand-purple py-4 pr-[10px]'>
+                Delta 8
+              </div>
+              <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
+                {closestMatchData.isWeedLegalHere?.delta8?.legalStatus}
+              </div>
+              <div className='border-t-2 border-brand-purple py-4'>
+                {closestMatchData.isWeedLegalHere?.delta8?.quantity || '–'}
+              </div>
+            </>
+          )}
+          {closestMatchData.isWeedLegalHere?.delta9?.legalStatus && (
+            <>
+              <div className='border-t-2 border-brand-purple py-4 pr-[10px]'>
+                Delta 9
+              </div>
+              <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
+                {closestMatchData.isWeedLegalHere?.delta9?.legalStatus}
+              </div>
+              <div className='border-t-2 border-brand-purple py-4'>
+                {closestMatchData.isWeedLegalHere?.delta9?.quantity || '–'}
+              </div>
+            </>
+          )}
+          {closestMatchData.isWeedLegalHere?.cbd?.legalStatus && (
+            <>
+              <div className='border-t-2 border-brand-purple py-4 pr-[10px]'>
+                CBD
+              </div>
+              <div className='border-t-2 border-brand-purple py-4 pr-[10px] capitalize'>
+                {closestMatchData.isWeedLegalHere?.cbd?.legalStatus}
+              </div>
+              <div className='border-t-2 border-brand-purple py-4'>
+                {closestMatchData.isWeedLegalHere?.cbd?.quantity || '–'}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
