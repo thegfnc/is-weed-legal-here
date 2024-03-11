@@ -99,10 +99,10 @@ const getAdditionalCellStyles = (
       return ' bg-brand-yellow/90 text-black'
     case 'legal':
       return ' bg-brand-green/90 text-black'
+    case 'unclear':
     case 'unknown':
-      return ' bg-gray-300/90 text-black'
     default:
-      return ' bg-gray-500/90 text-black'
+      return ' bg-gray-300/90 text-black'
   }
 }
 

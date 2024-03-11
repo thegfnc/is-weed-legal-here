@@ -14,6 +14,7 @@ export type CommonLegalStatus =
   | 'illegal'
   | 'legal'
   | 'decriminalized'
+  | 'unclear'
   | 'unknown'
 
 type CMSLocationCommon = {
