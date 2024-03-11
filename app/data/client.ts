@@ -23,6 +23,9 @@ export async function sanityFetch<QueryResponse>({
   tags,
 }: SanityFetchParams) {
   return client.fetch<QueryResponse>(query, params, {
-    next: { tags },
+    next: {
+      revalidate: 3600,
+      tags,
+    },
   })
 }
