@@ -12,12 +12,14 @@ type BrowseLocationProps = {
   currentLocation: CurrentLocation
   legalityData: GetLegalityDataForLocationReturn | null
   childLocationGroups: ChildLocationGroup[]
+  totalLocationCount: number
 }
 
 export default function BrowseLocation({
   currentLocation,
   legalityData,
   childLocationGroups,
+  totalLocationCount,
 }: BrowseLocationProps) {
   const fadeInStyles = useFadeIn()
 
@@ -30,7 +32,11 @@ export default function BrowseLocation({
     >
       <Breadcrumbs currentLocation={currentLocation} />
       <div className='flex flex-col items-center pb-16 pt-[72px]'>
-        <Result currentLocation={currentLocation} legalityData={legalityData} />
+        <Result
+          currentLocation={currentLocation}
+          legalityData={legalityData}
+          totalLocationCount={totalLocationCount}
+        />
       </div>
       {childLocationGroups.length > 0 && (
         <div className='my-8 w-full md:mt-16'>

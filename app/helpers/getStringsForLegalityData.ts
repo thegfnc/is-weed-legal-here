@@ -10,7 +10,7 @@ import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 export type LegalityStrings = {
   backgroundColor: BackgroundColor
   heading: string
-  subHeading?: string
+  subHeading: string
   imageType?: MainImageType
   ctaLinkUrl?: string
   ctaButtonText?: string
@@ -19,12 +19,13 @@ export type LegalityStrings = {
 
 const getStringsForLegalityData = (
   legalityData: GetLegalityDataForLocationReturn | null,
-  currentLocation: CurrentLocation
+  currentLocation: CurrentLocation,
+  totalLocationCount: number
 ) => {
   const data: LegalityStrings = {
     backgroundColor: BackgroundColor.YELLOW,
-    heading: "Sorry! We don't know if weed is legal in your location yet.",
-    subHeading: undefined,
+    heading: 'Browse around the world.',
+    subHeading: `${totalLocationCount} locations and counting ...`,
     imageType: undefined,
     ctaLinkUrl: undefined,
     ctaButtonText: undefined,
@@ -76,6 +77,7 @@ const getStringsForLegalityData = (
       closestMatchLegalityData.recreational?.legalStatus === 'unknown'
     ) {
       data.heading = `Sorry! We don't know if weed is legal in ${closestMatchLocation} yet.`
+      data.subHeading = 'But we are working on it, so check back soon.'
     } else {
       data.heading = `Sort of! Weed is partially legal in ${closestMatchLocation}.`
       data.ctaLinkUrl = `https://www.google.com/maps/search/?api=1&query=dispensary+near+${

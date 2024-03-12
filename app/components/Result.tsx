@@ -19,9 +19,14 @@ import { SetBackgroundColorContext } from '../contexts/backgroundColorContext'
 type ResultProps = {
   currentLocation: CurrentLocation
   legalityData: GetLegalityDataForLocationReturn | null
+  totalLocationCount: number
 }
 
-export default function Result({ currentLocation, legalityData }: ResultProps) {
+export default function Result({
+  currentLocation,
+  legalityData,
+  totalLocationCount,
+}: ResultProps) {
   const setBackgroundColor = useContext(SetBackgroundColorContext)
 
   const {
@@ -32,7 +37,11 @@ export default function Result({ currentLocation, legalityData }: ResultProps) {
     backgroundColor,
     imageType,
     overview,
-  } = getStringsForLegalityData(legalityData, currentLocation)
+  } = getStringsForLegalityData(
+    legalityData,
+    currentLocation,
+    totalLocationCount
+  )
 
   useEffect(() => {
     setBackgroundColor(backgroundColor)
@@ -41,18 +50,10 @@ export default function Result({ currentLocation, legalityData }: ResultProps) {
   return (
     <>
       <div className='flex flex-col items-center gap-6 text-center'>
-        <Heading
-          text={
-            currentLocation.country === DASH_PLACEHOLDER
-              ? 'Browse around the world.'
-              : heading
-          }
-        />
-        {subHeading && (
-          <div>
-            <SubHeading text={subHeading} />
-          </div>
-        )}
+        <Heading text={heading} />
+        <div>
+          <SubHeading text={subHeading} />
+        </div>
         {imageType && <MainImage type={imageType} />}
         {ctaButtonText && ctaLinkUrl && (
           <CallToActionButton text={ctaButtonText} linkUrl={ctaLinkUrl} />

@@ -69,7 +69,7 @@ export default async function BrowsePage({
     ],
   })
 
-  const locationCount = await sanityFetch({
+  const totalLocationCount = await sanityFetch<number>({
     query: LOCATION_COUNT_QUERY,
     tags: [
       'IIHD_country',
@@ -87,11 +87,11 @@ export default async function BrowsePage({
 
   return (
     <>
-      <pre>{JSON.stringify(locationCount, null, 2)}</pre>
       <BrowseLocation
         currentLocation={currentLocation}
         legalityData={legalityData}
         childLocationGroups={childLocationGroups}
+        totalLocationCount={totalLocationCount}
       />
     </>
   )
