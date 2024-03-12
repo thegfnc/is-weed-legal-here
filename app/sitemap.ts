@@ -12,6 +12,13 @@ const defaultPage: MetadataRoute.Sitemap[0] = {
   priority: 1,
 }
 
+const browsePage: MetadataRoute.Sitemap[0] = {
+  url: 'https://www.isweedlegalhere.com/browse',
+  lastModified: new Date(),
+  changeFrequency: 'monthly',
+  priority: 1,
+}
+
 const ALL_DATA_QUERY = `
   *[_type == 'IIHD_country'] | order(name) {
     name,
@@ -86,9 +93,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   })
 
   const emptyCurrentLocation = getCurrentLocationFromUrlParams([])
-  const browsePages: MetadataRoute.Sitemap = []
+  const locationPages: MetadataRoute.Sitemap = []
 
-  await enumerateBrowseLocations(data, emptyCurrentLocation, browsePages)
+  await enumerateBrowseLocations(data, emptyCurrentLocation, locationPages)
 
-  return [defaultPage, ...browsePages]
+  return [defaultPage, browsePage, ...locationPages]
 }
