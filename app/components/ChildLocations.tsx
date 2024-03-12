@@ -15,6 +15,8 @@ export default function ChildLocations({
   return childLocationGroups.length > 0 ? (
     <div className='flex w-full flex-col gap-16'>
       {childLocationGroups.map(childLocationGroup => {
+        if (!childLocationGroup.names.length) return null
+
         return (
           <div key={childLocationGroup.key}>
             {childLocationGroup.label && (

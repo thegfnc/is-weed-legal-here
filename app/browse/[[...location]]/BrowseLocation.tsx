@@ -23,6 +23,8 @@ export default function BrowseLocation({
 }: BrowseLocationProps) {
   const fadeInStyles = useFadeIn()
 
+  console.log('childLocationGroups', childLocationGroups)
+
   return (
     <main
       className={
