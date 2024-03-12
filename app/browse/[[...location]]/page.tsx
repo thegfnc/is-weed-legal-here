@@ -45,17 +45,32 @@ const COUNTRY_MATCH_QUERY = `
   }
 `
 
+const LOCATION_COUNT_QUERY = `
+  count(*[_type == 'IIHD_country' ||
+    _type == 'IIHD_administrativeAreaLevel1' ||
+    _type == 'IIHD_administrativeAreaLevel2' ||
+    _type == 'IIHD_locality'])
+`
+
 export default async function BrowsePage({
   params: { location = [] },
 }: BrowsePageProps) {
   const currentLocation = getCurrentLocationFromUrlParams(location)
+  const isBrowseRootPage = currentLocation.country === DASH_PLACEHOLDER
 
   const data = await sanityFetch<CMSCountry[]>({
-    query:
-      currentLocation.country === DASH_PLACEHOLDER
-        ? ALL_COUNTRIES_QUERY
-        : COUNTRY_MATCH_QUERY,
+    query: isBrowseRootPage ? ALL_COUNTRIES_QUERY : COUNTRY_MATCH_QUERY,
     params: { country: currentLocation.country },
+    tags: [
+      'IIHD_country',
+      'IIHD_administrativeAreaLevel1',
+      'IIHD_administrativeAreaLevel2',
+      'IIHD_locality',
+    ],
+  })
+
+  const locationCount = await sanityFetch({
+    query: LOCATION_COUNT_QUERY,
     tags: [
       'IIHD_country',
       'IIHD_administrativeAreaLevel1',
@@ -71,10 +86,13 @@ export default async function BrowsePage({
   const legalityData = getLegalityDataForLocation(currentLocation, data)
 
   return (
-    <BrowseLocation
-      currentLocation={currentLocation}
-      legalityData={legalityData}
-      childLocationGroups={childLocationGroups}
-    />
+    <>
+      <pre>{JSON.stringify(locationCount, null, 2)}</pre>
+      <BrowseLocation
+        currentLocation={currentLocation}
+        legalityData={legalityData}
+        childLocationGroups={childLocationGroups}
+      />
+    </>
   )
 }
