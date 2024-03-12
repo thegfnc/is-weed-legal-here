@@ -45,10 +45,10 @@ const ALL_DATA_QUERY = `
   }
 `
 
-const enumerateBrowseLocations = (
+const enumerateLocationPages = (
   data: CMSCountry[],
   currentLocation: CurrentLocation,
-  pageCollector: MetadataRoute.Sitemap = []
+  locationPageCollector: MetadataRoute.Sitemap
 ) => {
   const childLocationGroups = getChildLocationsFromLocation(
     currentLocation,
@@ -65,7 +65,7 @@ const enumerateBrowseLocations = (
         childLocation[childLocationGroup.key] = childLocationName
       }
 
-      pageCollector.push({
+      locationPageCollector.push({
         ...defaultPage,
         url: getUrlFromCurrentLocation(
           childLocation,
@@ -75,7 +75,7 @@ const enumerateBrowseLocations = (
       })
 
       if (childLocationGroup.key) {
-        enumerateBrowseLocations(data, childLocation, pageCollector)
+        enumerateLocationPages(data, childLocation, locationPageCollector)
       }
     }
   }
@@ -95,7 +95,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const emptyCurrentLocation = getCurrentLocationFromUrlParams([])
   const locationPages: MetadataRoute.Sitemap = []
 
-  await enumerateBrowseLocations(data, emptyCurrentLocation, locationPages)
+  await enumerateLocationPages(data, emptyCurrentLocation, locationPages)
 
   return [defaultPage, browsePage, ...locationPages]
 }
