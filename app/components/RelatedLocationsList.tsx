@@ -63,6 +63,10 @@ export default function RelatedLocationsList({
   // pop the last one off because it's the current location
   relatedLocations.pop()
 
+  if (relatedLocations.length === 0) {
+    return null
+  }
+
   return (
     <div className='border-2 border-brand-purple text-[16px]'>
       <h3 className='px-4 py-6 font-bold uppercase leading-none lg:px-6'>
