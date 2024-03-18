@@ -58,26 +58,27 @@ export default async function BrowsePage({
   const currentLocation = getCurrentLocationFromUrlParams(location)
   const isBrowseRootPage = currentLocation.country === DASH_PLACEHOLDER
 
-  const data = await sanityFetch<CMSCountry[]>({
-    query: isBrowseRootPage ? ALL_COUNTRIES_QUERY : COUNTRY_MATCH_QUERY,
-    params: { country: currentLocation.country },
-    tags: [
-      'IIHD_country',
-      'IIHD_administrativeAreaLevel1',
-      'IIHD_administrativeAreaLevel2',
-      'IIHD_locality',
-    ],
-  })
-
-  const totalLocationCount = await sanityFetch<number>({
-    query: LOCATION_COUNT_QUERY,
-    tags: [
-      'IIHD_country',
-      'IIHD_administrativeAreaLevel1',
-      'IIHD_administrativeAreaLevel2',
-      'IIHD_locality',
-    ],
-  })
+  const [data, totalLocationCount] = await Promise.all([
+    sanityFetch<CMSCountry[]>({
+      query: isBrowseRootPage ? ALL_COUNTRIES_QUERY : COUNTRY_MATCH_QUERY,
+      params: { country: currentLocation.country },
+      tags: [
+        'IIHD_country',
+        'IIHD_administrativeAreaLevel1',
+        'IIHD_administrativeAreaLevel2',
+        'IIHD_locality',
+      ],
+    }),
+    sanityFetch<number>({
+      query: LOCATION_COUNT_QUERY,
+      tags: [
+        'IIHD_country',
+        'IIHD_administrativeAreaLevel1',
+        'IIHD_administrativeAreaLevel2',
+        'IIHD_locality',
+      ],
+    }),
+  ])
 
   const childLocationGroups = getChildLocationsFromLocation(
     currentLocation,
