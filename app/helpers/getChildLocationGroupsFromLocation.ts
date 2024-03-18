@@ -3,7 +3,7 @@ import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
 export type ChildLocationGroup = {
   key: keyof CurrentLocation
-  label?: {
+  label: {
     singular: string | undefined
     plural: string | undefined
   }
@@ -18,6 +18,10 @@ export default function getChildLocationsFromLocation(
     return [
       {
         key: 'country',
+        label: {
+          singular: 'Country',
+          plural: 'Countries',
+        },
         names: data
           .map(country => country.name)
           .sort((a, b) => a.localeCompare(b)),
@@ -59,8 +63,8 @@ export default function getChildLocationsFromLocation(
       {
         key: 'locality',
         label: {
-          singular: countryMatch.labels?.locality?.singular,
-          plural: countryMatch.labels?.locality?.plural,
+          singular: countryMatch.labels?.locality?.singular || 'Locality',
+          plural: countryMatch.labels?.locality?.plural || 'Localities',
         },
         names:
           administrativeAreaLevel1Match.locality?.children
@@ -70,8 +74,12 @@ export default function getChildLocationsFromLocation(
       {
         key: 'administrativeAreaLevel2',
         label: {
-          singular: countryMatch.labels?.administrativeAreaLevel2?.singular,
-          plural: countryMatch.labels?.administrativeAreaLevel2?.plural,
+          singular:
+            countryMatch.labels?.administrativeAreaLevel2?.singular ||
+            'Administrative Area Level 2',
+          plural:
+            countryMatch.labels?.administrativeAreaLevel2?.plural ||
+            'Administrative Areas Level 2',
         },
         names:
           administrativeAreaLevel1Match.administrativeAreaLevel2?.children
@@ -86,8 +94,12 @@ export default function getChildLocationsFromLocation(
       {
         key: 'administrativeAreaLevel1',
         label: {
-          singular: countryMatch.labels?.administrativeAreaLevel1?.singular,
-          plural: countryMatch.labels?.administrativeAreaLevel1?.plural,
+          singular:
+            countryMatch.labels?.administrativeAreaLevel1?.singular ||
+            'Administrative Area Level 1',
+          plural:
+            countryMatch.labels?.administrativeAreaLevel1?.plural ||
+            'Administrative Areas Level 1',
         },
         names:
           countryMatch.administrativeAreaLevel1?.children

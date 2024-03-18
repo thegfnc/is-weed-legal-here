@@ -19,11 +19,9 @@ export default function ChildLocations({
 
         return (
           <div key={childLocationGroup.key}>
-            {childLocationGroup.label && (
-              <h3 className='text-left text-sm font-bold uppercase leading-6 tracking-wide'>
-                Browse by {childLocationGroup.label.singular}
-              </h3>
-            )}
+            <h3 className='text-left text-sm font-bold uppercase leading-6 tracking-wide'>
+              Browse by {childLocationGroup.label.singular}
+            </h3>
             <div className='mt-4 grid grid-cols-2 gap-x-4 gap-y-[10px] sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
               {childLocationGroup.names.map(childLocationName => {
                 const childLocation = {
