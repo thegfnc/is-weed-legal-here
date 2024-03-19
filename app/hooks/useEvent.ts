@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-export interface ListenerType1 {
+interface Listener {
   addEventListener(
     name: string,
     handler: (event?: any) => void,
@@ -14,18 +14,16 @@ export interface ListenerType1 {
   ): void
 }
 
-export type UseEventTarget = ListenerType1
+export type UseEventTarget = Listener
 
 const isBrowser = typeof window !== 'undefined'
 const defaultTarget = isBrowser ? window : null
 
-const isListenerType1 = (target: any): target is ListenerType1 => {
+const isListener = (target: any): target is Listener => {
   return !!target.addEventListener
 }
 
-type AddEventListener<T> = T extends ListenerType1
-  ? T['addEventListener']
-  : never
+type AddEventListener<T> = T extends Listener ? T['addEventListener'] : never
 
 export type UseEventOptions<T> = Parameters<AddEventListener<T>>[2]
 
@@ -42,13 +40,13 @@ const useEvent = <T extends UseEventTarget>(
     if (!target) {
       return
     }
-    if (isListenerType1(target)) {
+    if (isListener(target)) {
       if (target && target.addEventListener) {
         target.addEventListener(name, handler, options)
       }
     }
     return () => {
-      if (isListenerType1(target)) {
+      if (isListener(target)) {
         if (target && target.removeEventListener) {
           target.removeEventListener(name, handler, options)
         }

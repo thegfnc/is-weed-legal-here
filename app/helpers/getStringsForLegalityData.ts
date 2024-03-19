@@ -7,7 +7,7 @@ import { CurrentLocation } from '@/app/types'
 import { BackgroundColor } from '../contexts/backgroundColorContext'
 import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
-export type LegalityStrings = {
+type LegalityStrings = {
   backgroundColor: BackgroundColor
   heading: string
   subHeading: string

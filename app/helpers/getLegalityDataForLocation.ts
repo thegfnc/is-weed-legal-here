@@ -9,7 +9,7 @@ import {
 import { CurrentLocation } from '@/app/types'
 import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
-export type ClosestMatchKey =
+type ClosestMatchKey =
   | 'country'
   | 'administrativeAreaLevel1'
   | 'administrativeAreaLevel2'

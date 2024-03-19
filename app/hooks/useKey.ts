@@ -3,15 +3,11 @@ import useEvent, { UseEventOptions, UseEventTarget } from './useEvent'
 
 const noop = () => {}
 
-export type KeyPredicate = (event: KeyboardEvent) => boolean
-export type KeyFilter =
-  | null
-  | undefined
-  | string
-  | ((event: KeyboardEvent) => boolean)
-export type Handler = (event: KeyboardEvent) => void
+type KeyPredicate = (event: KeyboardEvent) => boolean
+type KeyFilter = null | undefined | string | ((event: KeyboardEvent) => boolean)
+type Handler = (event: KeyboardEvent) => void
 
-export interface UseKeyOptions<T extends UseEventTarget> {
+interface UseKeyOptions<T extends UseEventTarget> {
   event?: 'keydown' | 'keypress' | 'keyup'
   target?: T | null
   options?: UseEventOptions<T>
