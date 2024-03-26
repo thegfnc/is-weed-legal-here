@@ -3,7 +3,6 @@ import modalContent from '@/app/data/modals'
 
 export enum ModalType {
   DISCLAIMER = 'DISCLAIMER',
-  SOURCES = 'SOURCES',
 }
 
 type ModalProps = {

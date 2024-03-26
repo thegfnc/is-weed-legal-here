@@ -11,35 +11,7 @@ const modalContent = {
         up-to-date laws, consult your state statutes. For legal advice, please
         hire an attorney. If you spot a mistake or have additional information,
         please contact us and we will be happy to look into it.
-      </div>
-    ),
-  },
-  SOURCES: {
-    heading: 'SOURCES',
-    subHeading: null,
-    body: (
-      <div>
-        <div>
-          <h3 className='text-2xl'>NORML</h3>
-          <a
-            href='https://norml.org/'
-            target='_blank'
-            className='underline-offset-2 hover:underline'
-          >
-            https://norml.org/
-          </a>
-        </div>
-        <div className='pt-6'>
-          <h3 className='text-2xl'>Wikipedia</h3>
-          <a
-            href='https://wikipedia.org/'
-            target='_blank'
-            className='underline-offset-2 hover:underline'
-          >
-            https://wikipedia.org/
-          </a>
-        </div>
-        <div className='pt-12 text-sm'>Last updated March 23, 2024</div>
+        <div className='pt-12 text-sm'>Last updated March 25, 2024</div>
       </div>
     ),
   },

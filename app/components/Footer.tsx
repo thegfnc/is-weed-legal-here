@@ -40,13 +40,6 @@ const Footer = () => {
             Disclaimer
           </button>
           <span>·</span>
-          <button
-            className='underline-offset-2 hover:underline'
-            onClick={() => setModalType(ModalType.SOURCES)}
-          >
-            Sources
-          </button>
-          <span>·</span>
           <a
             href='https://github.com/thegfnc/is-weed-legal-here'
             target='_blank'
