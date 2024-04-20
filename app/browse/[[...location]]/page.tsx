@@ -2,9 +2,9 @@ import getChildLocationsFromLocation from '@/app/helpers/getChildLocationGroupsF
 import { DASH_PLACEHOLDER } from '@/app/helpers/getUrlFromCurrentLocation'
 import getCurrentLocationFromUrlParams from '@/app/helpers/getCurrentLocationFromUrlParams'
 import getLegalityDataForLocation from '@/app/helpers/getLegalityDataForLocation'
-import { sanityFetch } from '@/app/data/client'
+import { cmsFetch } from '@/app/data/client'
 import BrowseLocation from './BrowseLocation'
-import { CMSCountry } from '@/app/types'
+import { IIHD_country } from '@/app/types'
 import { Metadata, ResolvingMetadata } from 'next'
 
 type BrowsePageProps = {
@@ -67,6 +67,8 @@ export async function generateMetadata(
   const pathname = '/browse'
 
   const metadata: Metadata = {
+    title:
+      'Browse cannabis legality data around the world | Is weed legal here?',
     alternates: {
       canonical: pathname,
     },
@@ -78,7 +80,7 @@ export async function generateMetadata(
 
   if (location) {
     const currentLocation = getCurrentLocationFromUrlParams(location)
-    const data = await sanityFetch<CMSCountry[]>({
+    const data = await cmsFetch<IIHD_country[]>({
       query: COUNTRY_MATCH_QUERY,
       params: { country: currentLocation.country },
       tags: [
@@ -95,7 +97,7 @@ export async function generateMetadata(
       legalityData?.closestMatchKey &&
       currentLocation[legalityData.closestMatchKey]
 
-    metadata.title = `Is weed legal in ${closestLocationName || 'your area'}?`
+    metadata.title = `Is weed legal in ${closestLocationName || 'your area'}? | Navigate global cannabis legality with confidence.`
 
     if (metadata.alternates) {
       metadata.alternates.canonical += '/' + location.join('/')
@@ -116,7 +118,7 @@ export default async function BrowsePage({
   const isBrowseRootPage = currentLocation.country === DASH_PLACEHOLDER
 
   const [data, totalLocationCount] = await Promise.all([
-    sanityFetch<CMSCountry[]>({
+    cmsFetch<IIHD_country[]>({
       query: isBrowseRootPage ? ALL_COUNTRIES_QUERY : COUNTRY_MATCH_QUERY,
       params: { country: currentLocation.country },
       tags: [
@@ -126,7 +128,7 @@ export default async function BrowsePage({
         'IIHD_locality',
       ],
     }),
-    sanityFetch<number>({
+    cmsFetch<number>({
       query: LOCATION_COUNT_QUERY,
       tags: [
         'IIHD_country',

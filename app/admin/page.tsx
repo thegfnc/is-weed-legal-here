@@ -1,18 +1,18 @@
 import Heading from '../components/Heading'
-import { CMSCountry, CommonLegalStatus, MedicinalLegalStatus } from '../types'
-import { sanityFetch } from '../data/client'
+import { IIHD_country, LegalStatus, LegalStatusMedicinal } from '../types'
+import { cmsFetch } from '../data/client'
 
 type TableRow = {
   country: string
   administrativeAreaLevel1?: string
   administrativeAreaLevel2?: string
   locality?: string
-  medicinal: MedicinalLegalStatus | undefined
-  recreational: CommonLegalStatus | undefined
+  medicinal: LegalStatusMedicinal | undefined
+  recreational: LegalStatus | undefined
   quantity: string | undefined
 }
 
-const flattenLegalityData = (legalityData: CMSCountry[]) => {
+const flattenLegalityData = (legalityData: IIHD_country[]) => {
   const tableRows: TableRow[] = []
 
   legalityData.forEach(country => {
@@ -89,9 +89,7 @@ const flattenLegalityData = (legalityData: CMSCountry[]) => {
   return tableRows
 }
 
-const getAdditionalCellStyles = (
-  legalStatus: CommonLegalStatus | undefined
-) => {
+const getAdditionalCellStyles = (legalStatus: LegalStatus | undefined) => {
   switch (legalStatus) {
     case 'illegal':
       return ' bg-brand-red/90 text-black'
@@ -138,7 +136,7 @@ const ALL_DATA_QUERY = `
 `
 
 export default async function Admin() {
-  const data = await sanityFetch<CMSCountry[]>({
+  const data = await cmsFetch<IIHD_country[]>({
     query: ALL_DATA_QUERY,
     tags: [
       'IIHD_country',

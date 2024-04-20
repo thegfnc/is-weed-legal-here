@@ -1,4 +1,4 @@
-import { CMSCountry, CurrentLocation } from '@/app/types'
+import { IIHD_country, CurrentLocation } from '@/app/types'
 import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
 
 export type ChildLocationGroup = {
@@ -12,7 +12,7 @@ export type ChildLocationGroup = {
 
 export default function getChildLocationsFromLocation(
   location: CurrentLocation,
-  data: CMSCountry[]
+  data: IIHD_country[]
 ): ChildLocationGroup[] {
   if (location.country === DASH_PLACEHOLDER) {
     return [

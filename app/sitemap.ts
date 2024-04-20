@@ -2,20 +2,20 @@ import { MetadataRoute } from 'next'
 import getCurrentLocationFromUrlParams from './helpers/getCurrentLocationFromUrlParams'
 import getChildLocationsFromLocation from './helpers/getChildLocationGroupsFromLocation'
 import getUrlFromCurrentLocation from './helpers/getUrlFromCurrentLocation'
-import { CMSCountry, CurrentLocation } from './types'
-import { sanityFetch } from './data/client'
+import { IIHD_country, CurrentLocation } from './types'
+import { cmsFetch } from './data/client'
 
 const defaultPage: MetadataRoute.Sitemap[0] = {
   url: 'https://www.isweedlegalhere.com',
   lastModified: new Date(),
-  changeFrequency: 'monthly',
+  changeFrequency: 'weekly',
   priority: 1,
 }
 
 const browsePage: MetadataRoute.Sitemap[0] = {
   url: 'https://www.isweedlegalhere.com/browse',
   lastModified: new Date(),
-  changeFrequency: 'monthly',
+  changeFrequency: 'weekly',
   priority: 1,
 }
 
@@ -46,7 +46,7 @@ const ALL_DATA_QUERY = `
 `
 
 const enumerateLocationPages = (
-  data: CMSCountry[],
+  data: IIHD_country[],
   currentLocation: CurrentLocation,
   locationPageCollector: MetadataRoute.Sitemap
 ) => {
@@ -82,7 +82,7 @@ const enumerateLocationPages = (
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const data = await sanityFetch<CMSCountry[]>({
+  const data = await cmsFetch<IIHD_country[]>({
     query: ALL_DATA_QUERY,
     tags: [
       'IIHD_country',

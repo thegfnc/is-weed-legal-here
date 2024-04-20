@@ -17,7 +17,7 @@ type SanityFetchParams = {
   tags?: string[]
 }
 
-export async function sanityFetch<QueryResponse>({
+export async function cmsFetch<QueryResponse>({
   query,
   params = {},
   tags,

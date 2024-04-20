@@ -1,10 +1,10 @@
 import pick from 'lodash.pick'
 
 import {
-  CMSAdministrativeAreaLevel1,
-  CMSAdministrativeAreaLevel2,
-  CMSCountry,
-  CMSLocality,
+  IIHD_administrativeAreaLevel1,
+  IIHD_administrativeAreaLevel2,
+  IIHD_country,
+  IIHD_locality,
 } from '@/app/types'
 import { CurrentLocation } from '@/app/types'
 import { DASH_PLACEHOLDER } from './getUrlFromCurrentLocation'
@@ -16,16 +16,16 @@ type ClosestMatchKey =
   | 'locality'
 
 export type GetLegalityDataForLocationReturn = {
-  country?: CMSCountry
-  administrativeAreaLevel1?: CMSAdministrativeAreaLevel1
-  administrativeAreaLevel2?: CMSAdministrativeAreaLevel2
-  locality?: CMSLocality
+  country?: IIHD_country
+  administrativeAreaLevel1?: IIHD_administrativeAreaLevel1
+  administrativeAreaLevel2?: IIHD_administrativeAreaLevel2
+  locality?: IIHD_locality
   closestMatchKey?: ClosestMatchKey
 }
 
 const getLegalityDataForLocation = (
   location: CurrentLocation,
-  data: CMSCountry[]
+  data: IIHD_country[]
 ): GetLegalityDataForLocationReturn | null => {
   const legalityData: GetLegalityDataForLocationReturn = {}
 

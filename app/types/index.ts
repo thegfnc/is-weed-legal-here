@@ -8,60 +8,65 @@ export type CurrentLocation = {
   postalCode: string
 }
 
-export type MedicinalLegalStatus = 'illegal' | 'legal' | 'unknown'
+export type LegalStatusMedicinal = 'illegal' | 'legal' | 'unknown'
 
-export type CommonLegalStatus =
+export type LegalStatus =
   | 'illegal'
   | 'legal'
   | 'decriminalized'
   | 'unclear'
   | 'unknown'
 
-type CMSLocationCommon = {
-  name: string
+type IWLH_commonFields = {
   isWeedLegalHere?: {
     overview?: TypedObject[]
     medicinal?: {
-      legalStatus?: MedicinalLegalStatus
+      legalStatus?: LegalStatusMedicinal
       quantity?: string
     }
     recreational?: {
-      legalStatus?: CommonLegalStatus
+      legalStatus?: LegalStatus
       quantity?: string
     }
     thca?: {
-      legalStatus?: CommonLegalStatus
+      legalStatus?: LegalStatus
       quantity?: string
     }
     delta9?: {
-      legalStatus?: CommonLegalStatus
+      legalStatus?: LegalStatus
       quantity?: string
     }
     delta8?: {
-      legalStatus?: CommonLegalStatus
+      legalStatus?: LegalStatus
       quantity?: string
     }
     cbd?: {
-      legalStatus?: CommonLegalStatus
+      legalStatus?: LegalStatus
       quantity?: string
     }
   }
 }
 
-export type CMSLocality = CMSLocationCommon
+export type IIHD_locality = IWLH_commonFields & {
+  name: string
+}
 
-export type CMSAdministrativeAreaLevel2 = CMSLocationCommon
+export type IIHD_administrativeAreaLevel2 = IWLH_commonFields & {
+  name: string
+}
 
-export type CMSAdministrativeAreaLevel1 = CMSLocationCommon & {
+export type IIHD_administrativeAreaLevel1 = IWLH_commonFields & {
+  name: string
   administrativeAreaLevel2?: {
-    children?: CMSAdministrativeAreaLevel2[]
+    children?: IIHD_administrativeAreaLevel2[]
   }
   locality?: {
-    children?: CMSLocality[]
+    children?: IIHD_locality[]
   }
 }
 
-export type CMSCountry = CMSLocationCommon & {
+export type IIHD_country = IWLH_commonFields & {
+  name: string
   labels?: {
     administrativeAreaLevel1?: {
       singular?: string
@@ -77,6 +82,6 @@ export type CMSCountry = CMSLocationCommon & {
     }
   }
   administrativeAreaLevel1?: {
-    children?: CMSAdministrativeAreaLevel1[]
+    children?: IIHD_administrativeAreaLevel1[]
   }
 }
