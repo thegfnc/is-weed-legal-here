@@ -4,8 +4,11 @@ import { useState } from 'react'
 import { feedbackIntegration } from '@sentry/react'
 
 import Modal, { ModalType } from './Modal'
+import { usePathname } from 'next/navigation'
 
 const Footer = () => {
+  const pathname = usePathname()
+
   const client = feedbackIntegration({
     // Additional SDK configuration goes in here, for example:
     autoInject: false,
@@ -27,6 +30,7 @@ const Footer = () => {
             href='https://www.thegoodfornothings.club/'
             target='_blank'
             className='underline-offset-2 hover:underline'
+            rel={pathname === '/' ? undefined : 'nofollow'}
           >
             The Good for Nothings Club
           </a>
