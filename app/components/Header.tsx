@@ -12,7 +12,7 @@ const Header = () => {
     <header className='relative flex min-h-10 w-full items-center justify-center'>
       <div className='absolute left-0 top-0'>
         <Link
-          href='https://isweedlegalhere.bigcartel.com/'
+          href='https://shop.thegoodfornothings.club/collections/is-weed-legal-here'
           target='_blank'
           className='flex max-w-10 items-center overflow-hidden whitespace-nowrap rounded-full p-2 transition-all duration-500 ease-in-out will-change-[max-width] hover:bg-gray-800/5 md:hover:max-w-48'
         >
