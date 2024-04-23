@@ -14,7 +14,7 @@ type RootLayoutProps = {
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
+  weight: 'variable',
 })
 
 export async function generateMetadata(): Promise<Metadata> {

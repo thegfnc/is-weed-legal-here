@@ -2,52 +2,106 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { MdLanguage, MdOutlineShoppingBag } from 'react-icons/md'
+import { useEffect, useState } from 'react'
+import { FaInstagram } from 'react-icons/fa'
+import { MdClose, MdOutlineMenu } from 'react-icons/md'
+
+const menuLinks = [
+  {
+    title: 'Explore',
+    href: '/browse',
+    target: '_self',
+  },
+  {
+    title: 'Shop',
+    href: 'https://shop.thegoodfornothings.club/collections/is-weed-legal-here',
+    target: '_blank',
+  },
+]
+
+const mobileMenuLinks = [
+  {
+    title: 'Home',
+    href: '/',
+    target: '_self',
+  },
+  ...menuLinks,
+]
 
 const Header = () => {
   const pathname = usePathname()
-  const isVisible = pathname !== '/'
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const isHomePage = pathname === '/'
 
   return (
-    <header className='relative flex min-h-10 w-full items-center justify-center'>
-      <div className='absolute left-0 top-0'>
-        <Link
-          href='https://shop.thegoodfornothings.club/collections/is-weed-legal-here'
-          target='_blank'
-          className='flex max-w-10 items-center overflow-hidden whitespace-nowrap rounded-full p-2 transition-all duration-500 ease-in-out will-change-[max-width] hover:bg-gray-800/5 md:hover:max-w-48'
-        >
-          <div>
-            <MdOutlineShoppingBag className='size-6' title='Shop our merch' />
-          </div>
-          <div className='ml-[10px] mr-2 text-sm font-bold'>Shop our merch</div>
-        </Link>
-      </div>
-      <div>
+    <>
+      <header className='relative flex min-h-6 w-full items-center justify-center'>
+        <div className='absolute bottom-0 left-0 top-0 hidden items-center gap-6 md:flex'>
+          {menuLinks.map(link => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`rounded-full font-medium underline-offset-4 hover:underline ${pathname === link.href ? 'underline' : ''}`}
+              target={link.target}
+            >
+              {link.title}
+            </Link>
+          ))}
+        </div>
+        <div className='absolute bottom-[-8px] left-[-4px] top-[-8px] flex cursor-pointer items-center rounded-full p-2 transition-colors hover:bg-black/10 active:bg-black/20 md:hidden'>
+          <MdOutlineMenu
+            size='24px'
+            onClick={() => setIsMobileMenuOpen(true)}
+          />
+        </div>
         <Link
           href='/'
           className={`block text-[18px] font-bold leading-none transition-all duration-500 ease-out-expo ${
-            isVisible
+            !isHomePage
               ? ' visible translate-y-0 opacity-100'
               : ' invisible translate-y-6 opacity-0'
           }`}
         >
           Is weed legal here?
         </Link>
+        <div className='absolute bottom-[-8px] right-[-4px] top-[-8px] flex min-h-6 items-center gap-6 md:right-[-8px]'>
+          <Link
+            href='https://www.instagram.com/isweedlegalhere/'
+            target='_blank'
+            className='rounded-full p-2 transition-colors hover:bg-black/10 active:bg-black/20'
+          >
+            <FaInstagram size='24px' />
+          </Link>
+        </div>
+      </header>
+      <div
+        className={`fixed bottom-0 left-0 right-0 top-0 z-10 bg-brand-yellow transition-all duration-500 ease-out-expo ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-[-100%]'}`}
+      >
+        <div className='absolute right-4 top-4'>
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className='rounded-full p-2 transition-colors hover:bg-black/10 active:bg-black/20'
+          >
+            <MdClose size='24px' />
+          </button>
+        </div>
+        <ul className='flex flex-col gap-8 px-4 py-20'>
+          {mobileMenuLinks.map(link => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className={`p-4 text-center text-2xl font-semibold underline-offset-4 hover:underline ${pathname === link.href ? 'underline' : ''}`}
+                target={link.target}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className='absolute right-0 top-0'>
-        <Link
-          href='/browse'
-          className='flex max-w-10 items-center overflow-hidden whitespace-nowrap rounded-full p-2 transition-all duration-500 ease-in-out will-change-[max-width] hover:bg-gray-800/5 md:hover:max-w-48'
-        >
-          <div>
-            <MdLanguage title='Browse the world' className='size-6' />
-          </div>
-          <div className='ml-[10px] mr-2 text-sm font-bold'>
-            Browse the world
-          </div>
-        </Link>
-      </div>
-    </header>
+    </>
   )
 }
 
