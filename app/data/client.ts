@@ -24,7 +24,6 @@ export async function cmsFetch<QueryResponse>({
 }: SanityFetchParams) {
   return client.fetch<QueryResponse>(query, params, {
     next: {
-      revalidate: 3600,
       tags,
     },
   })
