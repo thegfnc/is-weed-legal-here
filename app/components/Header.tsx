@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FaInstagram } from 'react-icons/fa'
 import { MdClose, MdOutlineMenu } from 'react-icons/md'
 
@@ -10,7 +10,6 @@ const menuLinks = [
   {
     title: 'Explore',
     href: '/browse',
-    target: '_self',
   },
   {
     title: 'Shop',
@@ -23,9 +22,13 @@ const mobileMenuLinks = [
   {
     title: 'Home',
     href: '/',
-    target: '_self',
   },
   ...menuLinks,
+  {
+    title: 'Buy us a coffee',
+    href: 'https://buy.stripe.com/14k4gz95J2wxb609AA',
+    target: '_blank',
+  },
 ]
 
 const Header = () => {
@@ -65,7 +68,14 @@ const Header = () => {
         >
           Is weed legal here?
         </Link>
-        <div className='absolute bottom-[-8px] right-[-4px] top-[-8px] flex min-h-6 items-center gap-6 md:right-[-8px]'>
+        <div className='absolute bottom-[-8px] right-[-4px] top-[-8px] flex min-h-6 items-center gap-3 md:right-[-8px]'>
+          <Link
+            href='https://buy.stripe.com/14k4gz95J2wxb609AA'
+            target='_blank'
+            className='hidden rounded-lg border-2 border-brand-purple p-2 px-3 py-1 text-sm font-medium leading-6 transition-colors hover:bg-brand-purple hover:text-brand-yellow active:bg-brand-purple/90 md:block'
+          >
+            Buy us a coffee
+          </Link>
           <Link
             href='https://www.instagram.com/isweedlegalhere/'
             target='_blank'
@@ -76,7 +86,7 @@ const Header = () => {
         </div>
       </header>
       <div
-        className={`fixed bottom-0 left-0 right-0 top-0 z-10 bg-brand-yellow transition-all duration-500 ease-out-expo ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-[-100%]'}`}
+        className={`fixed bottom-0 left-0 right-0 top-0 z-10 bg-brand-yellow px-4 py-20 transition-all duration-500 ease-out-expo ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-[-100%]'}`}
       >
         <div className='absolute right-4 top-4'>
           <button
@@ -86,7 +96,7 @@ const Header = () => {
             <MdClose size='24px' />
           </button>
         </div>
-        <ul className='flex flex-col gap-8 px-4 py-20'>
+        <ul className='flex flex-col gap-8'>
           {mobileMenuLinks.map(link => (
             <li key={link.href}>
               <Link
