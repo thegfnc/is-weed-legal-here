@@ -21,8 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const pathname = '/'
 
   return {
-    title:
-      'Navigate global cannabis legality with confidence. | Is weed legal here? ',
+    title: 'Navigate cannabis laws confidently | Is weed legal here?',
     description:
       'Learn about cannabis laws in locations worldwide. Stay up-to-date on the latest regulations and find resources for safe and legal consumption.',
     referrer: 'origin-when-cross-origin',

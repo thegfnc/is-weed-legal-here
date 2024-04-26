@@ -97,7 +97,7 @@ export async function generateMetadata(
       legalityData?.closestMatchKey &&
       currentLocation[legalityData.closestMatchKey]
 
-    metadata.title = `Is weed legal in ${closestLocationName || 'your area'}? | Navigate global cannabis legality with confidence.`
+    metadata.title = `Is weed legal in ${closestLocationName || 'your area'}? | Navigate cannabis laws confidently`
 
     if (metadata.alternates) {
       metadata.alternates.canonical += '/' + location.join('/')
