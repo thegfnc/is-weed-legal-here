@@ -9,16 +9,6 @@ import { usePathname } from 'next/navigation'
 const Footer = () => {
   const pathname = usePathname()
 
-  const client = feedbackIntegration({
-    // Additional SDK configuration goes in here, for example:
-    autoInject: false,
-    colorScheme: 'dark',
-    formTitle: 'Report an Error',
-    messagePlaceholder:
-      'What went wrong? Let us know if you encountered incorrect data or a bug.',
-    submitButtonLabel: 'Send Report',
-  })
-
   const [modalType, setModalType] = useState<ModalType | null>(null)
 
   return (
@@ -54,7 +44,22 @@ const Footer = () => {
           <span>·</span>
           <button
             className='underline-offset-2 hover:underline'
-            onClick={() => client && client.openDialog()}
+            onClick={async () => {
+              const feedback = feedbackIntegration({
+                autoInject: false,
+                showBranding: false,
+                colorScheme: 'dark',
+                formTitle: 'Report an Error',
+                messagePlaceholder:
+                  'What went wrong? Let us know if you encountered incorrect data or a bug.',
+                submitButtonLabel: 'Send Report',
+              })
+
+              const feedbackForm = await feedback.createForm({})
+
+              feedbackForm.appendToDom()
+              feedbackForm.open()
+            }}
           >
             Report an error
           </button>
