@@ -6,7 +6,14 @@ import { useState } from 'react'
 import { FaInstagram } from 'react-icons/fa'
 import { MdClose, MdOutlineMenu } from 'react-icons/md'
 
-const menuLinks = [
+type MenuLink = {
+  title: string
+  href: string
+  target?: string
+  noFollowExceptHome?: boolean
+}
+
+const menuLinks: MenuLink[] = [
   {
     title: 'Explore',
     href: '/browse',
@@ -15,10 +22,11 @@ const menuLinks = [
     title: 'Shop',
     href: 'https://shop.thegoodfornothings.club/collections/is-weed-legal-here',
     target: '_blank',
+    noFollowExceptHome: true,
   },
 ]
 
-const mobileMenuLinks = [
+const mobileMenuLinks: MenuLink[] = [
   {
     title: 'Home',
     href: '/',
@@ -47,6 +55,11 @@ const Header = () => {
               href={link.href}
               className={`rounded-full font-medium underline-offset-4 hover:underline ${pathname === link.href ? 'underline' : ''}`}
               target={link.target}
+              rel={
+                link.noFollowExceptHome && pathname !== '/'
+                  ? 'nofollow'
+                  : undefined
+              }
             >
               {link.title}
             </Link>
@@ -104,6 +117,11 @@ const Header = () => {
                 className={`p-4 text-center text-2xl font-semibold underline-offset-4 hover:underline ${pathname === link.href ? 'underline' : ''}`}
                 target={link.target}
                 onClick={() => setIsMobileMenuOpen(false)}
+                rel={
+                  link.noFollowExceptHome && pathname !== '/'
+                    ? 'nofollow'
+                    : undefined
+                }
               >
                 {link.title}
               </Link>

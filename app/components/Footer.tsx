@@ -20,7 +20,7 @@ const Footer = () => {
             href='https://www.thegoodfornothings.club/'
             target='_blank'
             className='underline-offset-2 hover:underline'
-            rel={pathname === '/' ? undefined : 'nofollow'}
+            rel={pathname !== '/' ? 'nofollow' : undefined}
           >
             The Good for Nothings Club
           </a>
