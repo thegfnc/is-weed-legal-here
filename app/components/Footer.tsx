@@ -13,7 +13,19 @@ const Footer = () => {
 
   return (
     <footer className='flex flex-col items-center'>
-      <div className='flex flex-col gap-2 text-[14px] md:flex-row'>
+      <div className='text-xs'>
+        The information provided on this website does not, and is not intended
+        to, constitute legal or medical advice; instead, all information,
+        content, and materials available on this site are for general
+        informational purposes only.{' '}
+        <button
+          className='underline underline-offset-2 hover:no-underline'
+          onClick={() => setModalType(ModalType.DISCLAIMER)}
+        >
+          See full disclaimer
+        </button>
+      </div>
+      <div className='mt-6 flex flex-col gap-2 text-[14px] md:flex-row'>
         <div className='flex justify-center gap-2'>
           <span> &copy; {new Date().getFullYear()}</span>
           <a
@@ -27,13 +39,6 @@ const Footer = () => {
         </div>
         <div className='flex justify-center gap-2'>
           <span className='hidden md:block'>·</span>
-          <button
-            className='underline-offset-2 hover:underline'
-            onClick={() => setModalType(ModalType.DISCLAIMER)}
-          >
-            Disclaimer
-          </button>
-          <span>·</span>
           <a
             href='https://github.com/thegfnc/is-weed-legal-here'
             target='_blank'
@@ -65,6 +70,7 @@ const Footer = () => {
           </button>
         </div>
       </div>
+
       <Modal type={modalType} onClose={() => setModalType(null)} />
     </footer>
   )

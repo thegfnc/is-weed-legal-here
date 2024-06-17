@@ -19,8 +19,8 @@ export default function Modal({ type, onClose }: ModalProps) {
         className='absolute left-0 top-0 h-screen w-screen bg-black opacity-40'
         onClick={onClose}
       ></div>
-      <div className='pointer-events-none absolute left-0 top-0 flex h-screen w-screen items-center justify-center'>
-        <div className='pointer-events-auto m-4 w-full max-w-xl border-2 border-brand-purple bg-white'>
+      <div className='pointer-events-none relative flex max-h-screen w-screen justify-center overflow-y-scroll'>
+        <div className='pointer-events-auto m-4 h-full w-full max-w-xl border-2 border-brand-purple bg-white'>
           <div className='flex items-center justify-between border-b-2 border-brand-purple px-7 py-5'>
             <h2 className='mt-0.5 leading-none'>
               {modalContent[type].heading}
