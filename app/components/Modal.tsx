@@ -19,26 +19,28 @@ export default function Modal({ type, onClose }: ModalProps) {
         className='absolute left-0 top-0 h-screen w-screen bg-black opacity-40'
         onClick={onClose}
       ></div>
-      <div className='pointer-events-none relative flex max-h-screen w-screen justify-center overflow-y-scroll'>
-        <div className='pointer-events-auto m-4 h-full w-full max-w-xl border-2 border-brand-purple bg-white'>
-          <div className='flex items-center justify-between border-b-2 border-brand-purple px-7 py-5'>
-            <h2 className='mt-0.5 leading-none'>
-              {modalContent[type].heading}
-            </h2>
-            <div
-              className='cursor-pointer p-1 transition-colors hover:bg-gray-200 active:bg-gray-300'
-              onClick={onClose}
-            >
-              <MdClose size={24} />
+      <div className='absolute left-0 top-0 h-screen w-screen overflow-y-scroll'>
+        <div className='pointer-events-none relative flex w-screen justify-center'>
+          <div className='pointer-events-auto m-4 w-full max-w-xl border-2 border-brand-purple bg-white'>
+            <div className='flex items-center justify-between border-b-2 border-brand-purple px-7 py-5'>
+              <h2 className='mt-0.5 leading-none'>
+                {modalContent[type].heading}
+              </h2>
+              <div
+                className='cursor-pointer p-1 transition-colors hover:bg-gray-200 active:bg-gray-300'
+                onClick={onClose}
+              >
+                <MdClose size={24} />
+              </div>
             </div>
-          </div>
-          <div className='px-8 pb-14 pt-12'>
-            {modalContent[type].subHeading && (
-              <h3 className='text-[32px] font-bold'>
-                {modalContent[type].subHeading}
-              </h3>
-            )}
-            {modalContent[type].body}
+            <div className='px-8 pb-14 pt-12'>
+              {modalContent[type].subHeading && (
+                <h3 className='text-[32px] font-bold'>
+                  {modalContent[type].subHeading}
+                </h3>
+              )}
+              {modalContent[type].body}
+            </div>
           </div>
         </div>
       </div>
