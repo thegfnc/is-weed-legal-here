@@ -19,7 +19,7 @@ export default function Modal({ type, onClose }: ModalProps) {
         className='absolute left-0 top-0 h-screen w-screen bg-black opacity-40'
         onClick={onClose}
       ></div>
-      <div className='absolute left-0 top-0 h-screen w-screen overflow-y-scroll'>
+      <div className='pointer-events-none absolute left-0 top-0 h-screen w-screen overflow-y-scroll'>
         <div className='pointer-events-none relative flex w-screen justify-center'>
           <div className='pointer-events-auto m-4 w-full max-w-xl border-2 border-brand-purple bg-white'>
             <div className='flex items-center justify-between border-b-2 border-brand-purple px-7 py-5'>
