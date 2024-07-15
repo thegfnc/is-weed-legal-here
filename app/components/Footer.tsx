@@ -12,7 +12,7 @@ const Footer = () => {
   const [modalType, setModalType] = useState<ModalType | null>(null)
 
   return (
-    <footer className='flex flex-col items-center'>
+    <footer className='mx-auto flex w-full max-w-[1120px] flex-col items-center text-balance text-center'>
       <div className='text-xs'>
         The information provided on this website does not, and is not intended
         to, constitute legal or medical advice; instead, all information,

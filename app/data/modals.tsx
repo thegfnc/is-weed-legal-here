@@ -34,11 +34,11 @@ const modalContent = {
           <br />
           The views expressed at, or through, this site are those of the
           individual authors writing in their individual capacities only – not
-          those of their respective employers, Is weed legal, or committee/task
-          force as a whole. All liability with respect to actions taken or not
-          taken based on the contents of this site are hereby expressly
-          disclaimed. The content on this posting is provided &quot;as is;&quot;
-          no representations are made that the content is error-free.
+          those of their respective employers, Is weed legal here?, or
+          committee/task force as a whole. All liability with respect to actions
+          taken or not taken based on the contents of this site are hereby
+          expressly disclaimed. The content on this posting is provided &quot;as
+          is;&quot; no representations are made that the content is error-free.
         </div>
       </>
     ),
